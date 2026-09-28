@@ -145,8 +145,10 @@ export default function EmployerOrganizationPage() {
 
       {/* Alert Banner */}
       {alert && (
-        <div style={{
-          padding: 'var(--sp-3) var(--sp-4)',
+        <div
+          className="alert-banner-animate"
+          style={{
+            padding: 'var(--sp-3) var(--sp-4)',
           background: alert.type === 'success' ? 'var(--chip-verified-bg)' : 'var(--canvas)',
           border: `1px solid ${alert.type === 'success' ? 'var(--chip-verified-border)' : 'var(--line)'}`,
           borderRadius: 'var(--r-control)',
@@ -444,12 +446,17 @@ export default function EmployerOrganizationPage() {
 
       {/* MODAL 1: AUTHORIZE NEW VERIFICATION OFFICER */}
       {showAddVerifierModal && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)'
-        }}>
-          <div style={{
-            background: 'var(--surface)', borderRadius: 'var(--r-container)', width: '100%', maxWidth: '520px',
+        <div
+          className="modal-backdrop-animate"
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)'
+          }}
+        >
+          <div
+            className="modal-card-animate"
+            style={{
+              background: 'var(--surface)', borderRadius: 'var(--r-container)', width: '100%', maxWidth: '520px',
             border: '1px solid var(--line)', padding: 'var(--sp-6)', boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
           }}>
             <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--ink)', marginBottom: 'var(--sp-2)' }}>
@@ -552,12 +559,17 @@ export default function EmployerOrganizationPage() {
 
       {/* MODAL 2: REGISTER CORPORATE IDENTIFIER */}
       {showAddIdModal && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)'
-        }}>
-          <div style={{
-            background: 'var(--surface)', borderRadius: 'var(--r-container)', width: '100%', maxWidth: '500px',
+        <div
+          className="modal-backdrop-animate"
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)'
+          }}
+        >
+          <div
+            className="modal-card-animate"
+            style={{
+              background: 'var(--surface)', borderRadius: 'var(--r-container)', width: '100%', maxWidth: '500px',
             border: '1px solid var(--line)', padding: 'var(--sp-6)', boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
           }}>
             <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--ink)', marginBottom: 'var(--sp-2)' }}>

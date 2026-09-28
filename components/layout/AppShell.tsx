@@ -329,6 +329,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           aria-modal="true"
           aria-label="Global search command palette"
           onClick={() => setSearchOpen(false)}
+          className="modal-backdrop-animate"
           style={{
             position: 'fixed',
             inset: 0,
@@ -344,6 +345,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
         >
           <div
             onClick={e => e.stopPropagation()}
+            className="modal-card-animate"
             style={{
               width: '100%',
               maxWidth: 600,

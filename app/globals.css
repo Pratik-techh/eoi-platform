@@ -671,8 +671,62 @@ a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   Animations — only when answering user actions; respect reduced-motion
+   Animations & Micro-Transitions — High-performance, institutional easing
+   Respects prefers-reduced-motion; zero layout shift; sub-200ms durations.
    -------------------------------------------------------------------------- */
+
+/* Global interactive control micro-transitions */
+button:not(:disabled),
+.btn,
+a.btn {
+  transition: background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.08s ease,
+              box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:not(:disabled):active,
+.btn:active {
+  transform: scale(0.985);
+}
+
+/* Form input smooth focus expansion */
+input,
+select,
+textarea {
+  transition: border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1),
+              background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary) !important;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 14%, transparent) !important;
+}
+
+/* Smooth table row highlight */
+.data-table tbody tr {
+  transition: background-color 0.12s ease;
+}
+
+/* Status chip smooth transition */
+.status-chip {
+  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Navigation tabs transition */
+button[role="tab"],
+.tab-button {
+  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
+}
+
+/* Keyframes */
 @keyframes fadeInDown {
   from { opacity: 0; transform: translateY(-6px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -683,12 +737,49 @@ a:hover {
   to   { opacity: 1; }
 }
 
+@keyframes modalBackdropFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modalDialogPop {
+  from { opacity: 0; transform: scale(0.97) translateY(6px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes slideAlertDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes subtleBreathing {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.55; transform: scale(0.96); }
+}
+
+/* Utility animation classes */
 .animate-fade-in {
-  animation: fadeIn 0.2s ease;
+  animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .animate-fade-in-down {
-  animation: fadeInDown 0.2s ease;
+  animation: fadeInDown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-backdrop-animate {
+  animation: modalBackdropFade 0.15s ease forwards;
+}
+
+.modal-card-animate {
+  animation: modalDialogPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.alert-banner-animate {
+  animation: slideAlertDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.pulse-subtle {
+  animation: subtleBreathing 2.4s ease-in-out infinite;
 }
 
 /* --------------------------------------------------------------------------
