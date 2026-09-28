@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { SideNav } from './SideNav'
+import { GuidedTour } from '@/components/GuidedTour'
 import type { ActorRole } from '@/lib/supabase/database.types'
 
 type AppUser = {
@@ -244,6 +245,36 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
 
           {/* Right: Quick Switcher, Search, Notifications, User */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+            {/* 3-Minute Story Tour Trigger */}
+            <button
+              id="story-tour-trigger"
+              onClick={() => {
+                try {
+                  localStorage.setItem('eoi_tour_active', 'true')
+                } catch {}
+                window.dispatchEvent(new CustomEvent('start-guided-tour'))
+              }}
+              className="hover-lift"
+              title="Start 3-Minute Guided Walkthrough for Judges"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '6px 12px',
+                background: 'rgba(245, 158, 11, 0.12)',
+                color: '#B45309',
+                border: '1px solid rgba(245, 158, 11, 0.35)',
+                borderRadius: 'var(--r-control)',
+                fontSize: 'var(--text-xs)',
+                fontWeight: 700,
+                cursor: 'pointer',
+                whiteSpace: 'nowrap',
+              }}
+            >
+              <span>🎬</span>
+              <span>Tour</span>
+            </button>
+
             {/* 1-Click Role Switcher for Evaluators */}
             <div style={{ position: 'relative' }}>
               <button
@@ -733,6 +764,9 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           </div>
         </div>
       )}
+
+      {/* Interactive 3-Minute Story & Evaluator Walkthrough */}
+      <GuidedTour />
     </div>
   )
 }
