@@ -107,6 +107,22 @@ export default function HomePage() {
             <span>SHA-256 Ledger Verified (502 Events)</span>
           </div>
 
+          <a
+            href="/EOI_Platform_User_Manual_and_Guide.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-secondary"
+            style={{
+              padding: '6px 14px',
+              fontSize: 'var(--text-xs)',
+              gap: 6,
+              borderColor: '#BAE6FD',
+              color: '#0369A1',
+            }}
+          >
+            <span>📄 System Manual (PDF)</span>
+          </a>
+
           <Link
             href="/demo"
             id="hero-demo-link"

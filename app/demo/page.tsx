@@ -106,9 +106,26 @@ export default function DemoGuidePage() {
         <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'var(--ink)' }}>
           Hero Demo Walkthrough & 1-Click Role Switcher
         </h1>
-        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--muted)', marginTop: 4 }}>
-          Experience the complete <code>TRUST → TRAJECTORY → INTELLIGENCE → ACTION</code> loop across all 9 interactive scenes (MASTER_PROMPT §15.2).
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--sp-3)', marginTop: 'var(--sp-3)' }}>
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--muted)', margin: 0 }}>
+            Experience the complete <code>TRUST → TRAJECTORY → INTELLIGENCE → ACTION</code> loop across all 9 interactive scenes (MASTER_PROMPT §15.2).
+          </p>
+          <a
+            href="/EOI_Platform_User_Manual_and_Guide.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+            style={{
+              padding: '8px 16px',
+              fontSize: 'var(--text-xs)',
+              gap: 8,
+              background: 'linear-gradient(135deg, #091728 0%, #1D4E89 100%)',
+              boxShadow: 'var(--shadow-sm)',
+            }}
+          >
+            <span>📄 Download Official Manual & Guide (PDF)</span>
+          </a>
+        </div>
       </div>
 
       {/* 1-Click Role Switcher Bar */}

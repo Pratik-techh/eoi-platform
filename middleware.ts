@@ -40,6 +40,7 @@ const PUBLIC_ROUTES = [
 
 function isPublicRoute(pathname: string): boolean {
   if (pathname === '/') return true
+  if (/\.(pdf|png|jpg|jpeg|svg|ico|css|js|txt|html|woff|woff2)$/i.test(pathname)) return true
   return PUBLIC_ROUTES.some(route => route !== '/' && pathname.startsWith(route))
 }
 
