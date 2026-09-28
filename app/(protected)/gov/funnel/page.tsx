@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { createClient } from '@/lib/supabase/server'
+import { db } from '@/lib/db/store'
 import { FunnelChart } from '@/components/FunnelChart'
 import { LeakageCallout } from '@/components/LeakageCallout'
 import { StatusChip } from '@/components/StatusChip'
@@ -10,9 +11,33 @@ export const metadata: Metadata = {
 }
 
 export default async function GovFunnelPage() {
-  const supabase = await createClient()
-  const { data: funnel } = await supabase.from('v_outcome_funnel').select('*')
-  const { data: kpi } = await supabase.from('v_kpi_summary').select('*').single()
+  let funnel = null
+  let kpi = null
+
+  try {
+    const supabase = await createClient()
+    const [funnelRes, kpiRes] = await Promise.all([
+      supabase.from('v_outcome_funnel').select('*'),
+      supabase.from('v_kpi_summary').select('*').single(),
+    ])
+    if (!funnelRes.error && funnelRes.data && funnelRes.data.length > 0) {
+      funnel = funnelRes.data
+    }
+    if (!kpiRes.error && kpiRes.data) {
+      kpi = kpiRes.data
+    }
+  } catch {
+    // Fall back to local store
+  }
+
+  const stages = funnel ?? db.getOutcomeFunnel()
+  const kpiData = (kpi ?? db.getKpiSummary()) as Record<string, number | string>
+
+  const enrolled = Number(kpiData.total_enrolled ?? kpiData.trainees_enrolled ?? 500)
+  const verifiedEmployed = Number(kpiData.total_verified_employed ?? kpiData.verified_employed_count ?? 310)
+  const retained = Number(kpiData.total_retained_3m ?? kpiData.retained_count ?? 230)
+  const verifiedRate = Number(kpiData.verified_employment_rate ?? ((verifiedEmployed / enrolled) * 100)).toFixed(1)
+  const retentionRate = Number(kpiData.retention_rate_3m ?? kpiData.retention_rate ?? ((retained / verifiedEmployed) * 100)).toFixed(1)
 
   return (
     <div>
@@ -43,7 +68,7 @@ export default async function GovFunnelPage() {
       />
 
       {/* Funnel Chart */}
-      <FunnelChart stages={funnel ?? []} />
+      <FunnelChart stages={stages} />
 
       {/* Contextual Metric Cards */}
       <div style={{
@@ -53,27 +78,27 @@ export default async function GovFunnelPage() {
         <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)', padding: 'var(--sp-4)' }}>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', fontWeight: 600 }}>CUMULATIVE CONVERSION</div>
           <div style={{ fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--ink)', marginTop: 4 }}>
-            31.2%
+            {verifiedRate}%
           </div>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', marginTop: 4 }}>
-            3,120 verified employed from 10,000 enrolled candidates.
+            {new Intl.NumberFormat('en-IN').format(verifiedEmployed)} verified employed from {new Intl.NumberFormat('en-IN').format(enrolled)} enrolled candidates.
           </p>
         </div>
 
         <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)', padding: 'var(--sp-4)' }}>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', fontWeight: 600 }}>6-MONTH RETENTION CONVERSION</div>
           <div style={{ fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--verified)', marginTop: 4 }}>
-            78.1%
+            {retentionRate}%
           </div>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', marginTop: 4 }}>
-            2,438 of 3,120 verified employed remained actively retained after 180 days.
+            {new Intl.NumberFormat('en-IN').format(retained)} of {new Intl.NumberFormat('en-IN').format(verifiedEmployed)} verified employed remained actively retained after 90–180 days.
           </p>
         </div>
 
         <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)', padding: 'var(--sp-4)' }}>
           <div style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', fontWeight: 600 }}>AVG. TIME TO EMPLOYMENT</div>
           <div style={{ fontSize: 'var(--text-xl)', fontWeight: 700, color: 'var(--primary)', marginTop: 4 }}>
-            {kpi?.avg_time_to_employment_days ?? 42} Days
+            {kpiData.avg_time_to_employment_days ?? 42} Days
           </div>
           <p style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', marginTop: 4 }}>
             From assessment completion to verified employment start date.

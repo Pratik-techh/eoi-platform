@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { db } from '@/lib/db/store'
 import { MetricCard } from '@/components/MetricCard'
 import { StatusChip } from '@/components/StatusChip'
 import { EntityResolutionFlow } from '@/components/EntityResolutionFlow'
@@ -11,12 +12,22 @@ export const metadata: Metadata = {
 }
 
 export default async function EmployerDashboardPage() {
-  const supabase = await createClient()
-  const { data: outcomes } = await supabase.from('employment_outcomes').select('*')
+  let outcomesData = null
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase.from('employment_outcomes').select('*')
+    if (data && data.length > 0) {
+      outcomesData = data
+    }
+  } catch {
+    // Fall back to local store
+  }
 
-  const pendingCount = (outcomes ?? []).filter(o => o.employment_status === 'PENDING_VERIFICATION' || o.employment_status === 'UNEMPLOYMENT_REPORTED').length
-  const verifiedCount = (outcomes ?? []).filter(o => o.employment_status === 'VERIFIED_EMPLOYED').length
-  const rejectedCount = (outcomes ?? []).filter(o => o.employment_status === 'REJECTED').length
+  const allOutcomes = outcomesData ?? db.employmentOutcomes
+
+  const pendingCount = allOutcomes.filter(o => o.employment_status === 'PENDING_VERIFICATION' || o.employment_status === 'UNEMPLOYMENT_REPORTED').length
+  const verifiedCount = allOutcomes.filter(o => o.employment_status === 'VERIFIED_EMPLOYED').length
+  const rejectedCount = allOutcomes.filter(o => o.employment_status === 'REJECTED').length
 
   return (
     <div>

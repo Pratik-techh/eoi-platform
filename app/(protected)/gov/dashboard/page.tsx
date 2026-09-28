@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { db } from '@/lib/db/store'
 import { MetricCard } from '@/components/MetricCard'
 import { StatusChip } from '@/components/StatusChip'
 import { FunnelChart } from '@/components/FunnelChart'
@@ -12,38 +13,57 @@ export const metadata: Metadata = {
 }
 
 async function getKpiSummary() {
-  const supabase = await createClient()
-  const { data, error } = await supabase.from('v_kpi_summary').select('*').single()
-  if (error || !data) return null
-  return data as Record<string, number | string>
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase.from('v_kpi_summary').select('*').single()
+    if (!error && data) return data as Record<string, number | string>
+  } catch {
+    // Fall back to local store
+  }
+  return db.getKpiSummary() as Record<string, number | string>
 }
 
 async function getRecentAnomalies() {
-  const supabase = await createClient()
-  const { data } = await supabase
-    .from('anomaly_signals')
-    .select('*')
-    .eq('auto_resolved', false)
-    .order('detected_at', { ascending: false })
-    .limit(5)
-  return data ?? []
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('anomaly_signals')
+      .select('*')
+      .eq('auto_resolved', false)
+      .order('detected_at', { ascending: false })
+      .limit(5)
+    if (!error && data && data.length > 0) return data
+  } catch {
+    // Fall back to local store
+  }
+  return db.anomalySignals.filter(a => !a.auto_resolved).slice(0, 5) as unknown as Record<string, string>[]
 }
 
 async function getPendingAuth() {
-  const supabase = await createClient()
-  const { data } = await supabase
-    .from('authorization_requests')
-    .select('*')
-    .eq('status', 'PENDING')
-    .order('created_at', { ascending: false })
-    .limit(3)
-  return data ?? []
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase
+      .from('authorization_requests')
+      .select('*')
+      .eq('status', 'PENDING')
+      .order('created_at', { ascending: false })
+      .limit(3)
+    if (!error && data && data.length > 0) return data
+  } catch {
+    // Fall back to local store
+  }
+  return db.authorizationRequests.filter(r => r.status === 'PENDING').slice(0, 3) as unknown as Record<string, string>[]
 }
 
 async function getFunnelStages() {
-  const supabase = await createClient()
-  const { data } = await supabase.from('v_outcome_funnel').select('*')
-  return data ?? []
+  try {
+    const supabase = await createClient()
+    const { data, error } = await supabase.from('v_outcome_funnel').select('*')
+    if (!error && data && data.length > 0) return data
+  } catch {
+    // Fall back to local store
+  }
+  return db.getOutcomeFunnel()
 }
 
 function fmt(n: number | string | null | undefined): string {
@@ -206,7 +226,7 @@ export default async function GovDashboardPage() {
             step="01"
             title="Enrolled"
             value={fmt(enrolled)}
-            rate="10,000 Candidates"
+            rate={`${fmt(enrolled)} Candidates`}
             badge="Baseline (100%)"
             badgeType="neutral"
           />
@@ -215,7 +235,7 @@ export default async function GovDashboardPage() {
             title="Trained"
             value={fmt(trained)}
             rate={`${Number(trainedRate).toFixed(1)}% completed`}
-            badge="94.5% Rate"
+            badge={`${Number(trainedRate).toFixed(1)}% Rate`}
             badgeType="primary"
           />
           <PipelineStep
@@ -223,7 +243,7 @@ export default async function GovDashboardPage() {
             title="Assessed"
             value={fmt(assessed)}
             rate={`${Number(assessedRate).toFixed(1)}% assessed`}
-            badge="94.2% Rate"
+            badge={`${Number(assessedRate).toFixed(1)}% Rate`}
             badgeType="primary"
           />
           <PipelineStep
@@ -239,7 +259,7 @@ export default async function GovDashboardPage() {
             title="Interviewed"
             value={fmt(interviewed)}
             rate={`${Number(interviewRate).toFixed(1)}% invited`}
-            badge="91.0% Rate"
+            badge={`${Number(interviewRate).toFixed(1)}% Rate`}
             badgeType="primary"
           />
           <PipelineStep
@@ -247,8 +267,8 @@ export default async function GovDashboardPage() {
             title="Selected"
             value={fmt(selected)}
             rate={`${Number(selectionRate).toFixed(1)}% selected`}
-            badge="50.7% Rate"
-            badgeType="pending"
+            badge={`${Number(selectionRate).toFixed(1)}% Rate`}
+            badgeType="primary"
           />
           <PipelineStep
             step="07"
@@ -264,7 +284,7 @@ export default async function GovDashboardPage() {
             title="Retained (3-6m)"
             value={fmt(retained3m)}
             rate={`${Number(retentionRate).toFixed(1)}% active`}
-            badge="78.1% Retained"
+            badge={`${Number(retentionRate).toFixed(1)}% Retained`}
             badgeType="verified"
           />
         </div>
@@ -320,7 +340,7 @@ export default async function GovDashboardPage() {
           value={pct(jobReadyRate)}
           unit="of assessed"
           dataState="includes_pending"
-          delta="87.6% qualified"
+          delta={`${pct(jobReadyRate)} qualified`}
           deltaDirection="up"
           deltaGood={true}
           provenance={{
@@ -340,7 +360,7 @@ export default async function GovDashboardPage() {
           value={pct(trainedRate)}
           unit="of enrolled"
           dataState="all"
-          delta="94.5% completion"
+          delta={`${pct(trainedRate)} completion`}
           deltaDirection="up"
           deltaGood={true}
           provenance={{

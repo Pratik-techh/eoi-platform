@@ -60,10 +60,13 @@ export default function StudentDashboardPage() {
       </div>
 
       {alertMessage && (
-        <div style={{
-          padding: 'var(--sp-4)', background: 'var(--chip-pending-bg)', border: '1px solid var(--chip-pending-border)',
-          borderRadius: 'var(--r-container)', fontSize: 'var(--text-sm)', color: 'var(--pending)', marginBottom: 'var(--sp-6)',
-        }}>
+        <div
+          className="alert-banner-animate"
+          style={{
+            padding: 'var(--sp-4)', background: 'var(--chip-pending-bg)', border: '1px solid var(--chip-pending-border)',
+            borderRadius: 'var(--r-container)', fontSize: 'var(--text-sm)', color: 'var(--pending)', marginBottom: 'var(--sp-6)',
+          }}
+        >
           {alertMessage}
         </div>
       )}
@@ -102,11 +105,14 @@ export default function StudentDashboardPage() {
               Google India Pvt. Ltd.
             </div>
             <div style={{
-              display: 'flex', gap: 'var(--sp-4)', marginTop: 'var(--sp-3)',
+              display: 'flex', gap: 'var(--sp-4)', marginTop: 'var(--sp-3)', flexWrap: 'wrap',
               fontSize: 'var(--text-xs)', color: 'var(--muted)', fontFamily: 'var(--font-mono)',
             }}>
-              <span>Joined: 12 Aug 2026</span>
-              <span>Type: Full-Time</span>
+              <span>Joined: {currentEmployment?.start_date ? new Date(currentEmployment.start_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '12 Aug 2026'}</span>
+              {currentEmployment?.end_date && (
+                <span>Departed: {new Date(currentEmployment.end_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+              )}
+              <span>Type: {currentEmployment?.employment_type ?? 'Full-Time'}</span>
               <span>Location: Bengaluru</span>
               <span>Legal Entity CIN: U72200KA2004FTC033590</span>
             </div>
@@ -138,19 +144,25 @@ export default function StudentDashboardPage() {
 
       {/* Report Unemployment Confirmation Dialog */}
       {showUnemploymentModal && (
-        <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(14,31,51,0.5)', zIndex: 100,
-          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)',
-        }}>
-          <div style={{
-            background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)',
-            width: '100%', maxWidth: '500px', padding: 'var(--sp-6)',
-          }}>
+        <div
+          className="modal-backdrop-animate"
+          style={{
+            position: 'fixed', inset: 0, background: 'rgba(14,31,51,0.5)', zIndex: 100,
+            display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)',
+          }}
+        >
+          <div
+            className="modal-card-animate"
+            style={{
+              background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)',
+              width: '100%', maxWidth: '500px', padding: 'var(--sp-6)',
+            }}
+          >
             <h2 style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', marginBottom: 'var(--sp-3)' }}>
               Report End of Employment
             </h2>
             <p style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', marginBottom: 'var(--sp-4)', lineHeight: 1.5 }}>
-              Register your departure from <strong>Google India Pvt. Ltd.</strong>. Your prior verified tenure (12 Aug 2026 to present) will <strong>never be deleted or overwritten</strong>. It remains part of your permanent Employability Passport.
+              Register your departure from <strong>Google India Pvt. Ltd.</strong>. Your prior verified tenure ({currentEmployment?.start_date ? new Date(currentEmployment.start_date).toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' }) : '12 Aug 2026'} to present) will <strong>never be deleted or overwritten</strong>. It remains part of your permanent Employability Passport.
             </p>
 
             <div style={{ marginBottom: 'var(--sp-4)' }}>

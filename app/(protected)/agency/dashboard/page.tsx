@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
+import { db } from '@/lib/db/store'
 import { StatusChip } from '@/components/StatusChip'
 import { MetricCard } from '@/components/MetricCard'
 
@@ -10,9 +11,19 @@ export const metadata: Metadata = {
 }
 
 export default async function AgencyDashboardPage() {
-  const supabase = await createClient()
-  const { data: kpi } = await supabase.from('v_kpi_summary').select('*').single()
-  const { data: students } = await supabase.from('students').select('*').limit(5)
+  let studentsData = null
+
+  try {
+    const supabase = await createClient()
+    const { data } = await supabase.from('students').select('*').limit(5)
+    if (data && data.length > 0) {
+      studentsData = data
+    }
+  } catch {
+    // Fall back to local store
+  }
+
+  const recentStudents = studentsData ?? db.students.slice(0, 5)
 
   // Agency metrics (Delhi Skill Development Institute)
   const traineesCount = 2200
@@ -210,7 +221,7 @@ export default async function AgencyDashboardPage() {
             Recent Registered Trainees
           </h2>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-2)' }}>
-            {(students ?? []).map((st: any) => (
+            {recentStudents.map((st: any) => (
               <div
                 key={st.eoi_student_id}
                 style={{
