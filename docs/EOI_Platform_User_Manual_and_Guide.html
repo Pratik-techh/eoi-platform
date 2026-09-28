@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Employment Outcome Intelligence (EOI) Platform — Complete User Manual & Architectural Guide</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 14mm 14mm 16mm 14mm;
+      @bottom-right {
+        content: counter(page);
+        font-family: 'Segoe UI', system-ui, sans-serif;
+        font-size: 8pt;
+        color: #64748B;
+      }
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #1E293B;
+      background: #FFFFFF;
+      line-height: 1.5;
+      font-size: 9.5pt;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    
+    .cover-page {
+      page-break-after: always;
+      min-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 24px;
+      background: linear-gradient(135deg, #091728 0%, #112744 50%, #1D4E89 100%);
+      color: #FFFFFF;
+      border-radius: 8px;
+    }
+    
+    .cover-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      padding-bottom: 20px;
+    }
+    
+    .cover-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: #6EE7B7;
+    }
+    
+    .cover-title {
+      font-size: 28pt;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 15px;
+      letter-spacing: -0.02em;
+    }
+    
+    .cover-title span {
+      color: #93C5FD;
+    }
+    
+    .cover-subtitle {
+      font-size: 13pt;
+      color: #E2E8F0;
+      line-height: 1.6;
+      max-width: 650px;
+      margin-bottom: 30px;
+    }
+    
+    .cover-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    
+    .cover-stat-box {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 14px;
+      border-radius: 8px;
+    }
+    
+    .cover-stat-val {
+      font-size: 18pt;
+      font-weight: 800;
+      color: #6EE7B7;
+    }
+    
+    .cover-stat-lbl {
+      font-size: 8pt;
+      color: #CBD5E1;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-top: 4px;
+    }
+    
+    .cover-footer {
+      border-top: 1px solid rgba(255,255,255,0.2);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 8.5pt;
+      color: #CBD5E1;
+    }
+    
+    .page {
+      page-break-after: always;
+      padding: 10px 0;
+    }
+    
+    .page:last-child {
+      page-break-after: avoid;
+    }
+    
+    .section-header {
+      border-bottom: 2px solid #1D4E89;
+      padding-bottom: 6px;
+      margin-bottom: 16px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    
+    .section-title {
+      font-size: 15pt;
+      font-weight: 800;
+      color: #0F172A;
+      letter-spacing: -0.01em;
+    }
+    
+    .section-num {
+      color: #1D4E89;
+      font-weight: 800;
+      margin-right: 6px;
+    }
+    
+    .section-tag {
+      font-size: 7.5pt;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: #64748B;
+      letter-spacing: 0.05em;
+    }
+    
+    h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #1E293B;
+      margin: 14px 0 6px 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    h4 {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #334155;
+      margin: 10px 0 4px 0;
+    }
+    
+    p {
+      margin-bottom: 8px;
+      color: #334155;
+      text-align: justify;
+    }
+    
+    ul, ol {
+      margin: 6px 0 10px 18px;
+      color: #334155;
+    }
+    
+    li {
+      margin-bottom: 4px;
+    }
+    
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 10px 0;
+    }
+    
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+      margin: 10px 0;
+    }
+    
+    .card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 10px 12px;
+      page-break-inside: avoid;
+    }
+    
+    .card-primary {
+      background: #F0F7FF;
+      border: 1px solid #BAE6FD;
+    }
+    
+    .card-success {
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+    }
+    
+    .card-warning {
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+    }
+    
+    .card-title {
+      font-size: 9.5pt;
+      font-weight: 700;
+      color: #0F172A;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .callout {
+      border-left: 4px solid #1D4E89;
+      background: #F1F5F9;
+      padding: 8px 12px;
+      margin: 10px 0;
+      border-radius: 0 4px 4px 0;
+      font-size: 9pt;
+      page-break-inside: avoid;
+    }
+    
+    .callout-warning {
+      border-left-color: #D97706;
+      background: #FEF3C7;
+    }
+    
+    .callout-success {
+      border-left-color: #059669;
+      background: #D1FAE5;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+      font-size: 8.5pt;
+      page-break-inside: avoid;
+    }
+    
+    th {
+      background: #0F172A;
+      color: #FFFFFF;
+      text-align: left;
+      padding: 6px 8px;
+      font-weight: 600;
+    }
+    
+    td {
+      padding: 6px 8px;
+      border-bottom: 1px solid #E2E8F0;
+      color: #334155;
+    }
+    
+    tr:nth-child(even) td {
+      background: #F8FAFC;
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 7.5pt;
+      font-weight: 700;
+    }
+    
+    .badge-blue { background: #E0F2FE; color: #0369A1; }
+    .badge-green { background: #DCFCE7; color: #15803D; }
+    .badge-amber { background: #FEF3C7; color: #B45309; }
+    .badge-red { background: #FEE2E2; color: #B91C1C; }
+    .badge-purple { background: #F3E8FF; color: #7E22CE; }
+    
+    .flow-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #091728;
+      color: #FFFFFF;
+      padding: 10px;
+      border-radius: 6px;
+      margin: 10px 0;
+      font-size: 7.5pt;
+      font-weight: 600;
+      page-break-inside: avoid;
+    }
+    
+    .flow-step {
+      text-align: center;
+      flex: 1;
+    }
+    
+    .flow-arrow {
+      color: #38BDF8;
+      font-weight: bold;
+      padding: 0 4px;
+    }
+    
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 8pt;
+      background: #F1F5F9;
+      padding: 1px 4px;
+      border-radius: 3px;
+      border: 1px solid #E2E8F0;
+      color: #0F172A;
+    }
+    
+    .footer-note {
+      font-size: 8pt;
+      color: #94A3B8;
+      text-align: center;
+      margin-top: 15px;
+      border-top: 1px solid #E2E8F0;
+      padding-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== COVER PAGE ==================== -->
+  <div class="cover-page">
+    <div class="cover-header">
+      <div>
+        <div style="font-size: 11pt; font-weight: 800; letter-spacing: 0.05em; color: #93C5FD;">SMART INDIA HACKATHON 2026</div>
+        <div style="font-size: 8pt; color: #CBD5E1;">PROBLEM STATEMENT: SIH26135 · MINISTRY OF SKILL DEVELOPMENT & ENTREPRENEURSHIP</div>
+      </div>
+      <div class="cover-badge">OFFICIAL USER MANUAL & GUIDE</div>
+    </div>
+    
+    <div>
+      <div class="cover-title">Employment Outcome<br><span>Intelligence Platform</span></div>
+      <div class="cover-subtitle">
+        A Trusted, Automated, Longitudinal Outcome Verification & Skill Intelligence Layer Connecting Skilling Records to Independently Verified Employer Trajectories.
+      </div>
+      
+      <div class="cover-grid">
+        <div class="cover-stat-box">
+          <div class="cover-stat-val">TRUST</div>
+          <div class="cover-stat-lbl">P1: Independent Verification</div>
+        </div>
+        <div class="cover-stat-box">
+          <div class="cover-stat-val">TRAJECTORY</div>
+          <div class="cover-stat-lbl">Longitudinal Outcome Layer</div>
+        </div>
+        <div class="cover-stat-box">
+          <div class="cover-stat-val">INTELLIGENCE</div>
+          <div class="cover-stat-lbl">Statistical Leakage & Deficits</div>
+        </div>
+      </div>
+    </div>
+    
+    <div>
+      <div style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; padding: 12px 16px; margin-bottom: 16px; font-size: 8.5pt;">
+        <div style="font-weight: 700; color: #6EE7B7; margin-bottom: 4px;">🚀 LIVE PRODUCTION DEPLOYMENT & ARTIFACTS</div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+          <div><strong>Live Web App:</strong> https://eoi-platform.vercel.app</div>
+          <div><strong>Interactive Demo:</strong> https://eoi-platform.vercel.app/demo</div>
+          <div><strong>GitHub Codebase:</strong> https://github.com/Pratik-techh/eoi-platform</div>
+          <div><strong>Audit Ledger:</strong> 502 Chained SHA-256 Blocks</div>
+        </div>
+      </div>
+      
+      <div class="cover-footer">
+        <div><strong>Document Version:</strong> 2.0 (Complete System Manual)</div>
+        <div><strong>Engineering Standards:</strong> Zero Single-Stakeholder Truth · DPDP Act 2023 Compliant</div>
+        <div><strong>Status:</strong> Evaluator Production Ready</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== PAGE 1: EXECUTIVE SUMMARY & INVARIANTS ==================== -->
+  <div class="page">
+    <div class="section-header">
+      <div class="section-title"><span class="section-num">01.</span> Executive Summary & Core Invariants</div>
+      <div class="section-tag">System Foundation</div>
+    </div>
+    
+    <h3>The Problem: The "Trained vs Employed" Discrepancy</h3>
+    <p>
+      Historically, government skilling programs in India (such as PMKVY, DDU-GKY, and NAPS) measured success by asking: <em>"How many people did we train?"</em>. Audits by the Comptroller and Auditor General (CAG) repeatedly revealed severe placement discrepancies: training agencies frequently self-reported inflated placement figures, many of which represented short-term, ghost, or fictitious appointments.
+    </p>
+    <p>
+      The <strong>Employment Outcome Intelligence (EOI) Platform</strong> fundamentally transforms this model. The system shifts policy from simple enrollment counts to answering: <em>"What happened to them? Who independently verified it? How long did they retain their jobs? And what skills does industry demand that training failed to provide?"</em>
+    </p>
+    
+    <div class="callout callout-success">
+      <strong>Core Platform Pitch:</strong> "We don't just track who was trained. We track what happened next, verify it independently, preserve it cryptographically, and learn from it."
+    </div>
+    
+    <h3>Non-Negotiable Database Invariants (P1 – P5)</h3>
+    <p>These core principles are enforced directly at the database engine and server proxy level—never purely through UI assumptions:</p>
+    
+    <div class="grid-2">
+      <div class="card card-primary">
+        <div class="card-title"><span class="badge badge-blue">P1</span> Zero Single-Stakeholder Truth</div>
+        <p style="font-size: 8.5pt;">No single entity controls truth. A training agency can report a placement claim, but is strictly prohibited from verifying its own claim. Verification requires authenticated employer confirmation.</p>
+      </div>
+      <div class="card card-primary">
+        <div class="card-title"><span class="badge badge-purple">P2</span> No Master Administrator</div>
+        <p style="font-size: 8.5pt;">No superuser can unilaterally create, alter, or override critical outcome records. Sensitive actions (e.g. activating scoring versions, closing high-severity investigations) require dual-key multi-party approvals.</p>
+      </div>
+      <div class="card card-warning">
+        <div class="card-title"><span class="badge badge-amber">P3</span> Automated Routine Verification</div>
+        <p style="font-size: 8.5pt;">Statistical leakage detection, entity resolution, job readiness band calculation, and audit chaining are 100% automated by database triggers and math routines, freeing humans for governance.</p>
+      </div>
+      <div class="card card-success">
+        <div class="card-title"><span class="badge badge-green">P4 & P5</span> Cryptographic Ledger & AI Guardrails</div>
+        <p style="font-size: 8.5pt;">Outcome events are append-only and SHA-256 hash-chained. Destructive updates are forbidden. AI acts strictly as an analytical interpreter over aggregated views and cannot verify or fabricate records.</p>
+      </div>
+    </div>
+
+    <h3>Longitudinal Outcome Life Cycle</h3>
+    <div class="flow-container">
+      <div class="flow-step">Enrolled<br><span style="color:#94A3B8;">(500 Trainees)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Assessed<br><span style="color:#94A3B8;">(Tech + Soft)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Job Ready<br><span style="color:#94A3B8;">(High/Med/Low)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Placed Claim<br><span style="color:#94A3B8;">(Agency Reported)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Verified<br><span style="color:#6EE7B7;">(Employer Queue)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Retained<br><span style="color:#38BDF8;">(3-Month Clock)</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">Career Trajectory<br><span style="color:#FCD34D;">(Re-employment)</span></div>
+    </div>
+    
+    <div class="footer-note">Employment Outcome Intelligence Platform · Smart India Hackathon 2026 · Problem SIH26135</div>
+  </div>
+
+  <!-- ==================== PAGE 2: USER ROLES & ACCESS MATRIX ==================== -->
+  <div class="page">
+    <div class="section-header">
+      <div class="section-title"><span class="section-num">02.</span> Roles & Access Control Matrix</div>
+      <div class="section-tag">Zero-Trust Security</div>
+    </div>
+    
+    <h3>Granular Role Segregation</h3>
+    <p>
+      To prevent collusion, bribery, or administrative falsification, the platform enforces 8 fine-grained persona roles grouped across 4 primary stakeholder families. Every API endpoint and server action validates identity, role, ownership, and current entity state.
+    </p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Role Identifier</th>
+          <th>Stakeholder Family</th>
+          <th>Authorized Capabilities</th>
+          <th>Strictly Prohibited Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>gov_analyst</code></td>
+          <td>Government</td>
+          <td>Read aggregated national funnels, regional leakage, skill gaps, run policy simulations, query AI analyst.</td>
+          <td>Cannot view raw unmasked PII; cannot edit or create outcome records.</td>
+        </tr>
+        <tr>
+          <td><code>gov_program_admin</code></td>
+          <td>Government</td>
+          <td>Configure national programs (PMKVY, NAPS), propose metric versions, view agency rankings.</td>
+          <td>Cannot activate scoring versions alone (requires dual-key authorization).</td>
+        </tr>
+        <tr>
+          <td><code>gov_auditor</code></td>
+          <td>Government</td>
+          <td>Inspect complete cryptographic audit ledger, run live SHA-256 chain verification, triage leakage.</td>
+          <td>Read-only auditor access; cannot modify ledger records or overwrite history.</td>
+        </tr>
+        <tr>
+          <td><code>agency_officer</code></td>
+          <td>Training Agency</td>
+          <td>Onboard student cohorts, record assessment scores, compute readiness bands, submit placement reports.</td>
+          <td><strong>Strictly cannot verify own placement reports</strong>; cannot view other agencies.</td>
+        </tr>
+        <tr>
+          <td><code>agency_admin</code></td>
+          <td>Training Agency</td>
+          <td>Manage agency training centers, courses, instructor assignments, batch CSV uploads.</td>
+          <td>Cannot verify employment; cannot alter historical assessment logs.</td>
+        </tr>
+        <tr>
+          <td><code>employer_verifier</code></td>
+          <td>Employer</td>
+          <td>Confirm, Reject, or Request Correction on placement claims for own canonical organization.</td>
+          <td>Cannot verify other employers' candidates; cannot modify student training history.</td>
+        </tr>
+        <tr>
+          <td><code>employer_admin</code></td>
+          <td>Employer</td>
+          <td>Manage authorized verifiers, register corporate GSTIN/CIN, submit skill deficit feedback.</td>
+          <td>Cannot verify without verifier delegation; cannot rewrite student profiles.</td>
+        </tr>
+        <tr>
+          <td><code>student</code></td>
+          <td>Student / Trainee</td>
+          <td>View Tamper-Evident Employability Passport, report unemployment/departures, raise disputes.</td>
+          <td>Cannot verify own employment; cannot edit agency assessment scores.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Dual-Key Multi-Party Authorization Engine</h3>
+    <p>
+      In compliance with Invariant P2 (No Master Administrator), sensitive operations cannot be executed by any single user. They are staged in the <code>authorization_requests</code> queue and require independent approval:
+    </p>
+    
+    <div class="card card-warning" style="margin-top: 8px;">
+      <div class="card-title">Operations Mandating Multi-Party Dual-Key Approval:</div>
+      <ul>
+        <li><strong>Activating a New Metric/Scoring Version:</strong> A Program Admin can propose a scoring algorithm revision, but a second Government Officer must review mathematical implications and approve before activation.</li>
+        <li><strong>Overriding Organization Claim Discrepancies:</strong> Resolving conflicting corporate CIN/GSTIN registrations requires dual authorization.</li>
+        <li><strong>Granting Privileged Platform Roles:</strong> Elevating user privileges requires two distinct system administrators.</li>
+        <li><strong>Closing High-Severity Anomaly Investigations:</strong> Fraud flags with |z| &gt; 2.5 require multi-stakeholder closure with documented evidence.</li>
+      </ul>
+    </div>
+    
+    <div class="footer-note">Employment Outcome Intelligence Platform · Smart India Hackathon 2026 · Problem SIH26135</div>
+  </div>
+
+  <!-- ==================== PAGE 3: GOVERNMENT COMMAND CENTER ==================== -->
+  <div class="page">
+    <div class="section-header">
+      <div class="section-title"><span class="section-num">03.</span> Government Command Center</div>
+      <div class="section-tag">National Intelligence</div>
+    </div>
+    
+    <h3>Comprehensive National Intelligence Architecture</h3>
+    <p>
+      The Government Command Center provides macro-level outcome intelligence, automated leakage detection, and scenario simulation without exposing vulnerable student PII.
+    </p>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title">🏛️ National KPI Dashboard (<code>/gov/dashboard</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Displays real-time aggregated metrics across all active skilling schemes: 500 Enrolled Trainees, 82.4% Job Readiness, 310 Independently Verified Employed (62.0% true conversion rate), 3-Month Retention Rate (74.2%), and active leakage alerts.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">📉 Outcome Conversion Funnel (<code>/gov/funnel</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Visualizes pipeline drop-offs at every stage: Enrolled (500) &rarr; Assessed (460) &rarr; Job Ready (412) &rarr; Placement Reported (350) &rarr; <strong>Verified Employed (310)</strong> &rarr; 3-Month Retention (230). Eliminates phantom placement claims.
+        </p>
+      </div>
+      <div class="card card-warning">
+        <div class="card-title">⚠️ Statistical Leakage Engine (<code>/gov/leakage</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Computes statistical Z-scores across all regions. An absolute z-score <code>|z| &ge; 2.0</code> flags severe statistical anomaly. <strong>Planted Benchmark:</strong> Detects Rajasthan IT-BPO placement drop-off at <code>z = 2.94</code> (high leakage probability).
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🗺️ Regional & State Heatmaps (<code>/gov/regions</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Compares verification rates and retention longevity across Indian states and districts, highlighting geographical disparities between industrial corridors and remote regions.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 Skill Demand & Deficit (<code>/gov/skills</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Cross-examines skilling course supply against live employer vacancy requirements. Directly identifies critical deficit skills (e.g. Cloud Security, EV Powertrain Diagnostics, Industrial IoT) and flags obsolete curriculums.
+        </p>
+      </div>
+      <div class="card card-primary">
+        <div class="card-title">🎛️ Policy Scenario Simulator (<code>/gov/simulator</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Interactive policy modeling tool. Adjust training capacity sliders, student stipend allocations, and employer partnership subsidies to predict 12-month verified placement yields and government ROI.
+        </p>
+      </div>
+      <div class="card card-success">
+        <div class="card-title">🔒 SHA-256 Audit Ledger (<code>/gov/audit</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Inspects the 502 append-only SHA-256 chained event ledger. Features a <strong>Live Chain Integrity Verifier</strong> button that recalculates block hashes sequentially to prove zero data tampering.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">🤖 AI Policy Analyst (<code>/gov/ai</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Natural language policy Q&A assistant. Every response cites specific database view rows (e.g. <code>v_national_funnel</code>, <code>v_regional_leakage</code>). Features automatic deterministic fallback if LLM keys are absent.
+        </p>
+      </div>
+    </div>
+
+    <div class="callout callout-warning">
+      <strong>CAG Audit Discrepancy Reconciliation:</strong> Traditional dashboards report 350 placed students (70%). The EOI Platform proves that only 310 are verified (62%), exposing 40 unverified or fictitious claims instantly.
+    </div>
+
+    <div class="footer-note">Employment Outcome Intelligence Platform · Smart India Hackathon 2026 · Problem SIH26135</div>
+  </div>
+
+  <!-- ==================== PAGE 4: TRAINING AGENCY & EMPLOYER PORTALS ==================== -->
+  <div class="page">
+    <div class="section-header">
+      <div class="section-title"><span class="section-num">04.</span> Operational Portals: Agency & Employer</div>
+      <div class="section-tag">Intake & Verification</div>
+    </div>
+    
+    <h3>Training Agency Operations (<code>/agency/...</code>)</h3>
+    <p>
+      The Training Agency portal serves as the operational onboarding, assessment, and reporting layer. It provides agencies with tools to track students while strictly preventing fraudulent self-verification.
+    </p>
+
+    <div class="grid-3">
+      <div class="card">
+        <div class="card-title">📋 Student Intake & CSV</div>
+        <p style="font-size: 8pt;">Onboard trainees individually or via bulk CSV import. Validates Aadhaar hash, contact details, and socioeconomic classification.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">📊 Assessment Scoring</div>
+        <p style="font-size: 8pt;">Log continuous assessments: technical exam marks, practical lab evaluations, soft skills ratings, and mandatory attendance metrics.</p>
+      </div>
+      <div class="card">
+        <div class="card-title">🎯 Readiness Bands</div>
+        <p style="font-size: 8pt;">Engine automatically assigns <strong>High</strong> (&ge;75%), <strong>Medium</strong> (50-74%), or <strong>Low</strong> (&lt;50%) job readiness bands based on weighted performance.</p>
+      </div>
+    </div>
+
+    <div class="card card-warning" style="margin-top: 8px;">
+      <div class="card-title">📤 Employment Placement Reporting Workflow (<code>/agency/employment/report</code>)</div>
+      <p style="font-size: 8.5pt;">
+        When a trainee secures employment, the agency submits a placement report specifying: Candidate Name, Canonical Employer (from registry), Job Designation, Monthly Salary, and mandatory proof documents (Offer Letter / Salary Slip PDF).
+      </p>
+      <p style="font-size: 8.5pt; color: #B45309; font-weight: 600;">
+        ⚠️ P1 Invariant Guard: Upon submission, the record status moves to <code>reported_unverified</code>. The agency's interface displays "Awaiting Independent Employer Confirmation". The agency cannot approve this claim.
+      </p>
+    </div>
+
+    <h3 style="margin-top: 16px;">Employer Verification Queue (<code>/employer/...</code>)</h3>
+    <p>
+      The Employer Portal acts as the independent ground truth anchor. Only verified corporate officers with authenticated domain accounts can act on pending claims.
+    </p>
+
+    <div class="grid-3">
+      <div class="card card-success">
+        <div class="card-title">✅ 1. Confirm Employment</div>
+        <p style="font-size: 8pt;">
+          Employer validates candidate identity, start date, and salary bracket. Transitions record to <code>verified_employed</code>, generates a cryptographic event block, and activates the 3-month retention tracking clock.
+        </p>
+      </div>
+      <div class="card card-primary">
+        <div class="card-title">🔄 2. Request Correction</div>
+        <p style="font-size: 8pt;">
+          If designation or joining date has a minor typo, employer requests correction. Sends the record back to the agency's correction inbox with specific feedback notes.
+        </p>
+      </div>
+      <div class="card card-warning">
+        <div class="card-title">❌ 3. Reject Placement Claim</div>
+        <p style="font-size: 8pt;">
+          If candidate was never hired or ghosted, employer clicks Reject with a mandatory reason code. Creates an anomaly event in the auditor ledger and flags agency.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 8px;">
+      <div class="card">
+        <div class="card-title">🚪 Departure & Unemployment Reconciliation</div>
+        <p style="font-size: 8.5pt;">
+          Employers can formally confirm when an employee resigns or departs. Records official separation reason and closes the active retention period.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">💬 Corporate Skill Deficit Feedback (<code>/employer/feedback</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Direct structured channel for employers to report curriculum deficiencies directly to MSDE (e.g. "Candidates excel in Python syntax but lack Git collaboration skills").
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-note">Employment Outcome Intelligence Platform · Smart India Hackathon 2026 · Problem SIH26135</div>
+  </div>
+
+  <!-- ==================== PAGE 5: STUDENT PORTAL & TECHNICAL SPECIFICATIONS ==================== -->
+  <div class="page">
+    <div class="section-header">
+      <div class="section-title"><span class="section-num">05.</span> Student Portal, Security & Specifications</div>
+      <div class="section-tag">Democratized Credentials</div>
+    </div>
+    
+    <h3>Student Trainee Portal (<code>/student/...</code>)</h3>
+    <p>
+      Trainees own their career trajectory and verifiable credentials. The portal empowers students to demonstrate verified employability without relying on paper certificates.
+    </p>
+
+    <div class="grid-2">
+      <div class="card card-success">
+        <div class="card-title">🎓 Verifiable Employability Passport (<code>/student/passport</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Tamper-evident digital passport containing verified NSQF course credentials, assessed technical skills, soft skill evaluations, and cryptographic employer verification stamps. Includes an instant printable PDF export.
+        </p>
+      </div>
+      <div class="card card-primary">
+        <div class="card-title">📈 Longitudinal Career Trajectory (<code>/student/history</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Visual timeline mapping the learner's journey across training, assessment, placement, verification, 3-month retention, departures, and subsequent re-employment.
+        </p>
+      </div>
+      <div class="card card-warning">
+        <div class="card-title">📢 Unemployment & Departure Self-Reporting</div>
+        <p style="font-size: 8.5pt;">
+          If a student leaves a job or faces contract termination, they can self-report departure directly. Triggers automatic re-skilling recommendations and job portal matching.
+        </p>
+      </div>
+      <div class="card">
+        <div class="card-title">⚖️ Dispute Resolution Center (<code>/student/disputes</code>)</div>
+        <p style="font-size: 8.5pt;">
+          Allows trainees to contest inaccurate agency assessment marks or fraudulent employer placement reports with document uploads and grievance tracking.
+        </p>
+      </div>
+    </div>
+
+    <h3>Technical & Cryptographic Architecture</h3>
+    <div class="card" style="margin-top: 8px;">
+      <table style="margin: 0;">
+        <tr>
+          <td style="width: 28%; font-weight: 700;">Frontend Framework</td>
+          <td>Next.js 16.3.6 App Router (54 routes), TypeScript strict, Tailwind CSS 4, custom design tokens.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Database Architecture</td>
+          <td>Dual-mode engine: Full Supabase PostgreSQL migrations (001–011) + standalone deterministic fallback engine (<code>lib/db/store.ts</code>) for zero-setup offline demos.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Cryptographic Ledger</td>
+          <td>Append-only SHA-256 hash chaining: <code>hash = SHA256(prev_hash + event_type + payload + timestamp + actor_id)</code>. Immutable block storage.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">Zero-Trust Middleware</td>
+          <td>Server-side authorization check (<code>lib/authorize.ts</code>) mirrored with DB Row-Level Security (RLS) policies. Role escalation automatically blocked.</td>
+        </tr>
+        <tr>
+          <td style="font-weight: 700;">DPDP Act 2023 Compliance</td>
+          <td>Aadhaar numbers hashed irreversibly; raw PII masked in all analyst/auditor views; consent-driven visibility controls for student profiles.</td>
+        </tr>
+      </table>
+    </div>
+
+    <h3 style="margin-top: 14px;">Evaluator Quick Start & Demo Credentials</h3>
+    <p>Use the 1-click persona switchers on the live site at <a href="https://eoi-platform.vercel.app/demo" style="color: #1D4E89; font-weight: bold;">https://eoi-platform.vercel.app/demo</a> or enter credentials:</p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Persona Role</th>
+          <th>Demo Login Email</th>
+          <th>Universal Password</th>
+          <th>Landing Screen</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Government Analyst</td>
+          <td><code>gov.analyst@eoi.demo</code></td>
+          <td><code>Demo@EOI2026</code></td>
+          <td><code>/gov/dashboard</code></td>
+        </tr>
+        <tr>
+          <td>Training Agency Officer</td>
+          <td><code>agency.officer@eoi.demo</code></td>
+          <td><code>Demo@EOI2026</code></td>
+          <td><code>/agency/dashboard</code></td>
+        </tr>
+        <tr>
+          <td>Employer Verifier</td>
+          <td><code>employer.verifier@eoi.demo</code></td>
+          <td><code>Demo@EOI2026</code></td>
+          <td><code>/employer/verification</code></td>
+        </tr>
+        <tr>
+          <td>Student Trainee</td>
+          <td><code>student.x@eoi.demo</code></td>
+          <td><code>Demo@EOI2026</code></td>
+          <td><code>/student/dashboard</code></td>
+        </tr>
+        <tr>
+          <td>Government Auditor</td>
+          <td><code>gov.auditor@eoi.demo</code></td>
+          <td><code>Demo@EOI2026</code></td>
+          <td><code>/gov/audit</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="footer-note">Employment Outcome Intelligence Platform · Smart India Hackathon 2026 · Problem SIH26135</div>
+  </div>
+
+</body>
+</html>
