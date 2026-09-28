@@ -94,7 +94,7 @@ export function DataTable<T extends Record<string, any>>({
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--sp-3)',
       }}>
         {/* Search */}
-        <div style={{ position: 'relative', width: 280 }}>
+        <div style={{ position: 'relative', width: '100%', maxWidth: 280 }}>
           <input
             type="text"
             placeholder={searchPlaceholder}

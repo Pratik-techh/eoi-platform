@@ -310,9 +310,10 @@ function HealthIcon() {
 type SideNavProps = {
   role: ActorRole
   collapsed?: boolean
+  onNavigate?: () => void
 }
 
-export function SideNav({ role, collapsed = false }: SideNavProps) {
+export function SideNav({ role, collapsed = false, onNavigate }: SideNavProps) {
   const pathname = usePathname()
   const groups = getNav(role)
 
@@ -399,6 +400,7 @@ export function SideNav({ role, collapsed = false }: SideNavProps) {
                 <Link
                   key={item.href}
                   href={item.href}
+                  onClick={onNavigate}
                   aria-current={isActive ? 'page' : undefined}
                   title={collapsed ? item.label : undefined}
                   style={{

@@ -38,7 +38,7 @@ export function LeakageCallout({
       transition: 'all 0.2s cubic-bezier(0.16, 1, 0.3, 1)',
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--sp-3)' }}>
-        <div style={{ display: 'flex', gap: 'var(--sp-3)', alignItems: 'flex-start', flex: 1, minWidth: 280 }}>
+        <div style={{ display: 'flex', gap: 'var(--sp-3)', alignItems: 'flex-start', flex: 1, minWidth: 'min(280px, 100%)' }}>
           <div style={{
             width: 36, height: 36, borderRadius: 'var(--r-control)',
             background: 'linear-gradient(135deg, #EF4444 0%, #DC2626 100%)',

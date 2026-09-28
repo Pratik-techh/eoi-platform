@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { SideNav } from './SideNav'
 import type { ActorRole } from '@/lib/supabase/database.types'
@@ -49,9 +49,16 @@ const SEARCH_ENTITIES = [
 
 export default function AppShell({ user, children }: { user: AppUser; children: React.ReactNode }) {
   const router = useRouter()
+  const pathname = usePathname()
   const [signingOut, setSigningOut] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
+
+  // Automatically close mobile navigation drawer when user navigates
+  useEffect(() => {
+    setMobileNavOpen(false)
+  }, [pathname])
 
   useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
@@ -60,6 +67,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
         setSearchOpen(prev => !prev)
       } else if (e.key === 'Escape') {
         setSearchOpen(false)
+        setMobileNavOpen(false)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
@@ -122,24 +130,53 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           WebkitBackdropFilter: 'blur(12px)',
           boxShadow: '0 1px 3px rgba(14, 31, 51, 0.05)',
         }}>
-          {/* Left: Ministry Emblem & Ledger state indicator */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-4)' }}>
+          {/* Left: Hamburger menu (mobile only) + Ministry Emblem & Ledger state indicator */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+            {/* Mobile Hamburger Drawer Toggle */}
+            <button
+              id="mobile-nav-toggle"
+              className="mobile-only-btn hover-lift"
+              onClick={() => setMobileNavOpen(true)}
+              aria-label="Open navigation menu"
+              style={{
+                width: 34,
+                height: 34,
+                border: '1px solid var(--line)',
+                borderRadius: 'var(--r-control)',
+                background: 'var(--canvas)',
+                color: 'var(--ink)',
+                display: 'none',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                marginRight: 4,
+                flexShrink: 0,
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+                <line x1="3" y1="5" x2="15" y2="5" />
+                <line x1="3" y1="9" x2="15" y2="9" />
+                <line x1="3" y1="13" x2="15" y2="13" />
+              </svg>
+            </button>
+
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
               <div style={{
                 width: 28, height: 28, borderRadius: 'var(--r-control)',
                 background: 'linear-gradient(135deg, #091728 0%, #1D4E89 100%)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 boxShadow: '0 2px 5px rgba(29, 78, 137, 0.25)',
+                flexShrink: 0,
               }}>
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <path d="M2 10l3-4 2.5 2.5L10 4l2 4" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
               </div>
               <div>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.15 }}>
+                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.15, whiteSpace: 'nowrap' }}>
                   National Outcome Intelligence
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--muted)', lineHeight: 1.2 }}>
+                <div className="topbar-branding-subtext" style={{ fontSize: '10px', color: 'var(--muted)', lineHeight: 1.2 }}>
                   Ministry of Skill Development & Entrepreneurship
                 </div>
               </div>
@@ -147,6 +184,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
 
             <Link
               href="/gov/audit"
+              className="topbar-ledger-pill"
               title="Inspect Cryptographic SHA-256 Audit Ledger"
               style={{
                 display: 'inline-flex',
@@ -161,6 +199,8 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 color: 'var(--verified)',
                 textDecoration: 'none',
                 transition: 'all 0.15s ease',
+                whiteSpace: 'nowrap',
+                marginLeft: 'var(--sp-2)',
               }}
             >
               <span className="pulse-dot" />
@@ -172,7 +212,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           </div>
 
           {/* Right: Quick Switcher, Search, Notifications, User */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
             {/* 1-Click Role Switcher for Evaluators */}
             <Link
               href="/demo"
@@ -192,6 +232,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 textDecoration: 'none',
                 boxShadow: '0 2px 8px rgba(37, 99, 235, 0.35)',
                 transition: 'all 0.18s ease',
+                whiteSpace: 'nowrap',
               }}
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
@@ -217,15 +258,15 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 fontSize: 'var(--text-sm)',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-ui)',
-                minWidth: 160,
+                minWidth: 140,
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
                 <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.3"/>
                 <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
               </svg>
-              Search…
-              <kbd style={{
+              <span className="search-label-text">Search…</span>
+              <kbd className="search-shortcut-kbd" style={{
                 marginLeft: 'auto',
                 fontSize: '10px',
                 fontFamily: 'var(--font-mono)',
@@ -255,6 +296,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 position: 'relative',
                 background: 'var(--surface)',
                 textDecoration: 'none',
+                flexShrink: 0,
               }}
             >
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -265,7 +307,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
 
             {/* User menu */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', paddingLeft: 'var(--sp-2)', borderLeft: '1px solid var(--line)' }}>
-              <div style={{ textAlign: 'right' }}>
+              <div className="desktop-user-info" style={{ textAlign: 'right' }}>
                 <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)' }}>
                   {user.email.split('@')[0]}
                 </div>
@@ -453,6 +495,75 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                   ))}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Mobile Navigation Slide-Over Drawer */}
+      {mobileNavOpen && (
+        <div
+          className="mobile-drawer-overlay modal-backdrop-animate"
+          onClick={() => setMobileNavOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(14, 31, 51, 0.55)',
+            backdropFilter: 'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
+            zIndex: 90,
+            display: 'flex',
+          }}
+        >
+          <div
+            className="mobile-drawer-panel"
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: 'min(300px, 85vw)',
+              height: '100%',
+              background: 'var(--surface)',
+              borderRight: '1px solid var(--line)',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: 'var(--shadow-popover)',
+              overflowY: 'auto',
+              animation: 'slideDrawerIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            }}
+          >
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '12px 16px',
+              borderBottom: '1px solid var(--line)',
+              background: 'var(--canvas)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{
+                  width: 24, height: 24, borderRadius: 'var(--r-control)',
+                  background: 'linear-gradient(135deg, #112744 0%, #1D4E89 100%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg width="12" height="12" viewBox="0 0 18 18" fill="none">
+                    <path d="M3 13L6.5 8l3 3L13 5l2 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>Navigation Menu</span>
+              </div>
+              <button
+                onClick={() => setMobileNavOpen(false)}
+                aria-label="Close navigation menu"
+                style={{
+                  width: 28, height: 28, borderRadius: 'var(--r-control)', border: '1px solid var(--line)',
+                  background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', color: 'var(--muted)', fontSize: '13px', fontWeight: 700,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+            <div style={{ flex: 1, overflowY: 'auto' }}>
+              <SideNav role={user.role} onNavigate={() => setMobileNavOpen(false)} />
             </div>
           </div>
         </div>

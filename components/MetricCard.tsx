@@ -174,7 +174,8 @@ export function MetricCard({
             style={{
               position: 'fixed',
               right: 0, top: 0, bottom: 0,
-              width: 420,
+              width: 'min(420px, 100vw)',
+              maxWidth: '100vw',
               background: 'var(--surface)',
               borderLeft: '1px solid var(--line)',
               zIndex: 51,

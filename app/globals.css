@@ -200,21 +200,123 @@ body {
   margin: 0 auto;
 }
 
-@media (max-width: 768px) {
+/* --------------------------------------------------------------------------
+   Mobile & Responsive Layout Optimizations
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
   .app-shell {
     flex-direction: column;
   }
   .sidebar {
-    width: 100%;
-    min-width: 100%;
-    height: auto;
-    position: static;
-    border-right: none;
-    border-bottom: 1px solid var(--line);
+    display: none !important;
+  }
+  .main-content {
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow-x: hidden;
+  }
+  .mobile-only-btn {
+    display: inline-flex !important;
+  }
+  .topbar {
+    padding: 0 var(--sp-4) !important;
+    gap: var(--sp-2) !important;
   }
   .page-content {
-    padding: var(--sp-4);
+    padding: var(--sp-4) !important;
   }
+}
+
+@media (min-width: 1025px) {
+  .mobile-only-btn {
+    display: none !important;
+  }
+  .mobile-drawer-overlay {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-content {
+    padding: var(--sp-3) var(--sp-3) var(--sp-8) var(--sp-3) !important;
+  }
+  .topbar {
+    height: 52px !important;
+    padding: 0 var(--sp-3) !important;
+  }
+  .topbar-branding-subtext {
+    display: none !important;
+  }
+  .topbar-ledger-pill {
+    display: none !important;
+  }
+  .desktop-user-info {
+    display: none !important;
+  }
+  .page-header {
+    margin-bottom: var(--sp-4) !important;
+    padding-bottom: var(--sp-3) !important;
+  }
+  .page-header__title {
+    font-size: 1.25rem !important;
+  }
+  .page-header__description {
+    font-size: var(--text-xs) !important;
+  }
+  .pipeline-step-card {
+    padding: 10px 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-label-text,
+  .search-shortcut-kbd {
+    display: none !important;
+  }
+  #global-search-trigger {
+    min-width: 34px !important;
+    padding: 6px !important;
+    justify-content: center !important;
+  }
+  #evaluator-demo-switcher span {
+    display: none !important;
+  }
+  #evaluator-demo-switcher {
+    padding: 6px 8px !important;
+  }
+}
+
+/* Mobile drawer keyframe animation */
+@keyframes slideDrawerIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Touch-optimized tap targets */
+@media (pointer: coarse) {
+  button:not(.chip-btn),
+  .btn,
+  a.btn {
+    min-height: 38px;
+  }
+  input,
+  select,
+  textarea {
+    min-height: 38px;
+    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+  }
+}
+
+/* Table smooth horizontal scrolling on touch */
+.data-table-wrapper,
+div[style*="overflowX: auto"],
+div[style*="overflow-x: auto"] {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
 /* Tabular numerals on all KPI/numeric contexts */
