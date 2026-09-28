@@ -1,13 +1,53 @@
 'use client'
 
 import Link from 'next/link'
-import { useSearchParams } from 'next/navigation'
-import { Suspense } from 'react'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { Suspense, useState } from 'react'
 
 function ForbiddenContent() {
+  const router = useRouter()
   const searchParams = useSearchParams()
   const attempted = searchParams.get('attempted') ?? 'the requested resource'
-  const redirect = searchParams.get('redirect') ?? '/demo'
+  const redirect = searchParams.get('redirect') ?? '/gov/dashboard'
+  const [switching, setSwitching] = useState(false)
+
+  const matchPersona = (() => {
+    if (attempted.startsWith('/student')) {
+      return { role: 'Student', name: 'Arjun Singh', email: 'student.x@eoi.demo', color: '#10B981' }
+    }
+    if (attempted.startsWith('/employer')) {
+      return { role: 'Employer', name: 'Kavya Reddy (Google India)', email: 'employer.verifier@eoi.demo', color: '#2563EB' }
+    }
+    if (attempted.startsWith('/agency')) {
+      return { role: 'Training Agency', name: 'Rajesh Kumar (Apex)', email: 'agency.officer@eoi.demo', color: '#D97706' }
+    }
+    if (attempted.startsWith('/gov')) {
+      return { role: 'Government Analyst', name: 'Priya Sharma', email: 'gov.analyst@eoi.demo', color: '#1D4E89' }
+    }
+    if (attempted.startsWith('/platform')) {
+      return { role: 'Security Officer', name: 'Vikram Rao', email: 'security.officer@eoi.demo', color: '#6B7280' }
+    }
+    return null
+  })()
+
+  async function handleAutoSwitch() {
+    if (!matchPersona) return
+    setSwitching(true)
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: matchPersona.email, password: 'Demo@EOI2026' }),
+      })
+      if (res.ok) {
+        window.location.href = attempted
+      } else {
+        setSwitching(false)
+      }
+    } catch {
+      setSwitching(false)
+    }
+  }
 
   return (
     <div style={{
@@ -20,7 +60,7 @@ function ForbiddenContent() {
       fontFamily: 'var(--font-ui)',
     }}>
       <div style={{
-        maxWidth: 520,
+        maxWidth: 540,
         width: '100%',
         background: 'var(--surface)',
         border: '1px solid var(--line)',
@@ -62,11 +102,11 @@ function ForbiddenContent() {
         </div>
 
         <h1 style={{ fontSize: 'var(--text-xl)', fontWeight: 800, color: 'var(--ink)', marginBottom: 'var(--sp-2)' }}>
-          403 — Unauthorized Access
+          403 — Unauthorized Persona
         </h1>
 
         <p style={{ fontSize: 'var(--text-sm)', color: 'var(--muted)', lineHeight: 1.5, marginBottom: 'var(--sp-4)' }}>
-          Your current authenticated persona does not have clearance to view:
+          Your current session does not have clearance to view:
         </p>
 
         <div style={{
@@ -98,10 +138,43 @@ function ForbiddenContent() {
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-3)' }}>
+          {matchPersona && (
+            <button
+              onClick={handleAutoSwitch}
+              disabled={switching}
+              className="hover-lift"
+              style={{
+                width: '100%',
+                padding: '10px 16px',
+                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 'var(--r-control)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: 700,
+                cursor: switching ? 'wait' : 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)',
+              }}
+            >
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7.5 1.5L2 8h4.5l-0.5 4.5L12 6H7.5l0.5-4.5z" fill="#FEF08A"/>
+              </svg>
+              <span>
+                {switching
+                  ? `Switching to ${matchPersona.role}…`
+                  : `Switch to ${matchPersona.name} & Continue →`}
+              </span>
+            </button>
+          )}
+
           <Link
             href={redirect}
             className="btn-primary"
-            style={{ width: '100%' }}
+            style={{ width: '100%', textAlign: 'center' }}
           >
             <span>Return to Your Authorized Portal →</span>
           </Link>
@@ -109,9 +182,9 @@ function ForbiddenContent() {
           <Link
             href="/demo"
             className="btn-secondary"
-            style={{ width: '100%', borderColor: 'var(--primary)', color: 'var(--primary)' }}
+            style={{ width: '100%', textAlign: 'center', borderColor: 'var(--primary)', color: 'var(--primary)' }}
           >
-            <span>⚡ Switch Persona in Evaluator Demo</span>
+            <span>⚡ Open Evaluator Demo Persona Switcher</span>
           </Link>
         </div>
       </div>

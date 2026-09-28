@@ -26,6 +26,14 @@ const ROLE_LABELS: Record<ActorRole, string> = {
   platform_ops:      'Platform Ops',
 }
 
+const QUICK_ROLES = [
+  { role: 'gov_analyst', label: 'Government Analyst', person: 'Priya Sharma', icon: '🏛️', path: '/gov/dashboard', email: 'gov.analyst@eoi.demo' },
+  { role: 'student', label: 'Student Passport', person: 'Arjun Singh', icon: '🎓', path: '/student/dashboard', email: 'student.x@eoi.demo' },
+  { role: 'employer_verifier', label: 'Employer Verifier', person: 'Google India', icon: '🏢', path: '/employer/verification', email: 'employer.verifier@eoi.demo' },
+  { role: 'agency_officer', label: 'Training Agency', person: 'Apex Institute', icon: '🏫', path: '/agency/dashboard', email: 'agency.officer@eoi.demo' },
+  { role: 'gov_auditor', label: 'Government Auditor', person: 'Amit Verma', icon: '🛡️', path: '/gov/audit', email: 'gov.auditor@eoi.demo' },
+]
+
 const SEARCH_ENTITIES = [
   { title: 'National Outcome Funnel', category: 'Government', href: '/gov/funnel', hint: 'Stage drop-off & retention' },
   { title: 'Statistical Leakage Engine', category: 'Government', href: '/gov/leakage', hint: 'Rajasthan |z|=2.94 anomaly' },
@@ -54,10 +62,13 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
+  const [roleMenuOpen, setRoleMenuOpen] = useState(false)
+  const [switchingRole, setSwitchingRole] = useState<string | null>(null)
 
-  // Automatically close mobile navigation drawer when user navigates
+  // Automatically close mobile navigation drawer & role menu when user navigates
   useEffect(() => {
     setMobileNavOpen(false)
+    setRoleMenuOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -68,11 +79,31 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
       } else if (e.key === 'Escape') {
         setSearchOpen(false)
         setMobileNavOpen(false)
+        setRoleMenuOpen(false)
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [])
+
+  async function handleQuickRoleSwitch(email: string, targetPath: string) {
+    setSwitchingRole(email)
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password: 'Demo@EOI2026' }),
+      })
+      if (res.ok) {
+        setRoleMenuOpen(false)
+        window.location.href = targetPath
+      } else {
+        setSwitchingRole(null)
+      }
+    } catch {
+      setSwitchingRole(null)
+    }
+  }
 
   async function handleSignOut() {
     setSigningOut(true)
@@ -214,32 +245,166 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           {/* Right: Quick Switcher, Search, Notifications, User */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
             {/* 1-Click Role Switcher for Evaluators */}
-            <Link
-              href="/demo"
-              id="evaluator-demo-switcher"
-              className="hover-lift"
-              title="Switch roles & evaluate personas"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '6px 14px',
-                background: 'linear-gradient(135deg, #1D4E89 0%, #2563EB 50%, #3B82F6 100%)',
-                color: '#FFFFFF',
-                borderRadius: 'var(--r-control)',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 700,
-                textDecoration: 'none',
-                boxShadow: '0 2px 8px rgba(37, 99, 235, 0.35)',
-                transition: 'all 0.18s ease',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                <path d="M6.5 1.5L2 7h4l-0.5 4.5L10 6H6l0.5-4.5z" fill="#FCD34D"/>
-              </svg>
-              <span>⚡ Switch Role</span>
-            </Link>
+            <div style={{ position: 'relative' }}>
+              <button
+                id="evaluator-demo-switcher"
+                onClick={() => setRoleMenuOpen(prev => !prev)}
+                className="hover-lift"
+                title="Switch roles & evaluate personas"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 6,
+                  padding: '6px 14px',
+                  background: 'linear-gradient(135deg, #1D4E89 0%, #2563EB 50%, #3B82F6 100%)',
+                  color: '#FFFFFF',
+                  border: 'none',
+                  borderRadius: 'var(--r-control)',
+                  fontSize: 'var(--text-xs)',
+                  fontWeight: 700,
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 8px rgba(37, 99, 235, 0.35)',
+                  transition: 'all 0.18s ease',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                  <path d="M6.5 1.5L2 7h4l-0.5 4.5L10 6H6l0.5-4.5z" fill="#FCD34D"/>
+                </svg>
+                <span>⚡ Switch Role</span>
+                <svg
+                  width="10"
+                  height="10"
+                  viewBox="0 0 10 10"
+                  fill="none"
+                  style={{
+                    transform: roleMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.15s ease',
+                    marginLeft: 2,
+                  }}
+                >
+                  <path d="M2.5 3.5L5 6L7.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </button>
+
+              {/* Role Switcher Popover Dropdown */}
+              {roleMenuOpen && (
+                <>
+                  <div
+                    onClick={() => setRoleMenuOpen(false)}
+                    style={{ position: 'fixed', inset: 0, zIndex: 110 }}
+                  />
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: 'calc(100% + 8px)',
+                      right: 0,
+                      width: 290,
+                      background: 'var(--surface)',
+                      border: '1px solid var(--line)',
+                      borderRadius: 'var(--r-container)',
+                      boxShadow: '0 12px 32px rgba(14, 31, 51, 0.18)',
+                      padding: 'var(--sp-2)',
+                      zIndex: 120,
+                      animation: 'slideDown 0.15s ease-out',
+                    }}
+                  >
+                    <div style={{
+                      padding: '6px 10px',
+                      fontSize: '11px',
+                      fontWeight: 700,
+                      color: 'var(--muted)',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.05em',
+                      borderBottom: '1px solid var(--line)',
+                      marginBottom: 4,
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}>
+                      <span>Instant Persona Switch</span>
+                      <span style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: 600 }}>Zero Logout</span>
+                    </div>
+
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                      {QUICK_ROLES.map(item => {
+                        const isCurrent = user.role === item.role
+                        const isPending = switchingRole === item.email
+                        return (
+                          <button
+                            key={item.role}
+                            onClick={() => handleQuickRoleSwitch(item.email, item.path)}
+                            disabled={isPending}
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'space-between',
+                              width: '100%',
+                              padding: '8px 10px',
+                              background: isCurrent ? 'rgba(37, 99, 235, 0.08)' : 'transparent',
+                              border: isCurrent ? '1px solid rgba(37, 99, 235, 0.25)' : '1px solid transparent',
+                              borderRadius: 'var(--r-control)',
+                              textAlign: 'left',
+                              cursor: isPending ? 'wait' : 'pointer',
+                              transition: 'all 0.12s ease',
+                              fontFamily: 'var(--font-ui)',
+                            }}
+                            onMouseEnter={e => {
+                              if (!isCurrent) e.currentTarget.style.background = 'var(--canvas)'
+                            }}
+                            onMouseLeave={e => {
+                              if (!isCurrent) e.currentTarget.style.background = 'transparent'
+                            }}
+                          >
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                              <span style={{ fontSize: '15px' }}>{item.icon}</span>
+                              <div>
+                                <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 600, color: isCurrent ? 'var(--primary)' : 'var(--ink)' }}>
+                                  {item.label}
+                                </div>
+                                <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
+                                  {item.person}
+                                </div>
+                              </div>
+                            </div>
+                            {isCurrent ? (
+                              <span style={{ fontSize: '10px', fontWeight: 700, color: 'var(--primary)', background: '#DBEAFE', padding: '2px 6px', borderRadius: 4 }}>
+                                Active
+                              </span>
+                            ) : isPending ? (
+                              <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Switching…</span>
+                            ) : null}
+                          </button>
+                        )
+                      })}
+                    </div>
+
+                    <div style={{ borderTop: '1px solid var(--line)', marginTop: 4, paddingTop: 4 }}>
+                      <Link
+                        href="/demo"
+                        onClick={() => setRoleMenuOpen(false)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: 6,
+                          width: '100%',
+                          padding: '7px 10px',
+                          fontSize: '11px',
+                          fontWeight: 600,
+                          color: 'var(--primary)',
+                          textDecoration: 'none',
+                          borderRadius: 'var(--r-control)',
+                          background: 'rgba(37, 99, 235, 0.04)',
+                        }}
+                      >
+                        <span>📖 Evaluator Guide & All 10 Roles →</span>
+                      </Link>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Global search trigger */}
             <button
