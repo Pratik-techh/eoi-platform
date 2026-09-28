@@ -1,11 +1,11 @@
 'use client'
 
+import { useState } from 'react'
 import { DataTable } from '@/components/DataTable'
 import { StatusChip } from '@/components/StatusChip'
 
 export default function GovProgramsPage() {
-
-  const programsData = [
+  const [programsData, setProgramsData] = useState([
     {
       id: 'crs-01',
       name: 'Full Stack Web Development',
@@ -96,7 +96,38 @@ export default function GovProgramsPage() {
       skill_relevance: '3.8 / 5.0',
       dispute_rate: '1.2%',
     },
-  ]
+  ])
+
+  const [showModal, setShowModal] = useState(false)
+  const [alert, setAlert] = useState<string | null>(null)
+  const [name, setName] = useState('')
+  const [sector, setSector] = useState('Technology')
+  const [nsqf, setNsqf] = useState('Level 5')
+  const [duration, setDuration] = useState('360 hrs')
+  const [enrolled, setEnrolled] = useState('500')
+
+  function handleCreateProgram(e: React.FormEvent) {
+    e.preventDefault()
+    const newProg = {
+      id: `crs-${Date.now()}`,
+      name,
+      sector,
+      nsqf,
+      duration,
+      enrolled: parseInt(enrolled) || 500,
+      completion_rate: '95.0%',
+      readiness_rate: '88.0%',
+      verified_employment_rate: 'Pending verification',
+      retention_6m: '—',
+      avg_time_days: 30,
+      skill_relevance: '4.5 / 5.0',
+      dispute_rate: '0.0%',
+    }
+    setProgramsData([newProg, ...programsData])
+    setShowModal(false)
+    setName('')
+    setAlert(`Program '${newProg.name}' configured and submitted to Multi-Party Governance queue for co-authorization.`)
+  }
 
   const columns = [
     { key: 'name', label: 'Program Name', sortable: true },
@@ -110,11 +141,12 @@ export default function GovProgramsPage() {
       label: 'Verified Employed',
       sortable: true,
       render: (r: any) => {
-        const isLow = parseFloat(r.verified_employment_rate) < 40
+        const isNum = !isNaN(parseFloat(r.verified_employment_rate))
+        const isLow = isNum && parseFloat(r.verified_employment_rate) < 40
         return (
           <span style={{
             fontFamily: 'var(--font-mono)', fontWeight: 700,
-            color: isLow ? 'var(--disputed)' : 'var(--verified)',
+            color: !isNum ? 'var(--muted)' : isLow ? 'var(--disputed)' : 'var(--verified)',
           }}>
             {r.verified_employment_rate}
           </span>
@@ -130,7 +162,7 @@ export default function GovProgramsPage() {
   return (
     <div>
       <div className="page-header">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--sp-2)' }}>
           <div>
             <h1 className="page-header__title">Program Intelligence</h1>
             <p className="page-header__description">
@@ -138,10 +170,33 @@ export default function GovProgramsPage() {
             </p>
           </div>
           <div style={{ display: 'flex', gap: 'var(--sp-2)' }}>
+            <button
+              onClick={() => setShowModal(true)}
+              style={{
+                display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-1)',
+                padding: '6px var(--sp-3)', background: 'var(--primary)', color: 'white',
+                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontWeight: 600, cursor: 'pointer',
+              }}
+            >
+              + Configure Skilling Program
+            </button>
             <StatusChip status="VERIFIED" label="Verified cohorts only" />
           </div>
         </div>
       </div>
+
+      {alert && (
+        <div style={{
+          padding: 'var(--sp-3) var(--sp-4)', background: 'var(--chip-verified-bg)',
+          border: '1px solid var(--chip-verified-border)', borderRadius: 'var(--r-control)',
+          fontSize: 'var(--text-sm)', color: 'var(--verified)', marginBottom: 'var(--sp-4)',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+        }}>
+          <span>{alert}</span>
+          <button onClick={() => setAlert(null)} style={{ background: 'none', border: 'none', cursor: 'pointer', fontWeight: 700, color: 'inherit' }}>×</button>
+        </div>
+      )}
 
       <DataTable
         columns={columns}
@@ -150,6 +205,127 @@ export default function GovProgramsPage() {
         searchPlaceholder="Filter programs by name, sector, or NSQF level…"
         exportFileName="program_intelligence_export.csv"
       />
+
+      {showModal && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', zIndex: 100,
+          display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)'
+        }}>
+          <div style={{
+            background: 'var(--surface)', borderRadius: 'var(--r-container)', width: '100%', maxWidth: '500px',
+            border: '1px solid var(--line)', padding: 'var(--sp-6)', boxShadow: '0 8px 30px rgba(0,0,0,0.12)'
+          }}>
+            <h2 style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--ink)', marginBottom: 'var(--sp-2)' }}>
+              Configure Accredited Skilling Program
+            </h2>
+            <p style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', marginBottom: 'var(--sp-4)' }}>
+              Add a national curriculum framework track. Per Invariant P2, program activation requires dual government co-authorization.
+            </p>
+
+            <form onSubmit={handleCreateProgram} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-3)' }}>
+              <div>
+                <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', marginBottom: 3 }}>
+                  Program Title
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Electric Vehicle Battery Servicing"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
+                  style={{ width: '100%', padding: '7px var(--sp-3)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)' }}
+                />
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-3)' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', marginBottom: 3 }}>
+                    Sector
+                  </label>
+                  <select
+                    value={sector}
+                    onChange={e => setSector(e.target.value)}
+                    style={{ width: '100%', padding: '7px var(--sp-3)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)' }}
+                  >
+                    <option value="Technology">Technology</option>
+                    <option value="Automotive">Automotive</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Renewable Energy">Renewable Energy</option>
+                    <option value="Logistics">Logistics</option>
+                    <option value="Retail">Retail</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', marginBottom: 3 }}>
+                    NSQF Level
+                  </label>
+                  <select
+                    value={nsqf}
+                    onChange={e => setNsqf(e.target.value)}
+                    style={{ width: '100%', padding: '7px var(--sp-3)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)' }}
+                  >
+                    <option value="Level 3">Level 3</option>
+                    <option value="Level 4">Level 4</option>
+                    <option value="Level 5">Level 5</option>
+                    <option value="Level 6">Level 6</option>
+                  </select>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-3)' }}>
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', marginBottom: 3 }}>
+                    Duration (Hours)
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={duration}
+                    onChange={e => setDuration(e.target.value)}
+                    style={{ width: '100%', padding: '7px var(--sp-3)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)' }}
+                  />
+                </div>
+
+                <div>
+                  <label style={{ display: 'block', fontSize: '11px', fontWeight: 600, color: 'var(--ink)', marginBottom: 3 }}>
+                    Target Cohort Capacity
+                  </label>
+                  <input
+                    type="number"
+                    required
+                    value={enrolled}
+                    onChange={e => setEnrolled(e.target.value)}
+                    style={{ width: '100%', padding: '7px var(--sp-3)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)' }}
+                  />
+                </div>
+              </div>
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: 'var(--sp-2)', marginTop: 'var(--sp-3)' }}>
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  style={{
+                    padding: '7px var(--sp-4)', background: 'var(--canvas)', border: '1px solid var(--line)',
+                    borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', cursor: 'pointer'
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  style={{
+                    padding: '7px var(--sp-4)', background: 'var(--primary)', color: 'white',
+                    border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer'
+                  }}
+                >
+                  Propose Program
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -36,7 +36,7 @@ export default async function GovFunnelPage() {
         stageTo="Selected / Employed"
         programName="Software Engineering Fundamentals"
         region="Rajasthan / Jaipur"
-        zScore={3.2}
+        zScore={2.94}
         baselineRate={68.4}
         observedRate={18.2}
         sampleSize={420}

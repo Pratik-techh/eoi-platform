@@ -86,6 +86,21 @@ export default function EmployerVerificationPage() {
         </div>
       </div>
 
+      {/* Enterprise Verification Authority & Role Banner */}
+      <div style={{
+        padding: 'var(--sp-3) var(--sp-4)', background: 'var(--canvas)',
+        border: '1px solid var(--line)', borderRadius: 'var(--r-control)',
+        fontSize: 'var(--text-xs)', color: 'var(--muted)', marginBottom: 'var(--sp-4)',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--sp-2)'
+      }}>
+        <span>
+          <strong>Authority Context:</strong> Operating under Enterprise Partner ID <code>org-google-01</code>. Verification decisions execute atomic transitions appended directly to the SHA-256 event ledger.
+        </span>
+        <span style={{ fontSize: '11px', color: 'var(--primary)', fontWeight: 600 }}>
+          Dual-Party Delegation Active (Kavya Reddy / Siddharth Iyer)
+        </span>
+      </div>
+
       {statusAlert && (
         <div style={{
           padding: 'var(--sp-4)', background: 'var(--chip-verified-bg)', border: '1px solid var(--chip-verified-border)',

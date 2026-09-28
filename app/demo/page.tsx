@@ -18,13 +18,21 @@ export default function DemoGuidePage() {
     setSwitching(null)
     if (res.ok) {
       router.refresh()
-      // Route by role
+      const roleMap: Record<string, string> = {
+        gov_analyst: '/gov/dashboard',
+        gov_program_admin: '/gov/programs',
+        gov_auditor: '/gov/audit',
+        agency_admin: '/agency/dashboard',
+        agency_officer: '/agency/dashboard',
+        student: '/student/dashboard',
+        employer_admin: '/employer/organization',
+        employer_verifier: '/employer/verification',
+        security_officer: '/platform/security',
+        platform_ops: '/platform/health',
+      }
       const found = DEMO_ACCOUNTS.find(a => a.email === email)
-      if (found?.role.startsWith('gov')) router.push('/gov/dashboard')
-      else if (found?.role.startsWith('agency')) router.push('/agency/dashboard')
-      else if (found?.role === 'student') router.push('/student/dashboard')
-      else if (found?.role.startsWith('employer')) router.push('/employer/dashboard')
-      else router.push('/platform/security')
+      const target: string = (found && roleMap[found.role]) || '/gov/dashboard'
+      router.push(target)
     }
   }
 

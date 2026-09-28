@@ -4,12 +4,12 @@ import { DEMO_ACCOUNTS } from '@/lib/db/store'
 
 const ROLE_HOME: Record<string, string> = {
   gov_analyst: '/gov/dashboard',
-  gov_program_admin: '/gov/dashboard',
+  gov_program_admin: '/gov/programs',
   gov_auditor: '/gov/audit',
   agency_admin: '/agency/dashboard',
   agency_officer: '/agency/dashboard',
   student: '/student/dashboard',
-  employer_admin: '/employer/dashboard',
+  employer_admin: '/employer/organization',
   employer_verifier: '/employer/verification',
   security_officer: '/platform/security',
   platform_ops: '/platform/health',

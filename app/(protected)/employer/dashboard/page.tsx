@@ -118,6 +118,88 @@ export default async function EmployerDashboardPage() {
         />
       </div>
 
+      {/* Enterprise Admin Operations & Delegation Panel */}
+      <div style={{
+        background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)',
+        padding: 'var(--sp-5)', marginBottom: 'var(--sp-6)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--sp-4)', flexWrap: 'wrap', gap: 'var(--sp-2)' }}>
+          <div>
+            <h2 style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)', margin: 0 }}>
+              Enterprise Administration & Verifier Delegation
+            </h2>
+            <p style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', marginTop: 2 }}>
+              Manage corporate legal identifiers, authorized verification delegates, and industry demand signals
+            </p>
+          </div>
+          <span style={{ fontSize: '11px', fontWeight: 600, padding: '2px 8px', borderRadius: 4, background: 'var(--canvas)', color: 'var(--muted)', border: '1px solid var(--line)' }}>
+            Admin Console Active
+          </span>
+        </div>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--sp-3)' }}>
+          <Link
+            href="/employer/organization"
+            style={{
+              padding: 'var(--sp-3) var(--sp-4)', background: 'var(--canvas)', border: '1px solid var(--line)',
+              borderRadius: 'var(--r-control)', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 2
+            }}
+          >
+            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>
+              Authorized Verifiers →
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--muted)' }}>
+              2 Active officers (Dual-Party Rule)
+            </span>
+          </Link>
+
+          <Link
+            href="/employer/organization"
+            style={{
+              padding: 'var(--sp-3) var(--sp-4)', background: 'var(--canvas)', border: '1px solid var(--line)',
+              borderRadius: 'var(--r-control)', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 2
+            }}
+          >
+            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>
+              Statutory Identifiers →
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--muted)' }}>
+              CIN, GSTIN, EPFO, ESIC verified
+            </span>
+          </Link>
+
+          <Link
+            href="/employer/feedback"
+            style={{
+              padding: 'var(--sp-3) var(--sp-4)', background: 'var(--canvas)', border: '1px solid var(--line)',
+              borderRadius: 'var(--r-control)', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 2
+            }}
+          >
+            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>
+              Industry Skill Signals →
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--muted)' }}>
+              Feed demand to curriculum engine
+            </span>
+          </Link>
+
+          <Link
+            href="/employer/verification"
+            style={{
+              padding: 'var(--sp-3) var(--sp-4)', background: 'var(--canvas)', border: '1px solid var(--line)',
+              borderRadius: 'var(--r-control)', textDecoration: 'none', display: 'flex', flexDirection: 'column', gap: 2
+            }}
+          >
+            <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>
+              Verification Oversight →
+            </span>
+            <span style={{ fontSize: '11px', color: 'var(--muted)' }}>
+              {pendingCount} Candidates pending verification
+            </span>
+          </Link>
+        </div>
+      </div>
+
       {/* Entity Resolution Flow Visual */}
       <EntityResolutionFlow />
     </div>

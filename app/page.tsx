@@ -622,7 +622,7 @@ export default function HomePage() {
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
             gap: 'var(--sp-3)',
           }}>
             <button
@@ -636,6 +636,26 @@ export default function HomePage() {
             </button>
 
             <button
+              onClick={() => handleQuickLogin('gov.admin@eoi.demo')}
+              disabled={!!loggingIn}
+              className="btn-secondary"
+              style={{ padding: '10px 14px', flexDirection: 'column', alignItems: 'flex-start', height: 'auto' }}
+            >
+              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--primary)' }}>📋 Program Admin</span>
+              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>gov.admin@eoi.demo</span>
+            </button>
+
+            <button
+              onClick={() => handleQuickLogin('gov.auditor@eoi.demo')}
+              disabled={!!loggingIn}
+              className="btn-secondary"
+              style={{ padding: '10px 14px', flexDirection: 'column', alignItems: 'flex-start', height: 'auto' }}
+            >
+              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>🔒 Government Auditor</span>
+              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>gov.auditor@eoi.demo</span>
+            </button>
+
+            <button
               onClick={() => handleQuickLogin('agency.officer@eoi.demo')}
               disabled={!!loggingIn}
               className="btn-secondary"
@@ -643,6 +663,16 @@ export default function HomePage() {
             >
               <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--verified)' }}>🏫 Agency Officer</span>
               <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>agency.officer@eoi.demo</span>
+            </button>
+
+            <button
+              onClick={() => handleQuickLogin('agency.admin@eoi.demo')}
+              disabled={!!loggingIn}
+              className="btn-secondary"
+              style={{ padding: '10px 14px', flexDirection: 'column', alignItems: 'flex-start', height: 'auto' }}
+            >
+              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--verified)' }}>📂 Agency Admin</span>
+              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>agency.admin@eoi.demo</span>
             </button>
 
             <button
@@ -656,6 +686,16 @@ export default function HomePage() {
             </button>
 
             <button
+              onClick={() => handleQuickLogin('employer.admin@eoi.demo')}
+              disabled={!!loggingIn}
+              className="btn-secondary"
+              style={{ padding: '10px 14px', flexDirection: 'column', alignItems: 'flex-start', height: 'auto' }}
+            >
+              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--pending)' }}>🏛️ Employer Admin</span>
+              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>employer.admin@eoi.demo</span>
+            </button>
+
+            <button
               onClick={() => handleQuickLogin('student.x@eoi.demo')}
               disabled={!!loggingIn}
               className="btn-secondary"
@@ -666,13 +706,23 @@ export default function HomePage() {
             </button>
 
             <button
-              onClick={() => handleQuickLogin('gov.auditor@eoi.demo')}
+              onClick={() => handleQuickLogin('security.officer@eoi.demo')}
               disabled={!!loggingIn}
               className="btn-secondary"
               style={{ padding: '10px 14px', flexDirection: 'column', alignItems: 'flex-start', height: 'auto' }}
             >
-              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>🔒 Government Auditor</span>
-              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>gov.auditor@eoi.demo</span>
+              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--info)' }}>🛡️ Security Officer</span>
+              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>security.officer@eoi.demo</span>
+            </button>
+
+            <button
+              onClick={() => handleQuickLogin('platform.ops@eoi.demo')}
+              disabled={!!loggingIn}
+              className="btn-secondary"
+              style={{ padding: '10px 14px', flexDirection: 'column', alignItems: 'flex-start', height: 'auto' }}
+            >
+              <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>⚙️ Platform Operations</span>
+              <span style={{ fontSize: '10px', color: 'var(--muted)', marginTop: 2 }}>platform.ops@eoi.demo</span>
             </button>
           </div>
         </div>

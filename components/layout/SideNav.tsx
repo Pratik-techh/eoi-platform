@@ -22,11 +22,9 @@ type NavGroup = {
 function getNav(role: ActorRole): NavGroup[] {
   switch (role) {
     case 'gov_analyst':
-    case 'gov_program_admin':
-    case 'gov_auditor':
       return [
         {
-          heading: 'Intelligence',
+          heading: 'National Intelligence',
           items: [
             { label: 'Dashboard', href: '/gov/dashboard', icon: <DashboardIcon /> },
             { label: 'Outcome Funnel', href: '/gov/funnel', icon: <FunnelIcon /> },
@@ -38,41 +36,95 @@ function getNav(role: ActorRole): NavGroup[] {
           ],
         },
         {
-          heading: 'Tools',
+          heading: 'Analytical Tools',
           items: [
             { label: 'Scenario Simulator', href: '/gov/simulator', icon: <SimIcon />, badge: 'SIM' },
             { label: 'AI Analyst', href: '/gov/ai', icon: <AIIcon /> },
             { label: 'Audit Explorer', href: '/gov/audit', icon: <AuditIcon /> },
-          ],
-        },
-        {
-          heading: 'Governance',
-          items: [
-            { label: 'Governance', href: '/gov/governance', icon: <GovernanceIcon /> },
             { label: 'Integrations', href: '/integrations', icon: <IntegrationIcon /> },
           ],
         },
       ]
 
-    case 'agency_admin':
-    case 'agency_officer':
+    case 'gov_program_admin':
       return [
         {
-          heading: 'Operations',
+          heading: 'Program Governance',
           items: [
-            { label: 'Dashboard', href: '/agency/dashboard', icon: <DashboardIcon /> },
-            { label: 'Students', href: '/agency/students', icon: <StudentIcon /> },
-            { label: 'Courses', href: '/agency/courses', icon: <CourseIcon /> },
-            { label: 'Assessments', href: '/agency/assessments', icon: <AssessmentIcon /> },
-            { label: 'Job Readiness', href: '/agency/readiness', icon: <ReadinessIcon /> },
+            { label: 'Program Intelligence', href: '/gov/programs', icon: <ProgramIcon /> },
+            { label: 'Agency Oversight', href: '/gov/agencies', icon: <AgencyIcon /> },
+            { label: 'Governance Queue', href: '/gov/governance', icon: <GovernanceIcon /> },
+            { label: 'Policy Simulator', href: '/gov/simulator', icon: <SimIcon />, badge: 'SIM' },
           ],
         },
         {
-          heading: 'Outcomes',
+          heading: 'Intelligence Overview',
+          items: [
+            { label: 'Dashboard', href: '/gov/dashboard', icon: <DashboardIcon /> },
+            { label: 'Outcome Funnel', href: '/gov/funnel', icon: <FunnelIcon /> },
+            { label: 'Skill Intelligence', href: '/gov/skills', icon: <SkillIcon /> },
+            { label: 'Integrations', href: '/integrations', icon: <IntegrationIcon /> },
+          ],
+        },
+      ]
+
+    case 'gov_auditor':
+      return [
+        {
+          heading: 'Audit & Integrity',
+          items: [
+            { label: 'Audit Ledger Explorer', href: '/gov/audit', icon: <AuditIcon /> },
+            { label: 'Anomaly Signals', href: '/platform/anomalies', icon: <AnomalyIcon /> },
+            { label: 'Governance Reviews', href: '/gov/governance', icon: <GovernanceIcon /> },
+            { label: 'Platform Health', href: '/platform/health', icon: <HealthIcon /> },
+          ],
+        },
+        {
+          heading: 'Outcome Trajectories',
+          items: [
+            { label: 'Outcome Funnel', href: '/gov/funnel', icon: <FunnelIcon /> },
+            { label: 'Leakage Anomaly Engine', href: '/gov/leakage', icon: <LeakageIcon /> },
+            { label: 'Integrations Architecture', href: '/integrations', icon: <IntegrationIcon /> },
+          ],
+        },
+      ]
+
+    case 'agency_admin':
+      return [
+        {
+          heading: 'Academy Management',
+          items: [
+            { label: 'Dashboard', href: '/agency/dashboard', icon: <DashboardIcon /> },
+            { label: 'Course Curricula', href: '/agency/courses', icon: <CourseIcon /> },
+            { label: 'Student Cohorts', href: '/agency/students', icon: <StudentIcon /> },
+            { label: 'Performance Analytics', href: '/agency/analytics', icon: <AnalyticsIcon /> },
+          ],
+        },
+        {
+          heading: 'Verification Inbox',
+          items: [
+            { label: 'Agency Inbox', href: '/agency/inbox', icon: <InboxIcon /> },
+            { label: 'Report Employment', href: '/agency/employment/report', icon: <EmploymentIcon /> },
+          ],
+        },
+      ]
+
+    case 'agency_officer':
+      return [
+        {
+          heading: 'Student Lifecycle',
+          items: [
+            { label: 'Dashboard', href: '/agency/dashboard', icon: <DashboardIcon /> },
+            { label: 'Enrolled Students', href: '/agency/students', icon: <StudentIcon /> },
+            { label: 'Continuous Assessments', href: '/agency/assessments', icon: <AssessmentIcon /> },
+            { label: 'Job Readiness Bands', href: '/agency/readiness', icon: <ReadinessIcon /> },
+          ],
+        },
+        {
+          heading: 'Placement Submissions',
           items: [
             { label: 'Report Employment', href: '/agency/employment/report', icon: <EmploymentIcon /> },
-            { label: 'Inbox', href: '/agency/inbox', icon: <InboxIcon /> },
-            { label: 'Analytics', href: '/agency/analytics', icon: <AnalyticsIcon /> },
+            { label: 'Verification Inbox', href: '/agency/inbox', icon: <InboxIcon /> },
           ],
         },
       ]
@@ -98,19 +150,37 @@ function getNav(role: ActorRole): NavGroup[] {
       ]
 
     case 'employer_admin':
-    case 'employer_verifier':
       return [
         {
-          heading: 'Verification',
+          heading: 'Enterprise Administration',
           items: [
             { label: 'Dashboard', href: '/employer/dashboard', icon: <DashboardIcon /> },
-            { label: 'Verification Queue', href: '/employer/verification', icon: <VerifyIcon /> },
-            { label: 'Organization', href: '/employer/organization', icon: <OrgIcon /> },
+            { label: 'Organization & Legal', href: '/employer/organization', icon: <OrgIcon /> },
+            { label: 'Verifier Delegation', href: '/employer/organization#verifiers', icon: <VerifyIcon /> },
           ],
         },
         {
-          heading: 'Feedback',
+          heading: 'Market Signals & Oversight',
           items: [
+            { label: 'Industry Skill Feedback', href: '/employer/feedback', icon: <FeedbackIcon /> },
+            { label: 'Verification Queue', href: '/employer/verification', icon: <VerifyIcon />, badge: 'Admin' },
+          ],
+        },
+      ]
+
+    case 'employer_verifier':
+      return [
+        {
+          heading: 'Verification Tasks',
+          items: [
+            { label: 'Verification Queue', href: '/employer/verification', icon: <VerifyIcon /> },
+            { label: 'Dashboard', href: '/employer/dashboard', icon: <DashboardIcon /> },
+          ],
+        },
+        {
+          heading: 'Organization',
+          items: [
+            { label: 'Organization Identity', href: '/employer/organization', icon: <OrgIcon /> },
             { label: 'Industry Feedback', href: '/employer/feedback', icon: <FeedbackIcon /> },
           ],
         },
@@ -119,10 +189,23 @@ function getNav(role: ActorRole): NavGroup[] {
     case 'security_officer':
       return [
         {
-          heading: 'Security',
+          heading: 'Security Operations',
           items: [
             { label: 'Security Events', href: '/platform/security', icon: <SecurityIcon /> },
             { label: 'Anomaly Signals', href: '/platform/anomalies', icon: <AnomalyIcon /> },
+            { label: 'System Health', href: '/platform/health', icon: <HealthIcon /> },
+          ],
+        },
+      ]
+
+    case 'platform_ops':
+      return [
+        {
+          heading: 'Infrastructure & Ops',
+          items: [
+            { label: 'System Health', href: '/platform/health', icon: <HealthIcon /> },
+            { label: 'Security Telemetry', href: '/platform/security', icon: <SecurityIcon /> },
+            { label: 'Anomaly Sweep', href: '/platform/anomalies', icon: <AnomalyIcon /> },
           ],
         },
       ]
@@ -217,6 +300,9 @@ function SecurityIcon() {
 }
 function AnomalyIcon() {
   return <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6" stroke="currentColor" strokeWidth="1.3"/><path d="M8 5v4M8 10.5v.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/></svg>
+}
+function HealthIcon() {
+  return <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M2 8h3l2-5 3 10 2-5h4" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/></svg>
 }
 
 // ─── SideNav component ────────────────────────────────────────────────────────

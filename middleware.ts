@@ -14,12 +14,12 @@ const ROUTE_ROLE_MAP: Record<string, ActorRole[]> = {
 // Role to home page mapping
 const ROLE_HOME: Record<ActorRole, string> = {
   gov_analyst:        '/gov/dashboard',
-  gov_program_admin:  '/gov/dashboard',
+  gov_program_admin:  '/gov/programs',
   gov_auditor:        '/gov/audit',
   agency_admin:       '/agency/dashboard',
   agency_officer:     '/agency/dashboard',
   student:            '/student/dashboard',
-  employer_admin:     '/employer/dashboard',
+  employer_admin:     '/employer/organization',
   employer_verifier:  '/employer/verification',
   security_officer:   '/platform/security',
   platform_ops:       '/platform/health',

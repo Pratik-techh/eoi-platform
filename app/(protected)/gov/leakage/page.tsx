@@ -19,7 +19,7 @@ export default function GovLeakagePage() {
       employed: 15,
       observed_pct: '17.9%',
       peer_baseline: '68.4%',
-      z_score: 3.2,
+      z_score: 2.94,
       status: 'HIGH LEAKAGE',
     },
     {
@@ -88,7 +88,7 @@ export default function GovLeakagePage() {
           fontFamily: 'var(--font-mono)', fontWeight: 700,
           color: r.z_score >= 2.0 ? 'var(--disputed)' : 'var(--ink)',
         }}>
-          {r.z_score.toFixed(1)}
+          {r.z_score.toFixed(2)}
         </span>
       ),
     },
@@ -139,7 +139,7 @@ export default function GovLeakagePage() {
         stageTo="Employed"
         programName="Software Engineering Fundamentals"
         region="Rajasthan / Jaipur"
-        zScore={3.2}
+        zScore={2.94}
         baselineRate={68.4}
         observedRate={18.2}
         sampleSize={420}

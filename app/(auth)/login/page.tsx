@@ -13,22 +13,39 @@ const LoginSchema = z.object({
 
 type FormErrors = Partial<Record<keyof z.infer<typeof LoginSchema>, string>> & { root?: string }
 
-// Demo accounts for judges — listed on the login page per MASTER_PROMPT §15.2
+// Demo accounts for judges — all 10 platform personas across 4 stakeholder families
 const DEMO_ACCOUNTS = [
   { label: 'Government Analyst', email: 'gov.analyst@eoi.demo', role: 'gov_analyst' },
+  { label: 'Government Program Admin', email: 'gov.admin@eoi.demo', role: 'gov_program_admin' },
   { label: 'Government Auditor', email: 'gov.auditor@eoi.demo', role: 'gov_auditor' },
   { label: 'Agency Officer', email: 'agency.officer@eoi.demo', role: 'agency_officer' },
-  { label: 'Student X', email: 'student.x@eoi.demo', role: 'student' },
+  { label: 'Agency Admin', email: 'agency.admin@eoi.demo', role: 'agency_admin' },
+  { label: 'Student Trainee', email: 'student.x@eoi.demo', role: 'student' },
   { label: 'Employer Verifier', email: 'employer.verifier@eoi.demo', role: 'employer_verifier' },
+  { label: 'Employer Admin', email: 'employer.admin@eoi.demo', role: 'employer_admin' },
   { label: 'Security Officer', email: 'security.officer@eoi.demo', role: 'security_officer' },
+  { label: 'Platform Operations', email: 'platform.ops@eoi.demo', role: 'platform_ops' },
 ]
+
+const ROLE_REDIRECTS: Record<string, string> = {
+  gov_analyst: '/gov/dashboard',
+  gov_program_admin: '/gov/programs',
+  gov_auditor: '/gov/audit',
+  agency_admin: '/agency/dashboard',
+  agency_officer: '/agency/dashboard',
+  student: '/student/dashboard',
+  employer_admin: '/employer/organization',
+  employer_verifier: '/employer/verification',
+  security_officer: '/platform/security',
+  platform_ops: '/platform/health',
+}
 
 const DEMO_PASSWORD = 'Demo@EOI2026'
 
 function LoginForm() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const redirect = searchParams.get('redirect') ?? '/'
+  const redirect = searchParams.get('redirect')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -71,7 +88,11 @@ function LoginForm() {
         return
       }
 
-      router.push(redirect)
+      // Determine proper role-based landing
+      const matched = DEMO_ACCOUNTS.find(a => a.email.toLowerCase() === parsed.data.email.toLowerCase())
+      const targetUrl: string = (redirect && redirect !== '/') ? redirect : ((matched && ROLE_REDIRECTS[matched.role]) || '/gov/dashboard')
+
+      router.push(targetUrl)
       router.refresh()
     })
   }

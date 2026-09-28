@@ -105,3 +105,13 @@ Every request independently validates: identity, role, resource, operation, owne
 - Performance: analytics via SQL views/materialised views/indices; dashboards load < 1.5s on seeded data; pagination everywhere; no N+1.
 - Accessibility & i18n as in Section 14. README includes architecture diagram (Mermaid), setup, demo accounts, and how to run tests.
 - Commit in small, meaningful steps with conventional commit messages.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->

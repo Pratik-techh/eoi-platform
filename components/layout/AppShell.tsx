@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -26,9 +26,45 @@ const ROLE_LABELS: Record<ActorRole, string> = {
   platform_ops:      'Platform Ops',
 }
 
+const SEARCH_ENTITIES = [
+  { title: 'National Outcome Funnel', category: 'Government', href: '/gov/funnel', hint: 'Stage drop-off & retention' },
+  { title: 'Statistical Leakage Engine', category: 'Government', href: '/gov/leakage', hint: 'Rajasthan |z|=2.94 anomaly' },
+  { title: 'Program Intelligence', category: 'Government', href: '/gov/programs', hint: 'PMKVY, NAPS, DDU-GKY schemes' },
+  { title: 'Skill Intelligence Engine', category: 'Government', href: '/gov/skills', hint: 'Demand vs supply gap' },
+  { title: 'Policy Scenario Simulator', category: 'Tools', href: '/gov/simulator', hint: 'Capacity modeling' },
+  { title: 'AI Outcome Policy Analyst', category: 'Tools', href: '/gov/ai', hint: 'Natural language Q&A with citations' },
+  { title: 'Cryptographic SHA-256 Audit Ledger', category: 'Audit', href: '/gov/audit', hint: '502 chained blocks' },
+  { title: 'Dual-Key Governance & Approvals', category: 'Governance', href: '/gov/governance', hint: 'Multi-party approval queue' },
+  { title: 'Candidate Registry & Bulk CSV', category: 'Agency', href: '/agency/students', hint: '500 enrolled trainees' },
+  { title: 'Job Readiness Band Engine', category: 'Agency', href: '/agency/readiness', hint: 'High, Medium, Low scoring' },
+  { title: 'Report Placement Outcome', category: 'Agency', href: '/agency/employment/report', hint: 'Candidate placement claims' },
+  { title: 'Employment Verification Queue', category: 'Employer', href: '/employer/verification', hint: 'Confirm, Reject, Correction' },
+  { title: 'Organization Legal Identifiers', category: 'Employer', href: '/employer/organization', hint: 'CIN, EPFO, ESIC registration' },
+  { title: 'Employability Passport', category: 'Student', href: '/student/passport', hint: 'Verifiable credentials & PDF' },
+  { title: 'Longitudinal Career Trajectory', category: 'Student', href: '/student/history', hint: 'Tenure & transitions' },
+  { title: 'Platform Infrastructure & Ops Health', category: 'Platform', href: '/platform/health', hint: 'Uptime & service telemetry' },
+  { title: 'Arjun Singh (Student X)', category: 'Candidate', href: '/student/dashboard', hint: 'EOI-S-HERO-0001 (Google India)' },
+  { title: 'Google India Pvt. Ltd.', category: 'Employer', href: '/employer/verification', hint: 'org-google-01 · CIN: U72200KA2004FTC033590' },
+]
+
 export default function AppShell({ user, children }: { user: AppUser; children: React.ReactNode }) {
   const router = useRouter()
   const [signingOut, setSigningOut] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault()
+        setSearchOpen(prev => !prev)
+      } else if (e.key === 'Escape') {
+        setSearchOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   async function handleSignOut() {
     setSigningOut(true)
@@ -37,6 +73,24 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
     router.push('/login')
     router.refresh()
   }
+
+  const notificationHref =
+    user.role === 'student'
+      ? '/student/notifications'
+      : user.role.startsWith('agency')
+      ? '/agency/inbox'
+      : user.role.startsWith('employer')
+      ? '/employer/verification'
+      : user.role.startsWith('gov')
+      ? '/gov/governance'
+      : '/platform/security'
+
+  const filteredSearch = SEARCH_ENTITIES.filter(
+    item =>
+      item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.hint.toLowerCase().includes(searchQuery.toLowerCase())
+  )
 
   return (
     <div className="app-shell">
@@ -149,6 +203,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             {/* Global search trigger */}
             <button
               id="global-search-trigger"
+              onClick={() => setSearchOpen(true)}
               aria-label="Open global search"
               style={{
                 display: 'flex',
@@ -182,11 +237,12 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               </kbd>
             </button>
 
-            {/* Notifications */}
+            {/* Notifications with role-safe routing */}
             <Link
-              href={user.role === 'student' ? '/student/notifications' : '/gov/governance'}
+              href={notificationHref}
               id="notification-bell"
               aria-label="Notifications"
+              title="View notifications"
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -198,6 +254,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 color: 'var(--muted)',
                 position: 'relative',
                 background: 'var(--surface)',
+                textDecoration: 'none',
               }}
             >
               <svg width="15" height="15" viewBox="0 0 16 16" fill="none" aria-hidden="true">
@@ -264,6 +321,140 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           {children}
         </main>
       </div>
+
+      {/* Global Command Palette Modal (⌘K) */}
+      {searchOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-label="Global search command palette"
+          onClick={() => setSearchOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(9, 23, 40, 0.65)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            zIndex: 9999,
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'center',
+            padding: '80px 16px 24px',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: 600,
+              background: 'var(--surface)',
+              border: '1px solid var(--line)',
+              borderRadius: 'var(--r-container)',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              maxHeight: '80vh',
+            }}
+          >
+            {/* Search Input Bar */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              padding: '14px 18px',
+              borderBottom: '1px solid var(--line)',
+              background: 'var(--canvas)',
+            }}>
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <circle cx="7" cy="7" r="5" stroke="var(--primary)" strokeWidth="1.6"/>
+                <path d="M11 11l3.5 3.5" stroke="var(--primary)" strokeWidth="1.6" strokeLinecap="round"/>
+              </svg>
+              <input
+                autoFocus
+                type="text"
+                placeholder="Search anything: funnels, leakage, students, agencies, credentials…"
+                value={searchQuery}
+                onChange={e => setSearchQuery(e.target.value)}
+                style={{
+                  flex: 1,
+                  background: 'transparent',
+                  border: 'none',
+                  outline: 'none',
+                  fontSize: 'var(--text-base)',
+                  color: 'var(--ink)',
+                  fontFamily: 'var(--font-ui)',
+                }}
+              />
+              <kbd style={{
+                fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
+                background: 'var(--surface)',
+                border: '1px solid var(--line)',
+                padding: '2px 6px',
+                borderRadius: 4,
+                color: 'var(--muted)',
+              }}>
+                ESC
+              </kbd>
+            </div>
+
+            {/* Results List */}
+            <div style={{ overflowY: 'auto', padding: '8px' }}>
+              {filteredSearch.length === 0 ? (
+                <div style={{ padding: '24px', textAlign: 'center', color: 'var(--muted)', fontSize: 'var(--text-sm)' }}>
+                  No matching results for &ldquo;{searchQuery}&rdquo;
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+                  {filteredSearch.map(item => (
+                    <Link
+                      key={item.href + item.title}
+                      href={item.href}
+                      onClick={() => setSearchOpen(false)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        padding: '10px 12px',
+                        borderRadius: 'var(--r-control)',
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        transition: 'background 0.1s ease',
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = 'var(--canvas)'
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = 'transparent'
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontSize: 'var(--text-sm)', fontWeight: 600, color: 'var(--ink)' }}>
+                          {item.title}
+                        </div>
+                        <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: 2 }}>
+                          {item.hint}
+                        </div>
+                      </div>
+                      <span style={{
+                        fontSize: '10px',
+                        fontWeight: 700,
+                        padding: '2px 8px',
+                        background: 'rgba(29, 78, 137, 0.08)',
+                        color: 'var(--primary)',
+                        borderRadius: 'var(--r-control)',
+                      }}>
+                        {item.category}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

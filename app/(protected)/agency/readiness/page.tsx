@@ -15,6 +15,7 @@ export default function AgencyReadinessPage() {
       project_component: '95% (Weight: 20%)',
       computed_score: 94.4,
       scoring_version: 'v1.2 (NSQF Level 5 Weighted)',
+      band: 'High (≥75%)',
       qualification: 'QUALIFIED FOR INTERVIEW',
     },
     {
@@ -27,6 +28,7 @@ export default function AgencyReadinessPage() {
       project_component: '85% (Weight: 20%)',
       computed_score: 86.2,
       scoring_version: 'v1.2 (NSQF Level 5 Weighted)',
+      band: 'High (≥75%)',
       qualification: 'QUALIFIED FOR INTERVIEW',
     },
     {
@@ -39,6 +41,7 @@ export default function AgencyReadinessPage() {
       project_component: '90% (Weight: 20%)',
       computed_score: 90.2,
       scoring_version: 'v1.2 (NSQF Level 5 Weighted)',
+      band: 'High (≥75%)',
       qualification: 'QUALIFIED FOR INTERVIEW',
     },
     {
@@ -51,6 +54,20 @@ export default function AgencyReadinessPage() {
       project_component: '60% (Weight: 20%)',
       computed_score: 64.9,
       scoring_version: 'v1.2 (NSQF Level 5 Weighted)',
+      band: 'Medium (50–74%)',
+      qualification: 'REMEDIAL REQUIRED',
+    },
+    {
+      student_id: 'EOI-S-1005-0005',
+      student_name: 'Pooja Bhatt',
+      course: 'Retail & Customer Service',
+      attendance_component: '52% (Weight: 20%)',
+      theory_component: '44% (Weight: 30%)',
+      practical_component: '48% (Weight: 30%)',
+      project_component: '40% (Weight: 20%)',
+      computed_score: 46.4,
+      scoring_version: 'v1.2 (NSQF Level 5 Weighted)',
+      band: 'Low (<50%)',
       qualification: 'REMEDIAL REQUIRED',
     },
   ]
@@ -66,11 +83,33 @@ export default function AgencyReadinessPage() {
       render: (r: any) => (
         <span style={{
           fontFamily: 'var(--font-mono)', fontWeight: 700,
-          color: r.computed_score >= 70 ? 'var(--verified)' : 'var(--pending)',
+          color: r.computed_score >= 75 ? 'var(--verified)' : r.computed_score >= 50 ? 'var(--pending)' : 'var(--disputed)',
         }}>
           {r.computed_score.toFixed(1)} / 100
         </span>
       ),
+    },
+    {
+      key: 'band',
+      label: 'Readiness Band',
+      sortable: true,
+      render: (r: any) => {
+        const isHigh = r.computed_score >= 75
+        const isMed = r.computed_score >= 50 && r.computed_score < 75
+        return (
+          <span style={{
+            fontSize: '11px',
+            fontWeight: 700,
+            padding: '2px 8px',
+            borderRadius: 'var(--r-control)',
+            background: isHigh ? 'var(--chip-verified-bg)' : isMed ? 'var(--chip-pending-bg)' : 'var(--chip-disputed-bg)',
+            color: isHigh ? 'var(--verified)' : isMed ? 'var(--pending)' : 'var(--disputed)',
+            border: `1px solid ${isHigh ? 'var(--chip-verified-border)' : isMed ? 'var(--chip-pending-border)' : 'var(--chip-disputed-border)'}`,
+          }}>
+            {r.band}
+          </span>
+        )
+      },
     },
     { key: 'scoring_version', label: 'Active Scoring Rule' },
     {
@@ -78,7 +117,7 @@ export default function AgencyReadinessPage() {
       label: 'Funnel Eligibility',
       render: (r: any) => (
         <StatusChip
-          status={r.computed_score >= 70 ? 'VERIFIED' : 'PENDING'}
+          status={r.computed_score >= 75 ? 'VERIFIED' : 'PENDING'}
           label={r.qualification}
         />
       ),

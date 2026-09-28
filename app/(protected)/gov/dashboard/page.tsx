@@ -75,22 +75,22 @@ export default async function GovDashboardPage() {
     getFunnelStages(),
   ])
 
-  // Extract populated numbers with exact §15.1 fallback anchors
-  const enrolled = kpi?.total_enrolled ?? kpi?.trainees_enrolled ?? 10000
-  const trained = kpi?.total_trained ?? kpi?.trainees_completed ?? 9450
-  const trainedRate = kpi?.training_completion_rate ?? kpi?.completion_rate ?? 94.5
-  const assessed = kpi?.total_assessed ?? kpi?.assessed_count ?? 8900
-  const assessedRate = kpi?.assessment_completion_rate ?? kpi?.assessment_rate ?? 94.2
-  const jobReady = kpi?.total_job_ready ?? kpi?.job_ready_count ?? 7800
-  const jobReadyRate = kpi?.job_readiness_rate ?? kpi?.job_ready_rate ?? 87.6
-  const interviewed = kpi?.total_interviewed ?? kpi?.interview_count ?? 7100
-  const interviewRate = kpi?.interview_rate ?? 91.0
-  const selected = kpi?.total_selected ?? kpi?.selected_count ?? 3600
-  const selectionRate = kpi?.selection_rate ?? 50.7
-  const verifiedEmployed = kpi?.total_verified_employed ?? kpi?.verified_employed_count ?? 3120
-  const verifiedRate = kpi?.verified_employment_rate ?? 67.4
-  const retained3m = kpi?.total_retained_3m ?? kpi?.retained_count ?? 2438
-  const retentionRate = kpi?.retention_rate_3m ?? kpi?.retention_rate ?? 78.1
+  // Extract populated numbers with exact PDF Manual benchmark anchors
+  const enrolled = kpi?.total_enrolled ?? kpi?.trainees_enrolled ?? 500
+  const trained = kpi?.total_trained ?? kpi?.trainees_completed ?? 472
+  const trainedRate = kpi?.training_completion_rate ?? kpi?.completion_rate ?? 94.4
+  const assessed = kpi?.total_assessed ?? kpi?.assessed_count ?? 460
+  const assessedRate = kpi?.assessment_completion_rate ?? kpi?.assessment_rate ?? 92.0
+  const jobReady = kpi?.total_job_ready ?? kpi?.job_ready_count ?? 412
+  const jobReadyRate = kpi?.job_readiness_rate ?? kpi?.job_ready_rate ?? 82.4
+  const interviewed = kpi?.total_interviewed ?? kpi?.interview_count ?? 388
+  const interviewRate = kpi?.interview_rate ?? 94.2
+  const selected = kpi?.total_selected ?? kpi?.selected_count ?? 362
+  const selectionRate = kpi?.selection_rate ?? 93.3
+  const verifiedEmployed = kpi?.total_verified_employed ?? kpi?.verified_employed_count ?? 310
+  const verifiedRate = kpi?.verified_employment_rate ?? 62.0
+  const retained3m = kpi?.total_retained_3m ?? kpi?.retained_count ?? 230
+  const retentionRate = kpi?.retention_rate_3m ?? kpi?.retention_rate ?? 74.2
 
   return (
     <div>
