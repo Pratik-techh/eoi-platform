@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import './globals.css'
+import { GuidedTour } from '@/components/GuidedTour'
 
 export const metadata: Metadata = {
   title: {
@@ -42,6 +43,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <GuidedTour />
       </body>
     </html>
   )

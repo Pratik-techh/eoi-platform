@@ -123,6 +123,30 @@ export default function HomePage() {
             <span>📄 System Manual (PDF)</span>
           </a>
 
+          <button
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('start-guided-tour'))
+            }}
+            className="hover-lift"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: 6,
+              padding: '6px 14px',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 'var(--r-control)',
+              fontSize: 'var(--text-xs)',
+              fontWeight: 700,
+              cursor: 'pointer',
+              boxShadow: '0 2px 8px rgba(217, 119, 6, 0.4)',
+            }}
+          >
+            <span>🎬</span>
+            <span>3-Min Story Tour</span>
+          </button>
+
           <Link
             href="/demo"
             id="hero-demo-link"
@@ -213,6 +237,31 @@ export default function HomePage() {
 
           {/* Core Action Buttons */}
           <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--sp-3)', flexWrap: 'wrap', marginBottom: 'var(--sp-10)' }}>
+            <button
+              onClick={() => {
+                window.dispatchEvent(new CustomEvent('start-guided-tour'))
+              }}
+              className="hover-lift"
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 8,
+                padding: '12px 24px',
+                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                color: '#FFFFFF',
+                border: 'none',
+                borderRadius: 'var(--r-control)',
+                fontSize: 'var(--text-sm)',
+                fontWeight: 700,
+                cursor: 'pointer',
+                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.4)',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <span>🎬</span>
+              <span>Start 3-Minute Story Tour (Auto-Demo)</span>
+            </button>
+
             <Link
               href="/demo"
               style={{

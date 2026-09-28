@@ -186,6 +186,32 @@ function ForbiddenContent() {
           >
             <span>⚡ Open Evaluator Demo Persona Switcher</span>
           </Link>
+
+          <button
+            onClick={() => {
+              window.dispatchEvent(new CustomEvent('start-guided-tour'))
+            }}
+            className="hover-lift"
+            style={{
+              width: '100%',
+              padding: '10px 16px',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              color: '#FFFFFF',
+              border: 'none',
+              borderRadius: 'var(--r-control)',
+              fontSize: 'var(--text-sm)',
+              fontWeight: 700,
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              boxShadow: '0 2px 8px rgba(217, 119, 6, 0.35)',
+            }}
+          >
+            <span>🎬</span>
+            <span>Launch 3-Minute Guided Story Tour</span>
+          </button>
         </div>
       </div>
     </div>

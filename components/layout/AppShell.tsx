@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { useRouter, usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { SideNav } from './SideNav'
-import { GuidedTour } from '@/components/GuidedTour'
 import type { ActorRole } from '@/lib/supabase/database.types'
 
 type AppUser = {
@@ -764,9 +763,6 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           </div>
         </div>
       )}
-
-      {/* Interactive 3-Minute Story & Evaluator Walkthrough */}
-      <GuidedTour />
     </div>
   )
 }

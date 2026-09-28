@@ -94,23 +94,89 @@ export function GuidedTour() {
         setActive(true)
         if (storedStep) setCurrentStepIdx(parseInt(storedStep, 10) || 0)
       }
-    } catch {
-      // Ignore localStorage errors
-    }
+    } catch {}
 
-    function handleStartTour() {
+    function handleEventStart() {
       setActive(true)
       setMinimized(false)
-      try {
-        localStorage.setItem('eoi_tour_active', 'true')
-      } catch {}
+      setCurrentStepIdx(0)
     }
-
-    window.addEventListener('start-guided-tour', handleStartTour)
-    return () => window.removeEventListener('start-guided-tour', handleStartTour)
+    window.addEventListener('start-guided-tour', handleEventStart)
+    return () => window.removeEventListener('start-guided-tour', handleEventStart)
   }, [])
 
-  if (!active) return null
+  async function handleStartTour() {
+    setSwitching(true)
+    setActive(true)
+    setMinimized(false)
+    setCurrentStepIdx(0)
+    try {
+      localStorage.setItem('eoi_tour_active', 'true')
+      localStorage.setItem('eoi_tour_step', '0')
+    } catch {}
+
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: 'gov.analyst@eoi.demo', password: 'Demo@EOI2026' }),
+      })
+      if (res.ok) {
+        window.location.href = '/gov/dashboard'
+        return
+      }
+    } catch {}
+    setSwitching(false)
+  }
+
+  // If not active, render a prominent persistent floating launcher button
+  if (!active) {
+    return (
+      <div style={{
+        position: 'fixed',
+        bottom: 24,
+        right: 24,
+        zIndex: 9999,
+      }}>
+        <button
+          id="global-floating-tour-btn"
+          onClick={handleStartTour}
+          className="hover-lift"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 10,
+            padding: '12px 20px',
+            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+            color: '#FFFFFF',
+            border: '2px solid rgba(255, 255, 255, 0.5)',
+            borderRadius: '999px',
+            fontSize: '13px',
+            fontWeight: 800,
+            cursor: switching ? 'wait' : 'pointer',
+            boxShadow: '0 8px 30px rgba(217, 119, 6, 0.5)',
+            transition: 'all 0.2s ease',
+            fontFamily: 'var(--font-ui)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          <span style={{ fontSize: '18px' }}>🎬</span>
+          <span>{switching ? 'Launching Tour…' : 'Start 3-Minute Story Tour'}</span>
+          <span style={{
+            background: 'rgba(0, 0, 0, 0.25)',
+            padding: '2px 8px',
+            borderRadius: '999px',
+            fontSize: '10px',
+            fontWeight: 800,
+            letterSpacing: '0.05em',
+            textTransform: 'uppercase',
+          }}>
+            Evaluator Mode
+          </span>
+        </button>
+      </div>
+    )
+  }
 
   const current: TourStep = TOUR_STEPS[currentStepIdx] ?? (TOUR_STEPS[0] as TourStep)
   const isFirst = currentStepIdx === 0
