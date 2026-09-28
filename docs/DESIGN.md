@@ -1,107 +1,103 @@
 # Design System Specification
 **Employment Outcome Intelligence (EOI) Platform**
-*Design Standard: Institutional, Calm, Exact, Trustworthy*
-*Reference: MASTER_PROMPT Section 14*
+*Design Standard: Stitch Precision Instrument Verification (Dark Telemetry Mode)*
+*Reference: Stitch Project https://stitch.withgoogle.com/projects/7054499307188474498 & MASTER_PROMPT Section 14*
 
 ---
 
 ## 1. Design Philosophy & Intent
 
-The EOI Platform is engineered for government analysts, programme officers, CAG auditors, and district magistrates who interrogate dense data daily, alongside students verifying credentials on mobile devices.
+The EOI Platform is styled according to the **Stitch Precision Instrument Verification** system: a technical, pitch-black dark telemetry console engineered for government analysts, programme officers, CAG auditors, and district magistrates who interrogate longitudinal outcome trajectories daily.
 
-### Hard Aesthetic Bans (Zero "Vibe-Coded" Tells)
-- **NO** purple/blue-violet gradient washes or hero glassmorphism.
+### Core Aesthetic Pillars
+- **Pitch-Black Achromatic Canvas:** Pure `#000000` canvas with `#080808` sub-rails and `#0F0F0F` elevated instrument cards.
+- **Hardware-Grade Telemetry Diodes:** 6px/8px status pinhole diode indicators with subtle, focused micro-halos (`0 0 6px`) replacing fuzzy glassmorphic blobs.
+- **Rectilinear Geometry:** Strict `rounded-[2px]` and `rounded-[4px]` edges. No oversized pill shapes or decorative curved bubbles.
+- **Hairlines Over Shadows:** High-precision 1px `#242424` structural hairline borders define visual hierarchy rather than soft diffuse shadows.
+- **Dual Type Discipline:** High-legibility `Inter` for interface prose and labels paired with `JetBrains Mono` for numbers, cryptographic ledger hashes, correlation IDs, and status diode tags (`font-feature-settings: "tnum"`).
+
+### Hard Aesthetic Bans
+- **NO** soft purple/blue-violet gradient washes or floating glassmorphism cards.
 - **NO** floating emoji as icons (Lucide React institutional iconography only).
-- **NO** dark-mode-only neon palettes or decorative chart axes without units.
-- **NO** single-word accent highlights in headings.
-- **NO** placeholder illustrations or mock names like "John Doe / Acme Corp". Realistic Indian jurisdictions, schemes, and canonical entities only.
+- **NO** neon rainbow color palettes or ungrounded decorative chart axes.
+- **NO** pill-shaped buttons or rounded badge bubbles.
+- **NO** placeholder mock names or uncalibrated numbers. Realistic Indian jurisdictions, schemes, and canonical entities only.
 
 ---
 
 ## 2. Design Tokens & Foundations
 
 ### 2.1 Color Palette
-| Token Name | Hex Code | HSL Equivalent | Semantic Application |
+| Token Name | Hex Code | HSL / RGB | Semantic Application |
 |---|---|---|---|
-| `ink` | `#0E1F33` | `hsl(212, 57%, 13%)` | Primary typographic content & headings |
-| `surface` | `#FFFFFF` | `hsl(0, 0%, 100%)` | Card backgrounds, panels, modals |
-| `canvas` | `#F4F6F9` | `hsl(216, 25%, 97%)` | App background, navigation gutter |
-| `line` | `#DDE3EA` | `hsl(213, 20%, 89%)` | Structural borders, dividers, table grid lines |
-| `muted` | `#526173` | `hsl(213, 16%, 38%)` | Secondary meta text, table headers |
-| `primary` | `#1D4E89` | `hsl(212, 65%, 33%)` | Institutional blue: action buttons, active navigation |
-| `verified` | `#0F766E` | `hsl(175, 77%, 26%)` | Teal: independently verified outcomes, cryptographic integrity |
-| `pending` | `#B45309` | `hsl(38, 92%, 37%)` | Amber: awaiting employer verification, review required |
-| `disputed` | `#B42318` | `hsl(4, 77%, 40%)` | Dark Red: contested outcomes, critical leakage anomaly |
-| `info` | `#2C5FA8` | `hsl(215, 58%, 42%)` | Blue: system notes, metadata explanations |
-| `simulation` | `#6B4E9B` | `hsl(262, 33%, 45%)` | Deep Purple: reserved strictly for scenario simulation |
+| `canvas` | `#000000` | `hsl(0, 0%, 0%)` | Deep space black main backdrop |
+| `surface-sub` | `#080808` | `hsl(0, 0%, 3%)` | Sub-rails, command bar, data table zebra rows |
+| `surface` | `#0F0F0F` | `hsl(0, 0%, 6%)` | Primary instrument panels, cards, dialogs |
+| `surface-elevated`| `#151515` | `hsl(0, 0%, 8%)` | Hover states, metric sub-blocks, callout cards |
+| `line` | `#242424` | `hsl(0, 0%, 14%)` | Structural hairlines, table borders, dividers |
+| `line-subtle` | `#1A1A1A` | `hsl(0, 0%, 10%)` | Secondary grid lines, faint delimiters |
+| `ink` | `#F0F0F0` | `hsl(0, 0%, 94%)` | High-contrast typographic content & headings |
+| `muted` | `#8E9192` | `hsl(200, 2%, 57%)` | Technical metadata, mono table column headers |
+| `verified` | `#18B6A4` | `rgb(24, 182, 164)` | Verified employment diode, cryptographic root pass |
+| `pending` | `#D99A32` | `rgb(217, 154, 50)` | Pending review diode, reconciliation queue |
+| `disputed` / `danger` | `#E05252` | `rgb(224, 82, 82)` | Disputed trajectory, statistical leakage anomaly |
+| `info` | `#5B9DFF` | `rgb(91, 157, 255)` | Telemetry notes, protocol version, system parameters |
+| `simulation` | `#9B7AE8` | `rgb(155, 122, 232)`| Counterfactual simulation mode indicators |
 
-*Rule:* Every status chip is always paired with an icon **and** text label (WCAG AA contrast). Color is never the sole carrier of meaning.
+*Telemetry Rule:* Every status chip is rendered as an instrument diode with a 6px circular LED dot and concentrated micro-halo (`box-shadow: 0 0 6px <color>45`), paired with uppercase `JetBrains Mono` label text.
 
 ### 2.2 Typography Scale
-- **UI Font:** IBM Plex Sans (systematic, readable, institutional).
-- **Monospace Font:** IBM Plex Mono (IDs, hashes, correlation IDs, timestamps only).
+- **UI Font:** `Inter` (neutral, crisp, institutional legibility).
+- **Monospace Font:** `JetBrains Mono` (hashes, correlation IDs, timestamps, diode labels, KPIs).
 - **Tabular Figures:** `font-feature-settings: "tnum" 1` applied to all data tables and KPI cards.
 - **Scale:**
-  - `text-xs`: 12px / line-height 16px (meta timestamps, hash snippets)
-  - `text-sm`: 13px / line-height 18px (dense table rows, status chips)
-  - `text-base`: 14px / line-height 20px (default body, form inputs)
-  - `text-md`: 16px / line-height 24px (subheadings, card titles)
-  - `text-lg`: 20px / line-height 28px (section headers)
+  - `text-[10px]` / `text-xs`: 10-12px / line-height 14-16px (micro status tags, SHA-256 ledger chips)
+  - `text-sm`: 13px / line-height 18px (dense table rows, form inputs, command bar telemetry)
+  - `text-base`: 14px / line-height 20px (default body, narrative descriptions)
+  - `text-md`: 16px / line-height 24px (card titles, section headers)
+  - `text-lg`: 20px / line-height 28px (module headers)
   - `text-xl`: 24px / line-height 32px (page titles)
-  - `text-2xl`: 32px / line-height 40px (headline KPI metrics)
+  - `text-2xl` / `text-3xl`: 28-36px / line-height 36-44px (headline KPI metrics)
 
 ### 2.3 Spacing & Geometry
 - **Grid:** 12-column layout with 8px / 4px sub-grid.
-- **Radii Rule:** Exactly two radii throughout the entire system:
-  - `rounded-[4px]`: controls, buttons, form inputs, status chips, badges.
-  - `rounded-[8px]`: containers, cards, dialogs, drawers.
-- **Elevation:** Borders over shadows. Thin 1px `#DDE3EA` borders with one subtle elevation (`shadow-sm`) reserved exclusively for floating popovers and dialog overlays.
+- **Radii Rule:**
+  - `rounded-[2px]`: telemetry diode chips, micro-badges, code snippets.
+  - `rounded-[4px]`: controls, buttons, form inputs, instrument cards, modals, drawers.
+- **Hairlines:** Thin 1px `#242424` borders throughout. No heavy shadows or elevation blurs.
 
 ---
 
-## 3. Dashboard Layout Concepts & Selection
+## 3. Dashboard Layout & Command Architecture
 
-During initial architecture, three layout concepts were evaluated for the Government Analytics Dashboard:
-
-### Concept A: Classic Multi-Tab Portal
-- Tab 1: Enrolment & Training
-- Tab 2: Assessment & Readiness
-- Tab 3: Placement & Verification
-*Evaluation: Rejected.* Creates artificial silos; hides the longitudinal trajectory and prevents analysts from spotting drop-off leakage across stages in one continuous glance.
-
-### Concept B: Dense Modular Widget Grid
-- 16 equal-sized modular draggable widgets.
-*Evaluation: Rejected.* Too noisy; lacks visual hierarchy; creates erratic cognitive load for senior officials scanning for immediate intervention points.
-
-### Concept C: Unified Funnel & Trajectory Hierarchy (Selected)
+The Government Analytics and Auditor dashboards implement a unified high-density instrument console:
 ```
 +---------------------------------------------------------------------------------------+
-| TOP BAR: Scope Filters (State, Program, Cohort) | Data Freshness | Role Switcher     |
+| COMMAND BAR: System: Nominal | Latency: 12ms | LEDGER: 0x7F18...E29A | Switch Role     |
 +---------------------------------------------------------------------------------------+
-| PERSISTENT BANNER: Synthetic Data — Prototype Indicator                              |
+| AUDIT PERSISTENT BANNER: Synthetic Data — Prototype Indicator                         |
 +---------------------------------------------------------------------------------------+
-| EXECUTIVE KPI STRIP: 4 Critical Metrics (Enrolled, Assessed, Job-Ready, Verified)    |
+| EXECUTIVE TELEMETRY STRIP: Enrolled | Assessed | Job-Ready | Verified (with LEDs)     |
 +---------------------------------------------------------------------------------------+
-| SIGNATURE INTERACTIVE FUNNEL (Custom SVG with Drop-off % and Leakage Highlight)      |
+| SIGNATURE INTERACTIVE FUNNEL (Custom SVG Solid Bars, Leakage Badges, Calibrated Axials)|
 +---------------------------------------------------------------------------------------+
 | DUAL COLUMNS:                                                                         |
 | Left: Outcome Leakage Anomaly Feed             | Right: Provenance & Methodology      |
 | (Statistical z-score alerts with evidence)     | (Calculation version 1.2, exclusions)|
 +---------------------------------------------------------------------------------------+
-| DRILL-DOWN DATA TABLE: Sortable, Filterable, Density Toggle, CSV Export              |
+| PRECISION DATA TABLE: Sortable, Filterable, Density Toggle, CSV Export, Monospace IDs |
 +---------------------------------------------------------------------------------------+
 ```
-*Rationale:* Places the longitudinal pipeline front and center. Allows instant visual identification of where training investments fail to convert into verified employment.
 
 ---
 
 ## 4. Signature Components
 
-1. **`StatusChip`:** Handles all 8 canonical verification states (`VERIFIED_EMPLOYED`, `PENDING_VERIFICATION`, `UNEMPLOYMENT_REPORTED`, `RECONCILIATION_PENDING`, `VERIFIED_UNEMPLOYED`, `CORRECTION_REQUESTED`, `REJECTED`, `DISPUTED`).
-2. **`MetricCard` + `MetricProvenance`:** Reusable cards with inline delta, status tag, and clickable "How is this calculated?" slide-over drawer displaying exact numerator, denominator, exclusions, and calculation version.
-3. **`FunnelChart`:** Custom SVG funnel rendering stage volume, conversion rate from previous stage, conversion from start, and stage drop-off bars.
-4. **`LeakageCallout`:** Statistical anomaly container with evidence badges and deep link to investigation view.
-5. **`TrajectoryTimeline`:** Longitudinal timeline tracking learner transitions through employment, departure, unemployment, and re-employment without overwriting historical records.
-6. **`EntityResolutionFlow`:** Visual pipeline demonstrating Reported Employer → Resolution → Canonical Org → Verifier Account.
-7. **`SkillGapBars`:** Three-tier proficiency triad (Corporate Demand vs Training Supply vs Job-Ready Proficiency).
-8. **`EvidenceBlock`:** AI citation container explicitly listing underlying structured data rows, record counts, and calculation version.
+1. **`StatusChip`:** Implements all 17 canonical verification & trajectory states with 6px diode indicators, micro-halos, and uppercase mono typography.
+2. **`MetricCard` + `MetricProvenance`:** Instrument cards featuring a top telemetry indicator bar, high-contrast numbers, and a precision provenance slide-over showing exact formulas, exclusions, and calculation versions.
+3. **`FunnelChart`:** Clean SVG funnel with solid `#353534`, `#18B6A4`, and `#D99A32` calibration bars, drop-off loss metrics, and zero blurred gradients.
+4. **`LeakageCallout`:** Telemetry anomaly card featuring an `#E05252` crimson diode and left accent line, statistical z-score badge, and deep links to investigations.
+5. **`TrajectoryTimeline`:** Longitudinal timeline tracking learner transitions through training, assessment, employment, departure, unemployment, and re-employment with diode nodes and hash-chained events.
+6. **`EntityResolutionFlow`:** Zero-trust pipeline demonstrating Reported Employer → Resolution Engine → Canonical Org ID → Verifier Account with dark code snippets.
+7. **`SkillGapBars`:** Three-tier proficiency triad (Demand vs Supply vs Job-Ready Proficiency) in high-contrast dark telemetry cards.
+8. **`EvidenceBlock`:** AI citation container explicitly listing underlying structured data rows, record counts, and calculation version with monospace evidence grids.

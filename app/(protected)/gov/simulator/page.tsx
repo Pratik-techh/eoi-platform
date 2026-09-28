@@ -32,8 +32,8 @@ export default function GovSimulatorPage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', marginBottom: 4 }}>
               <span style={{
-                fontSize: '11px', fontWeight: 800, padding: '3px 8px', borderRadius: 'var(--r-control)',
-                background: 'var(--sim)', color: 'white', letterSpacing: '0.05em',
+                fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-badge)',
+                background: '#0F0F0F', border: '1px solid #9B7AE8', color: '#9B7AE8', letterSpacing: '0.06em', textTransform: 'uppercase',
               }}>
                 SIMULATION
               </span>
@@ -203,9 +203,10 @@ export default function GovSimulatorPage() {
             <button
               onClick={() => alert('Simulation scenario saved to simulation_runs table with SHA-256 reference hash.')}
               style={{
-                width: '100%', padding: 'var(--sp-2) var(--sp-4)', background: 'var(--sim)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600,
-                cursor: 'pointer', fontFamily: 'var(--font-ui)',
+                width: '100%', padding: '10px 16px', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                cursor: 'pointer',
               }}
             >
               Save scenario run to governance ledger →

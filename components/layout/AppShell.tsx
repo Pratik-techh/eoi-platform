@@ -153,30 +153,28 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           Synthetic data — prototype · No real personal information
         </div>
 
-        {/* Top bar */}
+        {/* Top bar — Stitch Precision Instrument Header */}
         <header className="topbar" role="banner" style={{
           justifyContent: 'space-between',
-          background: 'rgba(255, 255, 255, 0.94)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
-          boxShadow: '0 1px 3px rgba(14, 31, 51, 0.05)',
+          background: '#080808',
+          borderBottom: '1px solid #242424',
+          boxShadow: 'none',
         }}>
           {/* Left: Hamburger menu (mobile only) + Ministry Emblem & Ledger state indicator */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', minWidth: 0 }}>
             {/* Mobile Hamburger Drawer Toggle */}
             <button
               id="mobile-nav-toggle"
-              className="mobile-only-btn hover-lift"
+              className="mobile-only-btn"
               onClick={() => setMobileNavOpen(true)}
               aria-label="Open navigation menu"
               style={{
                 width: 34,
                 height: 34,
-                border: '1px solid var(--line)',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
-                background: 'var(--canvas)',
-                color: 'var(--ink)',
-                display: 'none',
+                background: '#0F0F0F',
+                color: '#FFFFFF',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
@@ -191,53 +189,61 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               </svg>
             </button>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <div style={{
-                width: 28, height: 28, borderRadius: 'var(--r-control)',
-                background: 'linear-gradient(135deg, #091728 0%, #1D4E89 100%)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 2px 5px rgba(29, 78, 137, 0.25)',
-                flexShrink: 0,
-              }}>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <path d="M2 10l3-4 2.5 2.5L10 4l2 4" stroke="white" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+              <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.06em' }}>
+                  EOI
+                </span>
+                <span style={{ color: 'var(--outline-variant)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>/</span>
+                <span className="topbar-branding-subtext" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500 }}>
+                  Verification System
+                </span>
+              </Link>
+            </div>
+
+            {/* Precision Telemetry Telemetry Matrix (Stitch Header Spec: Only on ultra-wide screens to prevent crowding) */}
+            <div className="hidden 2xl:flex items-center gap-3 border-l border-[#242424] pl-4">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)', display: 'inline-block' }} />
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' }}>System:</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#FFFFFF', textTransform: 'uppercase', fontWeight: 500 }}>Nominal</span>
               </div>
-              <div>
-                <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--ink)', lineHeight: 1.15, whiteSpace: 'nowrap' }}>
-                  National Outcome Intelligence
-                </div>
-                <div className="topbar-branding-subtext" style={{ fontSize: '10px', color: 'var(--muted)', lineHeight: 1.2 }}>
-                  Ministry of Skill Development & Entrepreneurship
-                </div>
+              <span style={{ color: 'var(--outline-variant)', fontSize: '10px' }}>•</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' }}>Latency:</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#FFFFFF', fontWeight: 500 }}>12ms</span>
+              </div>
+              <span style={{ color: 'var(--outline-variant)', fontSize: '10px' }}>•</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' }}>Engine:</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#FFFFFF', fontWeight: 500 }}>v4.18.2</span>
               </div>
             </div>
 
             <Link
               href="/gov/audit"
-              className="topbar-ledger-pill"
+              className="topbar-ledger-pill hidden xl:inline-flex"
               title="Inspect Cryptographic SHA-256 Audit Ledger"
               style={{
-                display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
                 padding: '4px 10px',
-                background: 'rgba(16, 185, 129, 0.08)',
-                border: '1px solid rgba(16, 185, 129, 0.25)',
-                borderRadius: '999px',
+                background: '#0F0F0F',
+                border: '1px solid #242424',
+                borderRadius: 'var(--r-badge)',
                 fontSize: '11px',
-                fontWeight: 600,
-                color: 'var(--verified)',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 500,
+                color: 'var(--text-on-surface)',
                 textDecoration: 'none',
-                transition: 'all 0.15s ease',
                 whiteSpace: 'nowrap',
                 marginLeft: 'var(--sp-2)',
               }}
             >
-              <span className="pulse-dot" />
-              <span>SHA-256 Ledger Verified</span>
-              <span style={{ color: 'var(--muted)', fontWeight: 400, borderLeft: '1px solid var(--line)', paddingLeft: 6 }}>
-                502 Events
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
+              <span>LEDGER: 0x7F18...E29A</span>
+              <span style={{ color: 'var(--muted)', borderLeft: '1px solid #242424', paddingLeft: 6 }}>
+                502 Blocks
               </span>
             </Link>
           </div>
@@ -253,55 +259,54 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 } catch {}
                 window.dispatchEvent(new CustomEvent('start-guided-tour'))
               }}
-              className="hover-lift"
               title="Start 3-Minute Guided Walkthrough for Judges"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 6,
                 padding: '6px 12px',
-                background: 'rgba(245, 158, 11, 0.12)',
-                color: '#B45309',
-                border: '1px solid rgba(245, 158, 11, 0.35)',
+                background: '#080808',
+                color: 'var(--text-on-surface)',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
                 fontSize: 'var(--text-xs)',
-                fontWeight: 700,
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 500,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
               }}
             >
-              <span>🎬</span>
-              <span>Tour</span>
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#D99A32', boxShadow: '0 0 5px rgba(217, 154, 50, 0.5)' }} />
+              <span className="hidden sm:inline">Tour</span>
             </button>
 
-            {/* 1-Click Role Switcher for Evaluators */}
+            {/* 1-Click Role Switcher for Evaluators (Stitch High-Contrast Action) */}
             <div style={{ position: 'relative' }}>
               <button
                 id="evaluator-demo-switcher"
                 onClick={() => setRoleMenuOpen(prev => !prev)}
-                className="hover-lift"
                 title="Switch roles & evaluate personas"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
-                  padding: '6px 14px',
-                  background: 'linear-gradient(135deg, #1D4E89 0%, #2563EB 50%, #3B82F6 100%)',
-                  color: '#FFFFFF',
-                  border: 'none',
+                  padding: '6px 12px',
+                  background: '#FFFFFF',
+                  color: '#000000',
+                  border: '1px solid #FFFFFF',
                   borderRadius: 'var(--r-control)',
                   fontSize: 'var(--text-xs)',
-                  fontWeight: 700,
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 600,
                   cursor: 'pointer',
-                  boxShadow: '0 2px 8px rgba(37, 99, 235, 0.35)',
-                  transition: 'all 0.18s ease',
+                  letterSpacing: '0.02em',
+                  textTransform: 'uppercase',
                   whiteSpace: 'nowrap',
                 }}
               >
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <path d="M6.5 1.5L2 7h4l-0.5 4.5L10 6H6l0.5-4.5z" fill="#FCD34D"/>
-                </svg>
-                <span>⚡ Switch Role</span>
+                <span>Switch Role</span>
                 <svg
                   width="10"
                   height="10"
@@ -322,38 +327,41 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 <>
                   <div
                     onClick={() => setRoleMenuOpen(false)}
-                    style={{ position: 'fixed', inset: 0, zIndex: 110 }}
+                    style={{ position: 'fixed', inset: 0, zIndex: 140 }}
                   />
                   <div
                     style={{
                       position: 'absolute',
                       top: 'calc(100% + 8px)',
                       right: 0,
-                      width: 290,
-                      background: 'var(--surface)',
-                      border: '1px solid var(--line)',
-                      borderRadius: 'var(--r-container)',
-                      boxShadow: '0 12px 32px rgba(14, 31, 51, 0.18)',
+                      width: 'min(300px, calc(100vw - 24px))',
+                      maxHeight: 'calc(100vh - 80px)',
+                      overflowY: 'auto',
+                      background: '#0F0F0F',
+                      border: '1px solid #242424',
+                      borderRadius: 'var(--r-control)',
+                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.95)',
                       padding: 'var(--sp-2)',
-                      zIndex: 120,
-                      animation: 'slideDown 0.15s ease-out',
+                      zIndex: 150,
+                      animation: 'fadeInDown 0.15s ease-out',
                     }}
                   >
                     <div style={{
                       padding: '6px 10px',
                       fontSize: '11px',
-                      fontWeight: 700,
+                      fontFamily: 'var(--font-mono)',
+                      fontWeight: 600,
                       color: 'var(--muted)',
                       textTransform: 'uppercase',
-                      letterSpacing: '0.05em',
-                      borderBottom: '1px solid var(--line)',
+                      letterSpacing: '0.08em',
+                      borderBottom: '1px solid #242424',
                       marginBottom: 4,
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}>
-                      <span>Instant Persona Switch</span>
-                      <span style={{ fontSize: '10px', color: 'var(--primary)', fontWeight: 600 }}>Zero Logout</span>
+                      <span>Persona Switch</span>
+                      <span style={{ fontSize: '10px', color: '#18B6A4', fontWeight: 600 }}>Active Node</span>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -371,45 +379,45 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                               justifyContent: 'space-between',
                               width: '100%',
                               padding: '8px 10px',
-                              background: isCurrent ? 'rgba(37, 99, 235, 0.08)' : 'transparent',
-                              border: isCurrent ? '1px solid rgba(37, 99, 235, 0.25)' : '1px solid transparent',
-                              borderRadius: 'var(--r-control)',
+                              background: isCurrent ? '#1c1b1b' : 'transparent',
+                              border: isCurrent ? '1px solid #353534' : '1px solid transparent',
+                              borderRadius: 'var(--r-badge)',
                               textAlign: 'left',
                               cursor: isPending ? 'wait' : 'pointer',
                               transition: 'all 0.12s ease',
                               fontFamily: 'var(--font-ui)',
                             }}
                             onMouseEnter={e => {
-                              if (!isCurrent) e.currentTarget.style.background = 'var(--canvas)'
+                              if (!isCurrent) e.currentTarget.style.background = '#151515'
                             }}
                             onMouseLeave={e => {
                               if (!isCurrent) e.currentTarget.style.background = 'transparent'
                             }}
                           >
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                              <span style={{ fontSize: '15px' }}>{item.icon}</span>
+                              <span style={{ fontSize: '14px' }}>{item.icon}</span>
                               <div>
-                                <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 600, color: isCurrent ? 'var(--primary)' : 'var(--ink)' }}>
+                                <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? '#FFFFFF' : 'var(--text-on-surface)' }}>
                                   {item.label}
                                 </div>
-                                <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
+                                <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
                                   {item.person}
                                 </div>
                               </div>
                             </div>
                             {isCurrent ? (
-                              <span style={{ fontSize: '10px', fontWeight: 700, color: 'var(--primary)', background: '#DBEAFE', padding: '2px 6px', borderRadius: 4 }}>
+                              <span style={{ fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#000000', background: '#FFFFFF', padding: '2px 6px', borderRadius: 2, textTransform: 'uppercase' }}>
                                 Active
                               </span>
                             ) : isPending ? (
-                              <span style={{ fontSize: '10px', color: 'var(--muted)' }}>Switching…</span>
+                              <span style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>...</span>
                             ) : null}
                           </button>
                         )
                       })}
                     </div>
 
-                    <div style={{ borderTop: '1px solid var(--line)', marginTop: 4, paddingTop: 4 }}>
+                    <div style={{ borderTop: '1px solid #242424', marginTop: 4, paddingTop: 4 }}>
                       <Link
                         href="/demo"
                         onClick={() => setRoleMenuOpen(false)}
@@ -421,14 +429,18 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                           width: '100%',
                           padding: '7px 10px',
                           fontSize: '11px',
-                          fontWeight: 600,
-                          color: 'var(--primary)',
+                          fontFamily: 'var(--font-mono)',
+                          fontWeight: 500,
+                          color: '#FFFFFF',
                           textDecoration: 'none',
-                          borderRadius: 'var(--r-control)',
-                          background: 'rgba(37, 99, 235, 0.04)',
+                          borderRadius: 'var(--r-badge)',
+                          background: '#151515',
+                          border: '1px solid #242424',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.04em',
                         }}
                       >
-                        <span>📖 Evaluator Guide & All 10 Roles →</span>
+                        <span>Demo Guide & 10 Personas →</span>
                       </Link>
                     </div>
                   </div>
@@ -446,10 +458,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 alignItems: 'center',
                 gap: 'var(--sp-2)',
                 padding: '6px var(--sp-3)',
-                border: '1px solid var(--line)',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
-                background: 'var(--canvas)',
-                color: 'var(--muted)',
+                background: '#0F0F0F',
+                color: '#A3A3A3',
                 fontSize: 'var(--text-sm)',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-ui)',
@@ -465,7 +477,9 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 marginLeft: 'auto',
                 fontSize: '10px',
                 fontFamily: 'var(--font-mono)',
-                border: '1px solid var(--line)',
+                border: '1px solid #242424',
+                background: '#151515',
+                color: '#737373',
                 borderRadius: 2,
                 padding: '0 4px',
               }}>
@@ -485,11 +499,11 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 justifyContent: 'center',
                 width: 34,
                 height: 34,
-                border: '1px solid var(--line)',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
-                color: 'var(--muted)',
+                color: '#A3A3A3',
                 position: 'relative',
-                background: 'var(--surface)',
+                background: '#0F0F0F',
                 textDecoration: 'none',
                 flexShrink: 0,
               }}
@@ -501,25 +515,26 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             </Link>
 
             {/* User menu */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', paddingLeft: 'var(--sp-2)', borderLeft: '1px solid var(--line)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', paddingLeft: 'var(--sp-2)', borderLeft: '1px solid #242424' }}>
               <div className="desktop-user-info" style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)' }}>
+                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: '#FFFFFF' }}>
                   {user.email.split('@')[0]}
                 </div>
-                <div style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: 500 }}>
+                <div style={{ fontSize: '10px', color: '#737373', fontWeight: 500 }}>
                   {ROLE_LABELS[user.role]}
                 </div>
               </div>
               <div style={{
-                width: 32,
-                height: 32,
+                width: 30,
+                height: 30,
                 borderRadius: '50%',
-                background: 'var(--primary)',
+                background: '#FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: 'white',
+                color: '#000000',
                 fontSize: 'var(--text-xs)',
+                fontFamily: 'var(--font-mono)',
                 fontWeight: 700,
                 flexShrink: 0,
               }}>
@@ -537,10 +552,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                   justifyContent: 'center',
                   width: 32,
                   height: 32,
-                  border: '1px solid var(--line)',
+                  border: '1px solid #242424',
                   borderRadius: 'var(--r-control)',
-                  background: 'transparent',
-                  color: 'var(--muted)',
+                  background: '#0F0F0F',
+                  color: '#A3A3A3',
                   cursor: 'pointer',
                 }}
               >
@@ -559,7 +574,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
         </main>
       </div>
 
-      {/* Global Command Palette Modal (⌘K) */}
+      {/* Global Command Palette Modal (⌘K) — Stitch Precision Modal */}
       {searchOpen && (
         <div
           role="dialog"
@@ -570,9 +585,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(9, 23, 40, 0.65)',
-            backdropFilter: 'blur(6px)',
-            WebkitBackdropFilter: 'blur(6px)',
+            background: 'rgba(0, 0, 0, 0.85)',
             zIndex: 9999,
             display: 'flex',
             alignItems: 'flex-start',
@@ -586,10 +599,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             style={{
               width: '100%',
               maxWidth: 600,
-              background: 'var(--surface)',
-              border: '1px solid var(--line)',
-              borderRadius: 'var(--r-container)',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.25)',
+              background: '#0F0F0F',
+              border: '1px solid #242424',
+              borderRadius: 'var(--r-control)',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.9)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
@@ -602,8 +615,8 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               alignItems: 'center',
               gap: 12,
               padding: '14px 18px',
-              borderBottom: '1px solid var(--line)',
-              background: 'var(--canvas)',
+              borderBottom: '1px solid #242424',
+              background: '#080808',
             }}>
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <circle cx="7" cy="7" r="5" stroke="var(--primary)" strokeWidth="1.6"/>
@@ -703,10 +716,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(14, 31, 51, 0.55)',
-            backdropFilter: 'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
-            zIndex: 90,
+            background: 'rgba(0, 0, 0, 0.85)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            zIndex: 100,
             display: 'flex',
           }}
         >
@@ -716,11 +729,11 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             style={{
               width: 'min(300px, 85vw)',
               height: '100%',
-              background: 'var(--surface)',
-              borderRight: '1px solid var(--line)',
+              background: '#080808',
+              borderRight: '1px solid #242424',
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: 'var(--shadow-popover)',
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)',
               overflowY: 'auto',
               animation: 'slideDrawerIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             }}
@@ -730,35 +743,36 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: '12px 16px',
-              borderBottom: '1px solid var(--line)',
-              background: 'var(--canvas)',
+              borderBottom: '1px solid #242424',
+              background: '#0D0D0D',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{
-                  width: 24, height: 24, borderRadius: 'var(--r-control)',
-                  background: 'linear-gradient(135deg, #112744 0%, #1D4E89 100%)',
+                  width: 24, height: 24, borderRadius: '4px',
+                  background: 'rgba(24, 182, 164, 0.15)',
+                  border: '1px solid #18B6A4',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   <svg width="12" height="12" viewBox="0 0 18 18" fill="none">
-                    <path d="M3 13L6.5 8l3 3L13 5l2 4" stroke="white" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M3 13L6.5 8l3 3L13 5l2 4" stroke="#18B6A4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <span style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--ink)' }}>Navigation Menu</span>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Navigation Menu</span>
               </div>
               <button
                 onClick={() => setMobileNavOpen(false)}
                 aria-label="Close navigation menu"
                 style={{
-                  width: 28, height: 28, borderRadius: 'var(--r-control)', border: '1px solid var(--line)',
-                  background: 'var(--surface)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: 'var(--muted)', fontSize: '13px', fontWeight: 700,
+                  width: 28, height: 28, borderRadius: '4px', border: '1px solid #242424',
+                  background: '#151515', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', color: '#A3A3A3', fontSize: '13px', fontWeight: 700,
                 }}
               >
                 ✕
               </button>
             </div>
             <div style={{ flex: 1, overflowY: 'auto' }}>
-              <SideNav role={user.role} onNavigate={() => setMobileNavOpen(false)} />
+              <SideNav role={user.role} onNavigate={() => setMobileNavOpen(false)} inDrawer={true} />
             </div>
           </div>
         </div>

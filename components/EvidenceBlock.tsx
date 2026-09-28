@@ -20,95 +20,104 @@ interface EvidenceBlockProps {
 export function EvidenceBlock({ question, intent, evidence, explanation }: EvidenceBlockProps) {
   return (
     <div style={{
-      background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)',
-      padding: 'var(--sp-6)', marginBottom: 'var(--sp-6)',
+      background: '#0F0F0F',
+      border: '1px solid #242424',
+      borderRadius: 'var(--r-control)',
+      padding: 'var(--sp-6)',
+      marginBottom: 'var(--sp-6)',
     }}>
       {/* Header notice */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        paddingBottom: 'var(--sp-4)', borderBottom: '1px solid var(--line)', marginBottom: 'var(--sp-4)',
+        paddingBottom: 'var(--sp-4)', borderBottom: '1px solid #242424', marginBottom: 'var(--sp-4)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
           <span style={{
-            fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-control)',
-            background: 'var(--chip-info-bg)', color: 'var(--info)', border: '1px solid var(--chip-info-border)',
+            fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 600, padding: '2px 8px', borderRadius: 'var(--r-badge)',
+            background: '#151515', color: '#5B9DFF', border: '1px solid rgba(91, 157, 255, 0.4)',
+            letterSpacing: '0.04em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 5,
           }}>
-            AI EVIDENCE EXPLAINER
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#5B9DFF', boxShadow: '0 0 5px rgba(91, 157, 255, 0.5)' }} />
+            AI Grounded Explainer
           </span>
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)' }}>
-            Intent: <strong>{intent}</strong>
+          <span style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>
+            Intent: <strong style={{ color: '#FFFFFF' }}>{intent}</strong>
           </span>
         </div>
         <span style={{
-          fontSize: '10px', fontWeight: 600, color: 'var(--muted)',
-          background: 'var(--canvas)', padding: '2px 6px', borderRadius: 2,
+          fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 500, color: 'var(--muted)',
+          background: '#080808', border: '1px solid #242424', padding: '2px 8px', borderRadius: 2,
+          textTransform: 'uppercase', letterSpacing: '0.02em',
         }}>
           Policy decisions remain with government
         </span>
       </div>
 
       <div style={{ marginBottom: 'var(--sp-4)' }}>
-        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', fontWeight: 600 }}>QUESTION</div>
-        <div style={{ fontSize: 'var(--text-base)', fontWeight: 600, color: 'var(--ink)', marginTop: 2 }}>
+        <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+          QUESTION
+        </div>
+        <div style={{ fontSize: '14px', fontWeight: 600, color: '#FFFFFF', marginTop: 2 }}>
           {question}
         </div>
       </div>
 
       {/* AI Interpretation */}
       <div style={{
-        background: 'var(--canvas)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)',
+        background: '#080808', border: '1px solid #242424', borderRadius: 'var(--r-control)',
         padding: 'var(--sp-4)', marginBottom: 'var(--sp-5)',
       }}>
-        <div style={{ fontSize: 'var(--text-xs)', fontWeight: 700, color: 'var(--primary)', marginBottom: 4 }}>
-          AI-GENERATED EXPLANATION OF VERIFIED EVIDENCE
+        <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#18B6A4', marginBottom: 6, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          VERIFIED EVIDENCE SYNTHESIS
         </div>
-        <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontSize: '13px', color: 'var(--text-on-surface)', lineHeight: 1.6, margin: 0 }}>
           {explanation}
         </p>
       </div>
 
       {/* Structured Evidence Table */}
       <div style={{
-        border: '1px solid var(--line)', borderRadius: 'var(--r-control)',
+        border: '1px solid #242424', borderRadius: 'var(--r-control)',
         overflow: 'hidden', marginBottom: 'var(--sp-4)',
       }}>
         <div style={{
-          padding: 'var(--sp-2) var(--sp-3)', background: 'var(--canvas)',
-          borderBottom: '1px solid var(--line)', fontSize: '11px', fontWeight: 700, color: 'var(--muted)',
+          padding: '8px 12px', background: '#080808',
+          borderBottom: '1px solid #242424', fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--muted)',
+          letterSpacing: '0.08em', textTransform: 'uppercase',
         }}>
-          GROUNDED STRUCTURED EVIDENCE
+          GROUNDED STRUCTURED TELEMETRY
         </div>
         <div style={{
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-          gap: 1, background: 'var(--line)',
+          gap: 1, background: '#242424',
         }}>
-          <div style={{ background: 'var(--surface)', padding: 'var(--sp-3)' }}>
-            <div style={{ fontSize: '10px', color: 'var(--muted)' }}>PROGRAM CONVERSION</div>
-            <div style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>
+          <div style={{ background: '#0F0F0F', padding: '12px' }}>
+            <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>PROGRAM CONVERSION</div>
+            <div style={{ fontSize: '16px', fontWeight: 600, color: '#FFFFFF', marginTop: 3 }}>
               {evidence.programConversion}
             </div>
           </div>
-          <div style={{ background: 'var(--surface)', padding: 'var(--sp-3)' }}>
-            <div style={{ fontSize: '10px', color: 'var(--muted)' }}>LARGEST LEAKAGE</div>
-            <div style={{ fontSize: 'var(--text-sm)', fontWeight: 700, color: 'var(--disputed)' }}>
+          <div style={{ background: '#0F0F0F', padding: '12px' }}>
+            <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>LARGEST LEAKAGE</div>
+            <div style={{ fontSize: '14px', fontWeight: 600, color: '#E05252', marginTop: 3 }}>
               {evidence.largestDropStage}
             </div>
           </div>
-          <div style={{ background: 'var(--surface)', padding: 'var(--sp-3)' }}>
-            <div style={{ fontSize: '10px', color: 'var(--muted)' }}>JOB-READY RATE</div>
-            <div style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>
+          <div style={{ background: '#0F0F0F', padding: '12px' }}>
+            <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>JOB-READY RATE</div>
+            <div style={{ fontSize: '16px', fontWeight: 600, color: '#FFFFFF', marginTop: 3 }}>
               {evidence.jobReadyRate}
             </div>
           </div>
-          <div style={{ background: 'var(--surface)', padding: 'var(--sp-3)' }}>
-            <div style={{ fontSize: '10px', color: 'var(--muted)' }}>INTERVIEW RATE</div>
-            <div style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--ink)' }}>
+          <div style={{ background: '#0F0F0F', padding: '12px' }}>
+            <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>INTERVIEW RATE</div>
+            <div style={{ fontSize: '16px', fontWeight: 600, color: '#FFFFFF', marginTop: 3 }}>
               {evidence.interviewRate}
             </div>
           </div>
-          <div style={{ background: 'var(--surface)', padding: 'var(--sp-3)' }}>
-            <div style={{ fontSize: '10px', color: 'var(--muted)' }}>VERIFIED EMPLOYMENT</div>
-            <div style={{ fontSize: 'var(--text-md)', fontWeight: 700, color: 'var(--verified)' }}>
+          <div style={{ background: '#0F0F0F', padding: '12px' }}>
+            <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', textTransform: 'uppercase' }}>VERIFIED EMPLOYMENT</div>
+            <div style={{ fontSize: '16px', fontWeight: 600, color: '#18B6A4', marginTop: 3 }}>
               {evidence.employmentRate}
             </div>
           </div>
@@ -118,10 +127,10 @@ export function EvidenceBlock({ question, intent, evidence, explanation }: Evide
       {/* Provenance footer */}
       <div style={{
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap',
-        fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)',
+        fontSize: '11px', color: 'var(--muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.02em',
       }}>
-        <span>Evidence Sources: {evidence.eventCount} verified events · {evidence.feedbackCount} employer reviews</span>
-        <span>Version: {evidence.calculationVersion} · Timestamp: {new Date().toISOString().split('T')[0]}</span>
+        <span>SOURCES: {evidence.eventCount} VERIFIED EVENTS · {evidence.feedbackCount} REVIEWS</span>
+        <span>VERSION: {evidence.calculationVersion} · UTC: {new Date().toISOString().split('T')[0]}</span>
       </div>
     </div>
   )

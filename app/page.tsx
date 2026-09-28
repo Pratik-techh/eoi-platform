@@ -36,10 +36,10 @@ export default function HomePage() {
       display: 'flex',
       flexDirection: 'column',
     }}>
-      {/* Official Government Header */}
+      {/* Precision Command Header */}
       <header style={{
-        background: 'var(--surface)',
-        borderBottom: '1px solid var(--line)',
+        background: '#080808',
+        borderBottom: '1px solid #242424',
         padding: 'var(--sp-3) var(--sp-8)',
         display: 'flex',
         alignItems: 'center',
@@ -47,44 +47,43 @@ export default function HomePage() {
         position: 'sticky',
         top: 0,
         zIndex: 50,
-        boxShadow: 'var(--shadow-xs)',
       }}>
         {/* Brand & Crest */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-4)' }}>
           <div style={{
-            width: 40,
-            height: 40,
-            background: 'linear-gradient(135deg, #091728 0%, #1D4E89 100%)',
-            borderRadius: 'var(--r-control)',
+            width: 34,
+            height: 34,
+            background: '#0F0F0F',
+            border: '1px solid #242424',
+            borderRadius: 'var(--r-badge)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            boxShadow: '0 2px 8px rgba(29, 78, 137, 0.3)',
           }}>
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
-              <path d="M4 16L8.5 10L12 13.5L16 7L18.5 11" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="18.5" cy="5.5" r="2" fill="#10B981"/>
+            <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+              <path d="M4 16L8.5 10L12 13.5L16 7L18.5 11" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
-              <span style={{ fontSize: 'var(--text-base)', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.01em' }}>
+              <span style={{ fontSize: 'var(--text-base)', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
                 EOI Platform
               </span>
               <span style={{
                 fontSize: '10px',
+                fontFamily: 'var(--font-mono)',
                 fontWeight: 600,
-                padding: '2px 6px',
-                background: 'rgba(29, 78, 137, 0.08)',
-                color: 'var(--primary)',
-                borderRadius: 'var(--r-control)',
-                border: '1px solid rgba(29, 78, 137, 0.2)',
+                padding: '1px 6px',
+                background: '#151515',
+                color: 'var(--muted)',
+                borderRadius: 'var(--r-badge)',
+                border: '1px solid #242424',
               }}>
                 SIH 2026
               </span>
             </div>
-            <div style={{ fontSize: '11px', color: 'var(--muted)', fontWeight: 500 }}>
-              National Employment Outcome Intelligence Layer · Ministry of Skill Development
+            <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 400 }}>
+              National Employment Outcome Intelligence Layer · MSDE
             </div>
           </div>
         </div>
@@ -96,77 +95,99 @@ export default function HomePage() {
             alignItems: 'center',
             gap: 6,
             padding: '4px 10px',
-            background: 'rgba(16, 185, 129, 0.08)',
-            border: '1px solid rgba(16, 185, 129, 0.25)',
-            borderRadius: '999px',
+            background: '#0F0F0F',
+            border: '1px solid #242424',
+            borderRadius: 'var(--r-badge)',
             fontSize: '11px',
-            fontWeight: 600,
-            color: 'var(--verified)',
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 500,
+            color: 'var(--text-on-surface)',
           }}>
-            <span className="pulse-dot" />
-            <span>SHA-256 Ledger Verified (502 Events)</span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
+            <span>SHA-256 Ledger: 502 Blocks Verified</span>
           </div>
 
           <a
             href="/EOI_Platform_User_Manual_and_Guide.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-secondary"
             style={{
-              padding: '6px 14px',
-              fontSize: 'var(--text-xs)',
-              gap: 6,
-              borderColor: '#BAE6FD',
-              color: '#0369A1',
+              padding: '6px 12px',
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              background: '#0F0F0F',
+              border: '1px solid #242424',
+              borderRadius: 'var(--r-badge)',
+              color: 'var(--text-on-surface)',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
             }}
           >
-            <span>📄 System Manual (PDF)</span>
+            <span>Manual (PDF)</span>
           </a>
 
           <button
             onClick={() => {
               window.dispatchEvent(new CustomEvent('start-guided-tour'))
             }}
-            className="hover-lift"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
               gap: 6,
               padding: '6px 14px',
-              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-              color: '#FFFFFF',
-              border: 'none',
-              borderRadius: 'var(--r-control)',
-              fontSize: 'var(--text-xs)',
-              fontWeight: 700,
+              background: '#0F0F0F',
+              color: 'var(--text-on-surface)',
+              border: '1px solid #242424',
+              borderRadius: 'var(--r-badge)',
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 600,
               cursor: 'pointer',
-              boxShadow: '0 2px 8px rgba(217, 119, 6, 0.4)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
             }}
           >
-            <span>🎬</span>
-            <span>3-Min Story Tour</span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D99A32', boxShadow: '0 0 6px rgba(217, 154, 50, 0.5)' }} />
+            <span>3-Min Tour</span>
           </button>
 
           <Link
             href="/demo"
             id="hero-demo-link"
-            className="btn-primary"
             style={{
-              padding: '6px 14px',
-              fontSize: 'var(--text-xs)',
-              background: 'linear-gradient(135deg, #1D4E89 0%, #2563EB 100%)',
+              display: 'inline-flex',
+              alignItems: 'center',
               gap: 6,
+              padding: '6px 14px',
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 600,
+              background: '#FFFFFF',
+              color: '#000000',
+              border: '1px solid #FFFFFF',
+              borderRadius: 'var(--r-badge)',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
             }}
           >
-            <span>⚡ 1-Click Demo Guide</span>
+            <span>Demo Personas</span>
           </Link>
 
           <Link
             href="/login"
-            className="btn-secondary"
             style={{
               padding: '6px 14px',
-              fontSize: 'var(--text-xs)',
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              background: 'transparent',
+              color: 'var(--text-on-surface)',
+              border: '1px solid #242424',
+              borderRadius: 'var(--r-badge)',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
             }}
           >
             Sign In
@@ -174,25 +195,15 @@ export default function HomePage() {
         </div>
       </header>
 
-      {/* Hero Banner Section */}
+      {/* Hero Banner Section (Stitch Precision Console) */}
       <section style={{
-        background: 'linear-gradient(135deg, #091728 0%, #112744 45%, #1D4E89 100%)',
+        background: '#000000',
         color: '#FFFFFF',
         padding: 'var(--sp-12) var(--sp-8) var(--sp-10)',
         position: 'relative',
         overflow: 'hidden',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        borderBottom: '1px solid #242424',
       }}>
-        {/* Subtle grid accent overlay */}
-        <div style={{
-          position: 'absolute',
-          inset: 0,
-          backgroundImage: 'radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
-          backgroundSize: '24px 24px',
-          opacity: 0.6,
-          pointerEvents: 'none',
-        }} />
-
         <div style={{ maxWidth: 1200, margin: '0 auto', position: 'relative', zIndex: 1, textAlign: 'center' }}>
           {/* Scheme alignment badge */}
           <div style={{
@@ -200,34 +211,38 @@ export default function HomePage() {
             alignItems: 'center',
             gap: 8,
             padding: '4px 14px',
-            background: 'rgba(255, 255, 255, 0.12)',
-            border: '1px solid rgba(255, 255, 255, 0.25)',
-            borderRadius: '999px',
+            background: '#080808',
+            border: '1px solid #242424',
+            borderRadius: 'var(--r-badge)',
             fontSize: '11px',
-            fontWeight: 600,
-            letterSpacing: '0.04em',
+            fontFamily: 'var(--font-mono)',
+            fontWeight: 500,
+            letterSpacing: '0.06em',
+            color: 'var(--muted)',
             marginBottom: 'var(--sp-4)',
-            backdropFilter: 'blur(8px)',
+            textTransform: 'uppercase',
           }}>
-            <span style={{ color: '#FCD34D' }}>●</span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
             PMKVY 4.0 · NAPS · DDU-GKY · SIDH · ESIC NATIONAL INTEGRATION ARCHITECTURE
           </div>
 
           <h1 style={{
             fontSize: '2.5rem',
-            fontWeight: 800,
+            fontFamily: 'var(--font-ui)',
+            fontWeight: 700,
             lineHeight: 1.15,
-            letterSpacing: '-0.02em',
+            letterSpacing: '-0.025em',
             marginBottom: 'var(--sp-4)',
             maxWidth: 900,
             margin: '0 auto var(--sp-4)',
+            color: '#FFFFFF',
           }}>
-            From <span style={{ color: '#93C5FD' }}>"How Many Trained?"</span> to <span style={{ color: '#6EE7B7' }}>"What Happened Next?"</span>
+            From "How Many Trained?" to "What Happened Next?"
           </h1>
 
           <p style={{
             fontSize: 'var(--text-md)',
-            color: '#E2E8F0',
+            color: 'var(--muted)',
             maxWidth: 780,
             margin: '0 auto var(--sp-8)',
             lineHeight: 1.6,
@@ -241,25 +256,26 @@ export default function HomePage() {
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('start-guided-tour'))
               }}
-              className="hover-lift"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '12px 24px',
-                background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+                padding: '10px 20px',
+                background: '#0F0F0F',
                 color: '#FFFFFF',
-                border: 'none',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: 700,
+                fontSize: '12px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
                 cursor: 'pointer',
-                boxShadow: '0 4px 14px rgba(217, 119, 6, 0.4)',
-                transition: 'all 0.15s ease',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                transition: 'all 0.12s ease',
               }}
             >
-              <span>🎬</span>
-              <span>Start 3-Minute Story Tour (Auto-Demo)</span>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D99A32', boxShadow: '0 0 6px rgba(217, 154, 50, 0.5)' }} />
+              <span>Story Tour (3-Min Auto Walkthrough)</span>
             </button>
 
             <Link
@@ -268,19 +284,21 @@ export default function HomePage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '12px 24px',
+                padding: '10px 20px',
                 background: '#FFFFFF',
-                color: '#0E1F33',
+                color: '#000000',
+                border: '1px solid #FFFFFF',
                 borderRadius: 'var(--r-control)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: 700,
+                fontSize: '12px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
                 textDecoration: 'none',
-                boxShadow: '0 4px 14px rgba(0, 0, 0, 0.25)',
-                transition: 'all 0.15s ease',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                transition: 'all 0.12s ease',
               }}
             >
-              <span>⚡ Launch Evaluator Demo & Walkthrough</span>
-              <span style={{ color: 'var(--primary)' }}>→</span>
+              <span>Launch Evaluator Walkthrough →</span>
             </Link>
 
             <Link
@@ -289,18 +307,20 @@ export default function HomePage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '12px 24px',
-                background: 'rgba(255, 255, 255, 0.15)',
-                color: '#FFFFFF',
-                border: '1px solid rgba(255, 255, 255, 0.3)',
+                padding: '10px 20px',
+                background: '#080808',
+                color: 'var(--text-on-surface)',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: 600,
+                fontSize: '12px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 500,
                 textDecoration: 'none',
-                backdropFilter: 'blur(8px)',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
               }}
             >
-              <span>🏛️ Explore Government Command Center</span>
+              <span>Government Command Center</span>
             </Link>
 
             <Link
@@ -309,61 +329,63 @@ export default function HomePage() {
                 display: 'inline-flex',
                 alignItems: 'center',
                 gap: 8,
-                padding: '12px 24px',
-                background: 'rgba(16, 185, 129, 0.15)',
-                color: '#6EE7B7',
-                border: '1px solid rgba(16, 185, 129, 0.4)',
+                padding: '10px 20px',
+                background: '#080808',
+                color: '#18B6A4',
+                border: '1px solid #242424',
                 borderRadius: 'var(--r-control)',
-                fontSize: 'var(--text-sm)',
-                fontWeight: 600,
+                fontSize: '12px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 500,
                 textDecoration: 'none',
-                backdropFilter: 'blur(8px)',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
               }}
             >
-              <span>🔒 Inspect SHA-256 Audit Ledger</span>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
+              <span>SHA-256 Audit Ledger</span>
             </Link>
           </div>
 
-          {/* Live Platform Metric Strip */}
+          {/* Live Platform Metric Strip (Stitch Telemetry Matrix) */}
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
             gap: 'var(--sp-3)',
-            background: 'rgba(255, 255, 255, 0.08)',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
-            borderRadius: 'var(--r-container)',
+            background: '#080808',
+            border: '1px solid #242424',
+            borderRadius: 'var(--r-control)',
             padding: 'var(--sp-4)',
-            backdropFilter: 'blur(12px)',
           }}>
             <div style={{ padding: 'var(--sp-2)' }}>
-              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#FFFFFF', fontVariantNumeric: 'tabular-nums' }}>
+              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 600, color: '#FFFFFF', fontVariantNumeric: 'tabular-nums' }}>
                 500
               </div>
-              <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: 2 }}>Enrolled Trainees Tracked</div>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 2, textTransform: 'uppercase' }}>Enrolled Trainees</div>
             </div>
-            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid rgba(255, 255, 255, 0.12)' }}>
-              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#6EE7B7', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid #242424' }}>
+              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 600, color: '#18B6A4', fontVariantNumeric: 'tabular-nums' }}>
                 310 (62.0%)
               </div>
-              <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: 2 }}>Independently Verified Employed</div>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 2, textTransform: 'uppercase' }}>Verified Employed</div>
             </div>
-            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid rgba(255, 255, 255, 0.12)' }}>
-              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#93C5FD', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid #242424' }}>
+              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 600, color: '#FFFFFF', fontVariantNumeric: 'tabular-nums' }}>
                 82.4%
               </div>
-              <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: 2 }}>Job Readiness Rate</div>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 2, textTransform: 'uppercase' }}>Job Readiness Rate</div>
             </div>
-            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid rgba(255, 255, 255, 0.12)' }}>
-              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#FCD34D', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid #242424' }}>
+              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 600, color: '#D99A32', fontVariantNumeric: 'tabular-nums' }}>
                 |z| = 2.94
               </div>
-              <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: 2 }}>Planted Leakage Flagged (RJ)</div>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 2, textTransform: 'uppercase' }}>Leakage Flag (RJ)</div>
             </div>
-            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid rgba(255, 255, 255, 0.12)' }}>
-              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 800, color: '#FFFFFF', fontVariantNumeric: 'tabular-nums' }}>
+            <div style={{ padding: 'var(--sp-2)', borderLeft: '1px solid #242424' }}>
+              <div style={{ fontSize: 'var(--text-2xl)', fontWeight: 600, color: '#FFFFFF', fontVariantNumeric: 'tabular-nums' }}>
                 502
               </div>
-              <div style={{ fontSize: '11px', color: '#CBD5E1', marginTop: 2 }}>Cryptographic SHA-256 Blocks</div>
+              <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 2, textTransform: 'uppercase' }}>SHA-256 Blocks</div>
             </div>
           </div>
         </div>
@@ -612,8 +634,8 @@ export default function HomePage() {
 
             {/* Evaluator 1-Click Hero Demo Guide Card */}
             <div style={{
-              background: 'linear-gradient(135deg, rgba(29, 78, 137, 0.05) 0%, rgba(37, 99, 235, 0.08) 100%)',
-              border: '2px dashed var(--primary)',
+              background: '#0F0F0F',
+              border: '1px solid #242424',
               borderRadius: 'var(--r-container)',
               padding: 'var(--sp-6)',
               display: 'flex',
@@ -622,24 +644,40 @@ export default function HomePage() {
             }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--sp-3)' }}>
-                  <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--primary)' }}>
+                  <div style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)' }}>
                     ⚡ Evaluator Hero Walkthrough
                   </div>
                   <span style={{
-                    fontSize: '10px', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-control)',
-                    background: 'var(--primary)', color: '#FFFFFF',
+                    fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-badge)',
+                    background: '#FFFFFF', color: '#000000', letterSpacing: '0.04em', textTransform: 'uppercase',
                   }}>
                     HERO DEMO
                   </span>
                 </div>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--ink)', lineHeight: 1.5, marginBottom: 'var(--sp-4)' }}>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-on-surface-variant)', lineHeight: 1.5, marginBottom: 'var(--sp-4)' }}>
                   Interactive 9-scene guided evaluation walkthrough showing the complete journey: Placement Reported → Verification → Ledger Chained → Anomaly Detected.
                 </p>
                 <div style={{ fontSize: '11px', color: 'var(--muted)', marginBottom: 'var(--sp-5)' }}>
                   Switch between 8 authenticated personas instantly without entering passwords.
                 </div>
               </div>
-              <Link href="/demo" className="btn-primary" style={{ width: '100%', background: 'linear-gradient(135deg, #1D4E89 0%, #2563EB 100%)' }}>
+              <Link href="/demo" style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: '100%',
+                padding: '10px 16px',
+                background: '#FFFFFF',
+                color: '#000000',
+                border: '1px solid #FFFFFF',
+                borderRadius: 'var(--r-control)',
+                fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
+                textDecoration: 'none',
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
+              }}>
                 Open Demo Guide & Role Switcher →
               </Link>
             </div>

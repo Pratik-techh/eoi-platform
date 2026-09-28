@@ -1,63 +1,97 @@
 /* ==========================================================================
-   EOI Platform — Global Styles & Design System Tokens
-   IBM Plex Sans + IBM Plex Mono · 8/4px spacing · 4px/8px radii only
+   EOI Platform — Precision Instrument Verification Design System
+   Source: Stitch MCP project 7054499307188474498 (EOI Precision Design System)
+   Inter + JetBrains Mono · 4px baseline grid · Pitch-Black Achromatic Stratification
    ========================================================================== */
 
 @import "tailwindcss";
 
 /* --------------------------------------------------------------------------
    Design Tokens — CSS Custom Properties
-   Section 14 of MASTER_PROMPT.md — do not modify without updating docs/DESIGN.md
+   Strict alignment with Stitch Design: Precision Instrument Verification
    -------------------------------------------------------------------------- */
-:root {
-  /* Colour palette */
-  --ink:      #0E1F33;   /* Primary text */
-  --surface:  #FFFFFF;   /* Card / panel bg */
-  --canvas:   #F4F6F9;   /* Page background */
-  --line:     #DDE3EA;   /* Borders, dividers */
-  --muted:    #526173;   /* Secondary / helper text */
+:root,
+[data-theme="dark"],
+.dark {
+  /* Pitch-Black & Monochromatic Structural Surfaces */
+  --canvas:                     #000000;   /* Pitch black base foundation */
+  --surface-container-lowest:   #0e0e0e;   /* Base trays / page sub-background */
+  --surface-container-low:      #080808;   /* Sidebar rail, inspection trays, table headers */
+  --surface:                    #0f0f0f;   /* Elevated surface, primary verification cards, ledger matrices */
+  --surface-container:          #151515;   /* Secondary surface, floating controls, dropdowns */
+  --surface-container-high:     #201f1f;   /* Contextual popups, active rows */
+  --surface-container-highest:  #2a2a2a;   /* Perimeter highlights */
+  --surface-bright:             #3a3939;
 
-  /* Brand / semantic */
-  --primary:  #1D4E89;   /* Institutional blue */
-  --primary-dark: #163C6E;
-  --primary-light: #2563A8;
-  --verified: #0F766E;   /* Verified status */
-  --pending:  #B45309;   /* Pending / awaiting */
-  --disputed: #B42318;   /* Disputed / alert / error */
-  --info:     #2C5FA8;   /* Informational */
-  --sim:      #6B4E9B;   /* SIMULATION label — used ONLY for simulation */
+  /* Structural Hairlines & Borders (1px precision rules) */
+  --line:                       #242424;   /* High-precision 1px perimeter border */
+  --line-subtle:                #1a1a1a;   /* Low-contrast row divider */
+  --outline:                    #8e9192;   /* Technical column tags / meta */
+  --outline-variant:            #444748;   /* Inactive dividers */
 
-  /* Status chip backgrounds (paired with icon + text always) */
-  --chip-verified-bg:  #F0FDF4;
-  --chip-verified-border: #BBF7D0;
-  --chip-pending-bg:   #FEF3C7;
-  --chip-pending-border: #FDE68A;
-  --chip-disputed-bg:  #FEF2F2;
-  --chip-disputed-border: #FECACA;
-  --chip-info-bg:      #EFF6FF;
-  --chip-info-border:  #BFDBFE;
-  --chip-rejected-bg:  #FFF1F2;
-  --chip-rejected-border: #FFE4E6;
-  --chip-sim-bg:       #F5F3FF;
-  --chip-sim-border:   #DDD6FE;
+  /* Typographic Neutrals */
+  --ink:                        #ffffff;   /* Pure white primary headers / KPI values */
+  --text-primary:               #ffffff;   /* Primary high-contrast text */
+  --text-on-surface:            #e5e2e1;   /* Readable body copy / tabular fields */
+  --text-on-surface-variant:    #c4c7c8;   /* Secondary descriptors */
+  --muted:                      #8e9192;   /* Metadata labels, column headers */
+  --text-disabled:              #4a4a4a;   /* Disabled parameters */
+
+  /* Actions & Brand */
+  --primary:                    #ffffff;   /* Primary commit action (pure white) */
+  --primary-fg:                 #000000;   /* Text on primary action */
+  --primary-dark:               #e5e5e5;
+  --primary-light:              #ffffff;
+  --primary-accent:             #18b6a4;   /* Secondary operational accent */
+
+  /* Telemetry Light Diodes (Pinhole & Micro-Halo State Emitters) */
+  --verified:                   #18b6a4;   /* Surgical teal diode */
+  --verified-secondary:         #53dbc8;
+  --pending:                    #d99a32;   /* Warm amber clearance diode */
+  --pending-secondary:          #feba50;
+  --disputed:                   #e05252;   /* Controlled crimson dispute diode */
+  --error:                      #ffb4ab;
+  --info:                       #5b9dff;   /* Connectivity / network pipe blue */
+  --sim:                        #9b7ae8;   /* Scenario simulation violet */
+
+  /* Diode Halos */
+  --halo-verified:              0 0 6px rgba(24, 182, 164, 0.35);
+  --halo-pending:               0 0 6px rgba(217, 154, 50, 0.35);
+  --halo-disputed:              0 0 6px rgba(224, 82, 82, 0.35);
+  --halo-sim:                   0 0 6px rgba(155, 122, 232, 0.35);
+  --halo-info:                  0 0 6px rgba(91, 157, 255, 0.35);
+
+  /* Status Chip Containers */
+  --chip-verified-bg:           #0f0f0f;
+  --chip-verified-border:       #242424;
+  --chip-pending-bg:            #0f0f0f;
+  --chip-pending-border:        #242424;
+  --chip-disputed-bg:           #0f0f0f;
+  --chip-disputed-border:       #242424;
+  --chip-info-bg:               #0f0f0f;
+  --chip-info-border:           #242424;
+  --chip-rejected-bg:           #0f0f0f;
+  --chip-rejected-border:       #242424;
+  --chip-sim-bg:                #0f0f0f;
+  --chip-sim-border:            #242424;
 
   /* Typography */
-  --font-ui:   'IBM Plex Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'IBM Plex Mono', 'Courier New', monospace;
+  --font-ui:   'Inter', 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', monospace;
 
-  /* Type scale */
-  --text-xs:   0.75rem;   /* 12px */
-  --text-sm:   0.8125rem; /* 13px */
+  /* Type Scale */
+  --text-xs:   0.6875rem; /* 11px */
+  --text-sm:   0.75rem;   /* 12px */
   --text-base: 0.875rem;  /* 14px */
   --text-md:   1rem;      /* 16px */
   --text-lg:   1.25rem;   /* 20px */
   --text-xl:   1.5rem;    /* 24px */
   --text-2xl:  2rem;      /* 32px */
 
-  /* Line heights */
+  /* Line Heights */
   --leading-tight:  1.25;
-  --leading-normal: 1.5;
-  --leading-relaxed: 1.625;
+  --leading-normal: 1.45;
+  --leading-relaxed: 1.6;
 
   /* Spacing (4px base grid) */
   --sp-1: 0.25rem;  /* 4px */
@@ -71,56 +105,27 @@
   --sp-12: 3rem;    /* 48px */
   --sp-16: 4rem;    /* 64px */
 
-  /* Radii — EXACTLY TWO */
-  --r-control:   4px;   /* Buttons, inputs, chips, tags */
-  --r-container: 8px;   /* Cards, panels, drawers, modals */
+  /* Soft Minimal Geometric Radii (Level 1) */
+  --r-badge:     2px;   /* Micro-badges, inline code tags, diode chips */
+  --r-control:   4px;   /* Standard controls, buttons, form inputs */
+  --r-container: 4px;   /* Cards, modules, table frames */
+  --r-modal:     8px;   /* Elevated dialogs, slide-over drawers */
 
-  /* Shadows & Elevation */
-  --shadow-xs:         0 1px 2px 0 rgba(14, 31, 51, 0.04);
-  --shadow-sm:         0 1px 3px 0 rgba(14, 31, 51, 0.06), 0 1px 2px -1px rgba(14, 31, 51, 0.04);
-  --shadow-card:       0 1px 3px 0 rgba(14, 31, 51, 0.06), 0 2px 6px -1px rgba(14, 31, 51, 0.04);
-  --shadow-card-hover: 0 10px 20px -3px rgba(14, 31, 51, 0.08), 0 4px 6px -4px rgba(14, 31, 51, 0.04);
-  --shadow-popover:    0 20px 25px -5px rgba(14, 31, 51, 0.1), 0 8px 10px -6px rgba(14, 31, 51, 0.05);
+  /* Depth & Occlusion */
+  --shadow-xs:         none;
+  --shadow-sm:         none;
+  --shadow-card:       none;
+  --shadow-card-hover: none;
+  --shadow-popover:    0 4px 24px rgba(0, 0, 0, 0.85);
 
-  /* Sidebar */
-  --sidebar-width: 250px;
+  /* Shell Layout */
+  --sidebar-width: 256px;
   --sidebar-collapsed: 60px;
   --topbar-height: 56px;
 }
 
-/* Dark theme — considered design pass, not inverted */
-[data-theme="dark"] {
-  --ink:      #E8EDF3;
-  --surface:  #1A2535;
-  --canvas:   #111827;
-  --line:     #2D3A4D;
-  --muted:    #8A9AB0;
-
-  --primary:  #3B82F6;
-  --primary-dark: #2563EB;
-  --primary-light: #60A5FA;
-  --verified: #10B981;
-  --pending:  #F59E0B;
-  --disputed: #EF4444;
-  --info:     #60A5FA;
-  --sim:      #A78BFA;
-
-  --chip-verified-bg:   rgba(16, 185, 129, 0.1);
-  --chip-verified-border: rgba(16, 185, 129, 0.3);
-  --chip-pending-bg:    rgba(245, 158, 11, 0.1);
-  --chip-pending-border: rgba(245, 158, 11, 0.3);
-  --chip-disputed-bg:   rgba(239, 68, 68, 0.1);
-  --chip-disputed-border: rgba(239, 68, 68, 0.3);
-  --chip-info-bg:       rgba(96, 165, 250, 0.1);
-  --chip-info-border:   rgba(96, 165, 250, 0.3);
-  --chip-sim-bg:        rgba(167, 139, 250, 0.1);
-  --chip-sim-border:    rgba(167, 139, 250, 0.3);
-
-  --shadow-popover: 0 4px 16px rgba(0, 0, 0, 0.4), 0 1px 4px rgba(0, 0, 0, 0.2);
-}
-
 /* --------------------------------------------------------------------------
-   Base reset & global styles
+   Base Reset & Global Styles
    -------------------------------------------------------------------------- */
 *, *::before, *::after {
   box-sizing: border-box;
@@ -134,55 +139,65 @@ html {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: var(--canvas);
+  color-scheme: dark;
 }
 
 body {
   font-family: var(--font-ui);
   font-size: var(--text-base);
   line-height: var(--leading-normal);
-  color: var(--ink);
+  color: var(--text-on-surface);
   background-color: var(--canvas);
   min-height: 100vh;
 }
 
 /* --------------------------------------------------------------------------
-   App shell & Layout structure (MASTER_PROMPT §14)
+   App Shell & Layout Structure
    -------------------------------------------------------------------------- */
 .app-shell {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  max-width: 100vw;
   background-color: var(--canvas);
+  overflow-x: hidden;
+  position: relative;
 }
 
 .sidebar {
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
+  max-width: var(--sidebar-width);
+  flex-shrink: 0;
   height: 100vh;
   position: sticky;
   top: 0;
   left: 0;
-  background: var(--surface);
+  background: var(--surface-container-low);
   border-right: 1px solid var(--line);
   display: flex;
   flex-direction: column;
   z-index: 40;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .main-content {
-  flex: 1;
+  flex: 1 1 auto;
   min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   background-color: var(--canvas);
+  overflow-x: hidden;
 }
 
 .topbar {
   height: var(--topbar-height);
-  background: var(--surface);
-  border-bottom: 1px solid var(--line);
+  background: #080808;
+  border-bottom: 1px solid #242424;
   display: flex;
   align-items: center;
   padding: 0 var(--sp-6);
@@ -190,14 +205,19 @@ body {
   position: sticky;
   top: 0;
   z-index: 30;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .page-content {
   flex: 1;
   padding: var(--sp-6) var(--sp-8);
-  max-width: 1400px;
+  max-width: 1600px;
   width: 100%;
   margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* --------------------------------------------------------------------------
@@ -206,12 +226,14 @@ body {
 @media (max-width: 1024px) {
   .app-shell {
     flex-direction: column;
+    overflow-x: hidden;
   }
   .sidebar {
     display: none !important;
   }
   .main-content {
     width: 100% !important;
+    max-width: 100vw !important;
     min-width: 0 !important;
     overflow-x: hidden;
   }
@@ -224,6 +246,7 @@ body {
   }
   .page-content {
     padding: var(--sp-4) !important;
+    max-width: 100vw !important;
   }
 }
 
@@ -286,16 +309,6 @@ body {
   }
 }
 
-/* Mobile drawer keyframe animation */
-@keyframes slideDrawerIn {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
-
 /* Touch-optimized tap targets */
 @media (pointer: coarse) {
   button:not(.chip-btn),
@@ -307,7 +320,7 @@ body {
   select,
   textarea {
     min-height: 38px;
-    font-size: 16px !important; /* Prevents auto-zoom on iOS Safari */
+    font-size: 16px !important;
   }
 }
 
@@ -325,10 +338,10 @@ div[style*="overflow-x: auto"] {
 table td,
 table th {
   font-variant-numeric: tabular-nums;
-  font-feature-settings: "tnum";
+  font-feature-settings: "tnum" 1;
 }
 
-/* Mono for IDs, hashes, timestamps */
+/* Monospace governance */
 .font-mono,
 [data-mono="true"],
 code,
@@ -337,30 +350,52 @@ pre {
   font-family: var(--font-mono);
 }
 
-/* Focus rings — visible, consistent */
-:focus-visible {
-  outline: 2px solid var(--primary);
-  outline-offset: 2px;
-  border-radius: var(--r-control);
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-/* Links */
+/* Links — High-contrast clarity without white-on-white collision */
 a {
-  color: var(--primary);
+  color: inherit;
   text-decoration: none;
 }
 a:hover {
   text-decoration: underline;
+}
+
+/* Standalone narrative link */
+p a,
+.prose a {
+  color: #5B9DFF;
+  text-decoration: underline;
+}
+
+/* Focus rings — surgical, non-diffuse */
+:focus-visible {
+  outline: 1px solid #FFFFFF;
+  outline-offset: 1px;
+}
+
+/* High-Contrast Safety: White background elements MUST ALWAYS render black text and black icons */
+.btn-primary,
+button[style*="var(--primary)"],
+a[style*="var(--primary)"],
+span[style*="var(--primary)"],
+[style*="background: var(--primary)"],
+[style*="background:var(--primary)"],
+[style*="background: #ffffff"],
+[style*="background:#ffffff"],
+[style*="background: #FFFFFF"],
+[style*="background:#FFFFFF"] {
+  color: #000000 !important;
+}
+
+.btn-primary svg,
+button[style*="var(--primary)"] svg,
+a[style*="var(--primary)"] svg,
+[style*="background: var(--primary)"] svg,
+[style*="background:var(--primary)"] svg,
+[style*="background: #ffffff"] svg,
+[style*="background:#ffffff"] svg,
+[style*="background: #FFFFFF"] svg,
+[style*="background:#FFFFFF"] svg {
+  stroke: #000000;
 }
 
 /* Prose line length */
@@ -370,96 +405,61 @@ a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   Visual Enhancements & Modern Utility Classes
+   Precision Telemetry Indicators & Diodes
    -------------------------------------------------------------------------- */
-.bg-mesh {
-  background-color: var(--canvas);
-  background-image: radial-gradient(rgba(29, 78, 137, 0.08) 1px, transparent 1px);
-  background-size: 24px 24px;
-}
-
-.glass-card {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(221, 227, 234, 0.85);
-  box-shadow: 0 4px 20px -2px rgba(14, 31, 51, 0.06);
-}
-
-.hero-gradient {
-  background: linear-gradient(135deg, #091728 0%, #112744 40%, #1D4E89 100%);
-  color: #FFFFFF;
-}
-
-.hero-gradient-subtle {
-  background: linear-gradient(180deg, #F8FAFC 0%, var(--canvas) 100%);
-}
-
-.pulse-dot {
-  width: 8px;
-  height: 8px;
+.pulse-dot,
+.diode-verified {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background-color: #10B981;
-  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-  animation: pulseGreen 2s infinite;
+  background-color: var(--verified);
+  box-shadow: var(--halo-verified);
   display: inline-block;
   flex-shrink: 0;
 }
 
-@keyframes pulseGreen {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-
-.pulse-amber {
-  width: 8px;
-  height: 8px;
+.pulse-amber,
+.diode-pending {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background-color: #F59E0B;
-  box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7);
-  animation: pulseAmber 2s infinite;
+  background-color: var(--pending);
+  box-shadow: var(--halo-pending);
   display: inline-block;
   flex-shrink: 0;
 }
 
-@keyframes pulseAmber {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(245, 158, 11, 0); }
+.diode-disputed {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--disputed);
+  box-shadow: var(--halo-disputed);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-.badge-glow {
-  box-shadow: 0 0 12px -2px rgba(29, 78, 137, 0.25);
+.diode-sim {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--sim);
+  box-shadow: var(--halo-sim);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-.border-gradient {
-  position: relative;
-  background-clip: padding-box;
+.diode-info {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--info);
+  box-shadow: var(--halo-info);
+  display: inline-block;
+  flex-shrink: 0;
 }
 
-/* Smooth micro-interactions & modern effects */
-.hover-lift {
-  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.hover-lift:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 25px -4px rgba(14, 31, 51, 0.1), 0 4px 10px -2px rgba(14, 31, 51, 0.05);
-}
-
-.hover-glow:hover {
-  box-shadow: 0 0 20px -3px rgba(29, 78, 137, 0.35);
-}
-
-.hover-glow-verified:hover {
-  box-shadow: 0 0 20px -3px rgba(16, 185, 129, 0.4);
-}
-
-.transition-smooth {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Stepper & pipeline node styling */
+/* Pipeline Node */
 .pipeline-step-card {
   background: var(--surface);
   border: 1px solid var(--line);
@@ -467,205 +467,239 @@ a:hover {
   padding: 14px 12px;
   display: flex;
   flex-direction: column;
-  justifyContent: space-between;
+  justify-content: space-between;
   position: relative;
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 1px 3px rgba(14, 31, 51, 0.04);
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .pipeline-step-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--primary);
-  box-shadow: 0 8px 20px -4px rgba(29, 78, 137, 0.12);
+  border-color: var(--outline);
+  background: var(--surface-container);
 }
 
 .pipeline-step-card[data-verified="true"] {
-  border: 1.5px solid var(--verified);
-  background: linear-gradient(180deg, #F0FDF4 0%, #FFFFFF 100%);
-  box-shadow: 0 2px 8px -2px rgba(16, 185, 129, 0.15);
+  border: 1px solid var(--verified);
+  background: var(--surface);
 }
-.pipeline-step-card[data-verified="true"]:hover {
-  box-shadow: 0 8px 24px -4px rgba(16, 185, 129, 0.25);
-  border-color: #059669;
-}
-
 
 /* --------------------------------------------------------------------------
-   Status chip component — always icon + text + colour, never colour alone
+   Telemetry Status Chip Component
+   Exact Stitch Specification: Height 22px, padding 2px 8px, uppercase mono, diode dot
    -------------------------------------------------------------------------- */
 .status-chip {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-1);
-  padding: 2px var(--sp-2);
-  border-radius: var(--r-control);
+  gap: 6px;
+  height: 22px;
+  padding: 0 8px;
+  border-radius: var(--r-badge);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
   font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   white-space: nowrap;
-  border: 1px solid;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  color: var(--text-on-surface);
 }
 
 .status-chip--verified {
+  color: var(--text-on-surface);
+  border-color: var(--line);
+}
+.status-chip--verified svg,
+.status-chip--verified .status-dot {
   color: var(--verified);
-  background: var(--chip-verified-bg);
-  border-color: var(--chip-verified-border);
+  filter: drop-shadow(0 0 4px rgba(24, 182, 164, 0.4));
 }
+
 .status-chip--pending {
+  color: var(--text-on-surface);
+  border-color: var(--line);
+}
+.status-chip--pending svg,
+.status-chip--pending .status-dot {
   color: var(--pending);
-  background: var(--chip-pending-bg);
-  border-color: var(--chip-pending-border);
+  filter: drop-shadow(0 0 4px rgba(217, 154, 50, 0.4));
 }
+
 .status-chip--disputed {
+  color: var(--text-on-surface);
+  border-color: var(--line);
+}
+.status-chip--disputed svg,
+.status-chip--disputed .status-dot {
   color: var(--disputed);
-  background: var(--chip-disputed-bg);
-  border-color: var(--chip-disputed-border);
+  filter: drop-shadow(0 0 4px rgba(224, 82, 82, 0.4));
 }
+
 .status-chip--rejected {
-  color: #9F1239;
-  background: var(--chip-rejected-bg);
-  border-color: var(--chip-rejected-border);
+  color: var(--text-on-surface);
+  border-color: var(--line);
 }
+.status-chip--rejected svg,
+.status-chip--rejected .status-dot {
+  color: var(--disputed);
+  filter: drop-shadow(0 0 4px rgba(224, 82, 82, 0.4));
+}
+
 .status-chip--info {
-  color: var(--info);
-  background: var(--chip-info-bg);
-  border-color: var(--chip-info-border);
+  color: var(--text-on-surface);
+  border-color: var(--line);
 }
+.status-chip--info svg,
+.status-chip--info .status-dot {
+  color: var(--info);
+  filter: drop-shadow(0 0 4px rgba(91, 157, 255, 0.4));
+}
+
 .status-chip--simulation {
+  color: var(--text-on-surface);
+  border-color: var(--line);
+}
+.status-chip--simulation svg,
+.status-chip--simulation .status-dot {
   color: var(--sim);
-  background: var(--chip-sim-bg);
-  border-color: var(--chip-sim-border);
+  filter: drop-shadow(0 0 4px rgba(155, 122, 232, 0.4));
 }
 
 /* --------------------------------------------------------------------------
-   Metric card — refined institutional aesthetics with micro-elevation
+   Telemetry Metric Cards (Stitch Instrument Matrix)
    -------------------------------------------------------------------------- */
 .metric-card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-container);
   padding: var(--sp-4) var(--sp-5);
-  box-shadow: var(--shadow-card);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .metric-card:hover {
-  border-color: rgba(29, 78, 137, 0.35);
-  box-shadow: var(--shadow-card-hover);
-  transform: translateY(-2px);
-}
-
-.metric-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: var(--line);
-  transition: background 0.2s ease;
-}
-
-.metric-card:hover::before {
-  background: var(--primary);
-}
-
-.metric-card[data-verified="true"]::before {
-  background: var(--verified);
+  border-color: var(--outline-variant);
+  background: var(--surface-container);
 }
 
 .metric-card__value {
+  font-family: var(--font-ui);
   font-size: var(--text-2xl);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.1;
   font-variant-numeric: tabular-nums;
   color: var(--ink);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
 }
 
 .metric-card__label {
-  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
   font-weight: 500;
   color: var(--muted);
-  margin-top: var(--sp-1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 /* --------------------------------------------------------------------------
-   Button & Interactive Element Styles
+   Button & Interactive Element Styles (Stitch Technical Precision)
    -------------------------------------------------------------------------- */
 .btn-primary {
-  background: linear-gradient(180deg, #225C9E 0%, #1D4E89 100%);
-  color: #FFFFFF !important;
-  border: 1px solid #163C6E;
+  background: #ffffff;
+  color: #000000 !important;
+  border: 1px solid #ffffff;
   border-radius: var(--r-control);
   padding: 8px 16px;
+  font-family: var(--font-ui);
   font-size: var(--text-sm);
-  font-weight: 600;
-  box-shadow: 0 1px 2px rgba(29, 78, 137, 0.25);
-  transition: all 0.15s ease;
+  font-weight: 500;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
   text-decoration: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(180deg, #2769B2 0%, #225C9E 100%);
-  box-shadow: 0 4px 10px rgba(29, 78, 137, 0.35);
-  transform: translateY(-1px);
+  background: #e5e5e5;
+  border-color: #e5e5e5;
+  text-decoration: none;
 }
 
 .btn-primary:active {
-  transform: translateY(0);
+  background: #d4d4d4;
 }
 
-.btn-secondary {
-  background: var(--surface);
-  color: var(--ink);
+.btn-secondary,
+.btn-ghost {
+  background: transparent;
+  color: var(--text-on-surface);
   border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  padding: 8px 16px;
+  font-family: var(--font-ui);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-2);
+  text-decoration: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.btn-secondary:hover,
+.btn-ghost:hover {
+  background: var(--surface-container);
+  border-color: var(--outline-variant);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.btn-danger {
+  background: transparent;
+  color: var(--disputed);
+  border: 1px solid rgba(224, 82, 82, 0.4);
   border-radius: var(--r-control);
   padding: 8px 16px;
   font-size: var(--text-sm);
   font-weight: 500;
-  box-shadow: var(--shadow-xs);
-  transition: all 0.15s ease;
   cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
   text-decoration: none;
+  transition: all 0.12s ease;
 }
 
-.btn-secondary:hover {
-  background: var(--canvas);
-  border-color: var(--muted);
-  transform: translateY(-1px);
+.btn-danger:hover {
+  background: rgba(224, 82, 82, 0.1);
+  border-color: var(--disputed);
 }
 
 .card {
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-container);
-  box-shadow: var(--shadow-card);
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.15s ease;
 }
 
 .card:hover {
-  border-color: rgba(29, 78, 137, 0.25);
-  box-shadow: var(--shadow-card-hover);
+  border-color: var(--outline-variant);
 }
 
 /* --------------------------------------------------------------------------
-   Data table
+   Data Table & Immutable Journal Matrix
    -------------------------------------------------------------------------- */
 .data-table-wrapper {
   border: 1px solid var(--line);
   border-radius: var(--r-container);
   overflow: hidden;
+  background: var(--surface);
 }
 
 .data-table {
@@ -675,53 +709,61 @@ a:hover {
 }
 
 .data-table th {
-  background: var(--canvas);
+  background: var(--surface-container-low);
   border-bottom: 1px solid var(--line);
-  padding: var(--sp-2) var(--sp-4);
+  padding: var(--sp-3) var(--sp-4);
   text-align: left;
-  font-weight: 600;
+  font-family: var(--font-mono);
+  font-weight: 500;
   color: var(--muted);
   font-size: var(--text-xs);
-  text-transform: none; /* Never uppercase per design rules */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   position: sticky;
   top: 0;
   z-index: 1;
 }
 
 .data-table td {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-subtle);
   padding: var(--sp-3) var(--sp-4);
   vertical-align: middle;
-  color: var(--ink);
+  color: var(--text-on-surface);
 }
 
 .data-table tr:last-child td {
   border-bottom: none;
 }
 
-.data-table tr:hover td {
-  background: color-mix(in srgb, var(--primary) 3%, transparent);
+.data-table tbody tr {
+  background: var(--canvas);
+  transition: background-color 0.12s ease;
+}
+
+.data-table tbody tr:hover {
+  background: var(--surface);
 }
 
 /* --------------------------------------------------------------------------
-   Synthetic data banner — persistent, unobtrusive
-   Required: MASTER_PROMPT Section 0, rule 6
+   Synthetic Data Banner — Persistent, Unobtrusive
    -------------------------------------------------------------------------- */
 .synthetic-banner {
-  background: color-mix(in srgb, var(--info) 8%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, var(--info) 20%, transparent);
+  background: #080808;
+  border-bottom: 1px solid var(--line);
   padding: var(--sp-1) var(--sp-6);
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--sp-2);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  color: var(--info);
-  font-weight: 500;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 /* --------------------------------------------------------------------------
-   Page header
+   Page Header
    -------------------------------------------------------------------------- */
 .page-header {
   margin-bottom: var(--sp-6);
@@ -730,9 +772,11 @@ a:hover {
 }
 
 .page-header__title {
+  font-family: var(--font-ui);
   font-size: var(--text-xl);
   font-weight: 600;
   color: var(--ink);
+  letter-spacing: -0.02em;
   margin-bottom: var(--sp-1);
 }
 
@@ -743,157 +787,72 @@ a:hover {
 }
 
 /* --------------------------------------------------------------------------
-   Simulation badge — SIMULATION label must be visible everywhere simulation
-   data appears. Use class="sim-label" on any simulation output container.
+   Simulation Badge
    -------------------------------------------------------------------------- */
 .sim-label {
   display: inline-flex;
   align-items: center;
   gap: var(--sp-1);
   padding: 2px 8px;
-  border-radius: var(--r-control);
-  background: var(--chip-sim-bg);
-  border: 1px solid var(--chip-sim-border);
+  border-radius: var(--r-badge);
+  background: var(--surface);
+  border: 1px solid var(--sim);
   color: var(--sim);
+  font-family: var(--font-mono);
   font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.03em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 /* --------------------------------------------------------------------------
-   Evidence block (AI answers)
+   Evidence Block (AI Citations)
    -------------------------------------------------------------------------- */
 .evidence-block {
-  background: var(--canvas);
+  background: var(--surface);
   border: 1px solid var(--line);
-  border-left: 3px solid var(--primary);
+  border-left: 2px solid var(--primary);
   border-radius: var(--r-container);
   padding: var(--sp-4);
   font-size: var(--text-sm);
 }
 
 /* --------------------------------------------------------------------------
-   Animations & Micro-Transitions — High-performance, institutional easing
-   Respects prefers-reduced-motion; zero layout shift; sub-200ms durations.
+   Form Inputs (Precision Instrument Fields)
    -------------------------------------------------------------------------- */
-
-/* Global interactive control micro-transitions */
-button:not(:disabled),
-.btn,
-a.btn {
-  transition: background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.08s ease,
-              box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-button:not(:disabled):active,
-.btn:active {
-  transform: scale(0.985);
-}
-
-/* Form input smooth focus expansion */
 input,
 select,
 textarea {
-  transition: border-color 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.15s cubic-bezier(0.16, 1, 0.3, 1),
-              background-color 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+  background: var(--surface-container-low);
+  border: 1px solid var(--line);
+  border-radius: var(--r-control);
+  color: var(--text-on-surface);
+  font-family: var(--font-ui);
+  transition: border-color 0.12s ease;
 }
 
 input:focus,
 select:focus,
 textarea:focus {
   outline: none;
-  border-color: var(--primary) !important;
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary) 14%, transparent) !important;
+  border-color: #ffffff !important;
 }
 
-/* Smooth table row highlight */
-.data-table tbody tr {
-  transition: background-color 0.12s ease;
-}
-
-/* Status chip smooth transition */
-.status-chip {
-  transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-              color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Navigation tabs transition */
-button[role="tab"],
-.tab-button {
-  transition: color 0.15s ease, border-color 0.15s ease, background-color 0.15s ease;
-}
-
-/* Keyframes */
-@keyframes fadeInDown {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes modalBackdropFade {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@keyframes modalDialogPop {
-  from { opacity: 0; transform: scale(0.97) translateY(6px); }
-  to   { opacity: 1; transform: scale(1) translateY(0); }
-}
-
-@keyframes slideAlertDown {
-  from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes subtleBreathing {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.55; transform: scale(0.96); }
-}
-
-/* Utility animation classes */
-.animate-fade-in {
-  animation: fadeIn 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.animate-fade-in-down {
-  animation: fadeInDown 0.18s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.modal-backdrop-animate {
-  animation: modalBackdropFade 0.15s ease forwards;
-}
-
-.modal-card-animate {
-  animation: modalDialogPop 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.alert-banner-animate {
-  animation: slideAlertDown 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.pulse-subtle {
-  animation: subtleBreathing 2.4s ease-in-out infinite;
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-disabled);
 }
 
 /* --------------------------------------------------------------------------
-   Scrollbar (subtle)
+   Scrollbar (Subtle Achromatic)
    -------------------------------------------------------------------------- */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--line); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--muted); }
+::-webkit-scrollbar-track { background: var(--canvas); }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--outline-variant); }
 
 /* --------------------------------------------------------------------------
-   Print styles (for passport PDF export)
+   Print Styles
    -------------------------------------------------------------------------- */
 @media print {
   .sidebar, .topbar, .synthetic-banner, .no-print { display: none !important; }

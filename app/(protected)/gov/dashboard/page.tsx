@@ -118,7 +118,7 @@ export default async function GovDashboardPage() {
       <div className="page-header" style={{ marginBottom: 'var(--sp-5)' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: 'var(--sp-4)' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', marginBottom: 'var(--sp-1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', marginBottom: 'var(--sp-1)', flexWrap: 'wrap' }}>
               <h1 className="page-header__title" style={{ margin: 0 }}>
                 Employment Outcome Intelligence
               </h1>
@@ -126,10 +126,10 @@ export default async function GovDashboardPage() {
                 fontSize: '11px',
                 fontWeight: 700,
                 padding: '2px 8px',
-                borderRadius: 'var(--r-control)',
-                background: 'rgba(29, 78, 137, 0.08)',
-                color: 'var(--primary)',
-                border: '1px solid rgba(29, 78, 137, 0.2)',
+                borderRadius: '4px',
+                background: 'rgba(24, 182, 164, 0.12)',
+                color: '#18B6A4',
+                border: '1px solid rgba(24, 182, 164, 0.3)',
                 letterSpacing: '0.04em',
               }}>
                 NATIONAL COMMAND CENTER
@@ -541,12 +541,12 @@ function PipelineStep({
 }) {
   const badgeStyle: React.CSSProperties =
     badgeType === 'verified'
-      ? { background: 'var(--chip-verified-bg)', color: 'var(--verified)', border: '1px solid var(--chip-verified-border)' }
+      ? { background: 'rgba(24, 182, 164, 0.15)', color: '#18B6A4', border: '1px solid rgba(24, 182, 164, 0.3)' }
       : badgeType === 'pending'
-      ? { background: 'var(--chip-pending-bg)', color: 'var(--pending)', border: '1px solid var(--chip-pending-border)' }
+      ? { background: 'rgba(245, 158, 11, 0.15)', color: '#F59E0B', border: '1px solid rgba(245, 158, 11, 0.3)' }
       : badgeType === 'primary'
-      ? { background: 'rgba(29, 78, 137, 0.08)', color: 'var(--primary)', border: '1px solid rgba(29, 78, 137, 0.2)' }
-      : { background: 'var(--canvas)', color: 'var(--muted)', border: '1px solid var(--line)' }
+      ? { background: 'rgba(24, 182, 164, 0.12)', color: '#18B6A4', border: '1px solid rgba(24, 182, 164, 0.25)' }
+      : { background: '#151515', color: '#A3A3A3', border: '1px solid #242424' }
 
   return (
     <div
@@ -557,10 +557,10 @@ function PipelineStep({
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
-        borderRadius: 'var(--r-control)',
-        background: accent ? 'linear-gradient(180deg, #F0FDF4 0%, #FFFFFF 100%)' : 'var(--surface)',
-        border: accent ? '2px solid var(--verified)' : '1px solid var(--line)',
-        boxShadow: accent ? '0 2px 10px -2px rgba(16, 185, 129, 0.2)' : '0 1px 3px rgba(14, 31, 51, 0.04)',
+        borderRadius: '4px',
+        background: accent ? '#0A1815' : '#0F0F0F',
+        border: accent ? '1px solid #18B6A4' : '1px solid #242424',
+        boxShadow: accent ? '0 0 12px rgba(24, 182, 164, 0.2)' : 'none',
       }}
     >
       {/* Top Header inside the Step Card */}

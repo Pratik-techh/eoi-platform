@@ -110,16 +110,16 @@ function LoginForm() {
           <div style={{
             width: 32,
             height: 32,
-            background: 'var(--primary)',
-            borderRadius: 'var(--r-control)',
+            background: '#FFFFFF',
+            borderRadius: 'var(--r-badge)',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             flexShrink: 0,
           }}>
             <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path d="M3 14L7 8L10 11L13 6L15 9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <circle cx="15" cy="4" r="2" fill="var(--verified)"/>
+              <path d="M3 14L7 8L10 11L13 6L15 9" stroke="#000000" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="15" cy="4" r="2" fill="#18B6A4"/>
             </svg>
           </div>
           <div>
@@ -142,24 +142,26 @@ function LoginForm() {
         <div style={{
           marginTop: 'var(--sp-4)',
           padding: 'var(--sp-3) var(--sp-4)',
-          background: 'rgba(29, 78, 137, 0.08)',
-          border: '1px solid rgba(29, 78, 137, 0.25)',
+          background: '#0F0F0F',
+          border: '1px solid #242424',
           borderRadius: 'var(--r-control)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
           gap: 'var(--sp-2)',
         }}>
-          <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--primary)' }}>
+          <span style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)' }}>
             ⚡ SIH 2026 Evaluator Guide:
           </span>
           <a
             href="/demo"
             style={{
               fontSize: 'var(--text-xs)',
+              fontFamily: 'var(--font-mono)',
               fontWeight: 700,
-              color: 'var(--primary)',
+              color: '#FFFFFF',
               textDecoration: 'underline',
+              letterSpacing: '0.02em',
             }}
           >
             Open 1-Click Role Switcher →
@@ -262,16 +264,18 @@ function LoginForm() {
             disabled={isPending}
             style={{
               width: '100%',
-              padding: 'var(--sp-2) var(--sp-4)',
-              background: isPending ? 'var(--muted)' : 'var(--primary)',
-              color: 'white',
-              border: 'none',
+              padding: '10px 16px',
+              background: isPending ? '#353534' : '#FFFFFF',
+              color: isPending ? 'var(--muted)' : '#000000',
+              border: isPending ? '1px solid #353534' : '1px solid #FFFFFF',
               borderRadius: 'var(--r-control)',
-              fontSize: 'var(--text-base)',
+              fontSize: 'var(--text-sm)',
+              fontFamily: 'var(--font-mono)',
               fontWeight: 600,
               cursor: isPending ? 'not-allowed' : 'pointer',
-              fontFamily: 'var(--font-ui)',
-              transition: 'background 0.15s ease',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              transition: 'background 0.12s ease',
             }}
           >
             {isPending ? 'Signing in…' : 'Sign in'}

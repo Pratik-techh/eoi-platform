@@ -87,13 +87,13 @@ export function DataTable<T extends Record<string, any>>({
   }
 
   return (
-    <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)', overflow: 'hidden' }}>
-      {/* Controls Bar */}
+    <div style={{ background: '#0F0F0F', border: '1px solid #242424', borderRadius: 'var(--r-control)', overflow: 'hidden' }}>
+      {/* Controls Bar (Stitch Technical Header) */}
       <div style={{
-        padding: 'var(--sp-3) var(--sp-4)', borderBottom: '1px solid var(--line)', background: 'var(--canvas)',
+        padding: '10px 16px', borderBottom: '1px solid #242424', background: '#080808',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--sp-3)',
       }}>
-        {/* Search */}
+        {/* Search Input */}
         <div style={{ position: 'relative', width: '100%', maxWidth: 280 }}>
           <input
             type="text"
@@ -101,14 +101,14 @@ export function DataTable<T extends Record<string, any>>({
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
             style={{
-              width: '100%', padding: '6px 10px 6px 30px', border: '1px solid var(--line)',
-              borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', background: 'var(--surface)',
-              color: 'var(--ink)', outline: 'none', fontFamily: 'var(--font-ui)',
+              width: '100%', padding: '6px 10px 6px 30px', border: '1px solid #242424',
+              borderRadius: 'var(--r-badge)', fontSize: '11px', background: '#000000',
+              color: '#FFFFFF', outline: 'none', fontFamily: 'var(--font-ui)',
             }}
           />
           <svg
-            width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"
-            style={{ position: 'absolute', left: 10, top: 9, color: 'var(--muted)' }}
+            width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"
+            style={{ position: 'absolute', left: 10, top: 8, color: 'var(--muted)' }}
           >
             <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.3"/>
             <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
@@ -120,42 +120,44 @@ export function DataTable<T extends Record<string, any>>({
           <button
             onClick={() => setCompact(!compact)}
             style={{
-              padding: '5px 10px', background: 'var(--surface)', border: '1px solid var(--line)',
-              borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', color: 'var(--muted)',
-              cursor: 'pointer', fontFamily: 'var(--font-ui)',
+              padding: '5px 10px', background: '#0F0F0F', border: '1px solid #242424',
+              borderRadius: 'var(--r-badge)', fontSize: '11px', fontFamily: 'var(--font-mono)',
+              color: 'var(--text-on-surface-variant)', cursor: 'pointer', textTransform: 'uppercase',
+              letterSpacing: '0.04em',
             }}
           >
-            {compact ? 'Comfortable view' : 'Compact view'}
+            {compact ? 'Comfortable' : 'Compact'}
           </button>
           <button
             onClick={handleExportCsv}
             style={{
-              display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 10px',
-              background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)',
-              fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', cursor: 'pointer',
-              fontFamily: 'var(--font-ui)',
+              display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 12px',
+              background: '#FFFFFF', border: '1px solid #FFFFFF', borderRadius: 'var(--r-badge)',
+              fontSize: '11px', fontWeight: 600, color: '#000000', cursor: 'pointer',
+              fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.04em',
             }}
           >
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-              <path d="M6 1.5v6M3.5 5.5L6 8l2.5-2.5M1.5 9.5h9" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M6 1.5v6M3.5 5.5L6 8l2.5-2.5M1.5 9.5h9" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
             Export CSV
           </button>
         </div>
       </div>
 
-      {/* Table */}
+      {/* Table (Stitch Ledger Matrix) */}
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
-            <tr style={{ background: 'var(--canvas)', borderBottom: '1px solid var(--line)' }}>
+            <tr style={{ background: '#080808', borderBottom: '1px solid #242424' }}>
               {columns.map(col => (
                 <th
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
                   style={{
                     padding: compact ? '6px 12px' : '10px 14px',
-                    fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--muted)',
+                    fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 500,
+                    color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase',
                     cursor: col.sortable ? 'pointer' : 'default',
                     userSelect: 'none', whiteSpace: 'nowrap',
                   }}
@@ -163,7 +165,7 @@ export function DataTable<T extends Record<string, any>>({
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                     {col.label}
                     {col.sortable && sortCol === col.key && (
-                      <span>{sortAsc ? '▲' : '▼'}</span>
+                      <span style={{ color: '#FFFFFF' }}>{sortAsc ? '▲' : '▼'}</span>
                     )}
                   </div>
                 </th>
@@ -173,7 +175,7 @@ export function DataTable<T extends Record<string, any>>({
           <tbody>
             {paginated.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} style={{ padding: 'var(--sp-8)', textAlign: 'center', color: 'var(--muted)', fontSize: 'var(--text-sm)' }}>
+                <td colSpan={columns.length} style={{ padding: 'var(--sp-8)', textAlign: 'center', color: 'var(--muted)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase' }}>
                   No matching records found
                 </td>
               </tr>
@@ -183,20 +185,20 @@ export function DataTable<T extends Record<string, any>>({
                   key={item[idKey] ?? idx}
                   onClick={() => onRowClick?.(item)}
                   style={{
-                    borderBottom: '1px solid var(--line)',
+                    borderBottom: '1px solid #1A1A1A',
                     cursor: onRowClick ? 'pointer' : 'default',
-                    background: idx % 2 === 0 ? 'var(--surface)' : '#FAFBFC',
-                    transition: 'background 0.1s ease',
+                    background: '#000000',
+                    transition: 'background-color 0.1s ease',
                   }}
-                  onMouseEnter={e => { if (onRowClick) e.currentTarget.style.background = 'var(--canvas)' }}
-                  onMouseLeave={e => { if (onRowClick) e.currentTarget.style.background = idx % 2 === 0 ? 'var(--surface)' : '#FAFBFC' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#0F0F0F' }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#000000' }}
                 >
                   {columns.map(col => (
                     <td
                       key={col.key}
                       style={{
                         padding: compact ? '6px 12px' : '10px 14px',
-                        fontSize: 'var(--text-xs)', color: 'var(--ink)',
+                        fontSize: '12px', color: 'var(--text-on-surface)',
                       }}
                     >
                       {col.render ? col.render(item) : String(item[col.key] ?? '—')}
@@ -211,8 +213,9 @@ export function DataTable<T extends Record<string, any>>({
 
       {/* Pagination Bar */}
       <div style={{
-        padding: 'var(--sp-3) var(--sp-4)', borderTop: '1px solid var(--line)', background: 'var(--canvas)',
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: 'var(--text-xs)', color: 'var(--muted)',
+        padding: '10px 16px', borderTop: '1px solid #242424', background: '#080808',
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px',
+        fontFamily: 'var(--font-mono)', color: 'var(--muted)', letterSpacing: '0.04em', textTransform: 'uppercase',
       }}>
         <span>
           Showing {filtered.length === 0 ? 0 : (page - 1) * pageSize + 1}–{Math.min(page * pageSize, filtered.length)} of {filtered.length} records
@@ -222,19 +225,21 @@ export function DataTable<T extends Record<string, any>>({
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page <= 1}
             style={{
-              padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 2,
-              background: 'var(--surface)', color: 'var(--ink)', cursor: page <= 1 ? 'not-allowed' : 'pointer',
+              padding: '3px 8px', border: '1px solid #242424', borderRadius: 2,
+              background: '#0F0F0F', color: page <= 1 ? 'var(--text-disabled)' : '#FFFFFF',
+              cursor: page <= 1 ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)',
             }}
           >
             ← Prev
           </button>
-          <span style={{ padding: '3px 6px', fontWeight: 600 }}>{page} / {totalPages}</span>
+          <span style={{ padding: '3px 6px', fontWeight: 600, color: '#FFFFFF' }}>{page} / {totalPages}</span>
           <button
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page >= totalPages}
             style={{
-              padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 2,
-              background: 'var(--surface)', color: 'var(--ink)', cursor: page >= totalPages ? 'not-allowed' : 'pointer',
+              padding: '3px 8px', border: '1px solid #242424', borderRadius: 2,
+              background: '#0F0F0F', color: page >= totalPages ? 'var(--text-disabled)' : '#FFFFFF',
+              cursor: page >= totalPages ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)',
             }}
           >
             Next →

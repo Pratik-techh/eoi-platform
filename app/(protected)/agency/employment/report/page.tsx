@@ -235,9 +235,10 @@ export default function AgencyEmploymentReportPage() {
             type="submit"
             disabled={isSubmitting}
             style={{
-              marginTop: 'var(--sp-2)', padding: 'var(--sp-3)', background: 'var(--primary)',
-              color: 'white', border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
-              fontWeight: 600, cursor: isSubmitting ? 'wait' : 'pointer', fontFamily: 'var(--font-ui)',
+              marginTop: 'var(--sp-2)', padding: '10px 16px', background: '#FFFFFF',
+              color: '#000000', border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+              fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+              cursor: isSubmitting ? 'wait' : 'pointer',
             }}
           >
             {isSubmitting ? 'Submitting to verification pipeline…' : 'Submit for Employer Independent Verification →'}

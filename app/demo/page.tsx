@@ -106,8 +106,8 @@ export default function DemoGuidePage() {
     <div style={{ maxWidth: '960px', margin: '0 auto', padding: 'var(--sp-8) var(--sp-4)' }}>
       <div style={{ marginBottom: 'var(--sp-6)' }}>
         <div style={{
-          display: 'inline-block', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: 'var(--r-control)',
-          background: 'var(--primary)', color: 'white', letterSpacing: '0.05em', marginBottom: 'var(--sp-2)',
+          display: 'inline-block', fontSize: '11px', fontWeight: 700, padding: '3px 8px', borderRadius: 'var(--r-badge)',
+          background: '#FFFFFF', color: '#000000', letterSpacing: '0.05em', marginBottom: 'var(--sp-2)',
         }}>
           SIH 2026 EVALUATION GUIDE
         </div>
@@ -122,13 +122,21 @@ export default function DemoGuidePage() {
             href="/EOI_Platform_User_Manual_and_Guide.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary"
             style={{
+              display: 'inline-flex',
+              alignItems: 'center',
               padding: '8px 16px',
               fontSize: 'var(--text-xs)',
+              fontFamily: 'var(--font-mono)',
+              fontWeight: 600,
               gap: 8,
-              background: 'linear-gradient(135deg, #091728 0%, #1D4E89 100%)',
-              boxShadow: 'var(--shadow-sm)',
+              background: '#151515',
+              color: '#FFFFFF',
+              border: '1px solid #242424',
+              borderRadius: 'var(--r-control)',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
             }}
           >
             <span>📄 Download Official Manual & Guide (PDF)</span>
@@ -179,8 +187,9 @@ export default function DemoGuidePage() {
           >
             <div style={{ display: 'flex', gap: 'var(--sp-4)', alignItems: 'flex-start' }}>
               <div style={{
-                width: 32, height: 32, borderRadius: '50%', background: 'var(--primary)', color: 'white',
+                width: 32, height: 32, borderRadius: '50%', background: '#FFFFFF', color: '#000000',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 700, fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)',
                 flexShrink: 0,
               }}>
                 {sc.num}
@@ -201,9 +210,10 @@ export default function DemoGuidePage() {
             <button
               onClick={() => handleSwitchAccount(sc.actor)}
               style={{
-                padding: '8px 16px', background: 'var(--primary)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', fontWeight: 600,
-                cursor: 'pointer', fontFamily: 'var(--font-ui)',
+                padding: '8px 16px', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', fontWeight: 600,
+                fontFamily: 'var(--font-mono)', letterSpacing: '0.04em', textTransform: 'uppercase',
+                cursor: 'pointer',
               }}
             >
               Switch & Run Scene {sc.num} →

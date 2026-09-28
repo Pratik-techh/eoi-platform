@@ -174,9 +174,10 @@ export default function EmployerVerificationPage() {
                       id={`confirm-${item.id}`}
                       onClick={() => { setSelectedOutcome(item); setActionType('CONFIRM') }}
                       style={{
-                        padding: '6px var(--sp-4)', background: 'var(--verified)', color: 'white',
-                        border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', fontWeight: 600,
-                        cursor: 'pointer', fontFamily: 'var(--font-ui)',
+                        padding: '6px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                        border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)',
+                        fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                        cursor: 'pointer',
                       }}
                     >
                       {isUnemployment ? 'Confirm Departure' : 'Confirm Employment'}
@@ -216,12 +217,12 @@ export default function EmployerVerificationPage() {
       {/* Confirmation / Action Dialog */}
       {selectedOutcome && actionType && (
         <div style={{
-          position: 'fixed', inset: 0, background: 'rgba(14,31,51,0.5)', zIndex: 100,
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.85)', zIndex: 100,
           display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'var(--sp-4)',
         }}>
           <div style={{
-            background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-container)',
-            width: '100%', maxWidth: '500px', padding: 'var(--sp-6)',
+            background: '#0F0F0F', border: '1px solid #242424', borderRadius: 'var(--r-modal)',
+            width: '100%', maxWidth: '500px', padding: 'var(--sp-6)', boxShadow: '0 8px 32px rgba(0,0,0,0.9)',
           }}>
             <h2 style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)', marginBottom: 'var(--sp-3)' }}>
               {actionType === 'CONFIRM'
@@ -251,8 +252,8 @@ export default function EmployerVerificationPage() {
                   onChange={e => setReason(e.target.value)}
                   placeholder="Provide precise explanation for rejection or correction request…"
                   style={{
-                    width: '100%', padding: 'var(--sp-2)', border: '1px solid var(--line)',
-                    borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', background: 'var(--surface)',
+                    width: '100%', padding: 'var(--sp-2)', border: '1px solid #242424',
+                    borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', background: '#080808', color: 'var(--text-on-surface)',
                   }}
                 />
               </div>
@@ -262,8 +263,9 @@ export default function EmployerVerificationPage() {
               <button
                 onClick={() => { setSelectedOutcome(null); setActionType(null) }}
                 style={{
-                  padding: '6px var(--sp-4)', background: 'var(--canvas)', border: '1px solid var(--line)',
-                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', cursor: 'pointer',
+                  padding: '6px var(--sp-4)', background: 'transparent', border: '1px solid #242424',
+                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', color: 'var(--text-on-surface)',
+                  fontFamily: 'var(--font-mono)', cursor: 'pointer',
                 }}
               >
                 Cancel
@@ -274,9 +276,12 @@ export default function EmployerVerificationPage() {
                 onClick={handleExecuteAction}
                 style={{
                   padding: '6px var(--sp-4)',
-                  background: actionType === 'CONFIRM' ? 'var(--verified)' : actionType === 'REJECT' ? 'var(--disputed)' : 'var(--pending)',
-                  color: 'white', border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)', fontWeight: 600,
-                  cursor: isProcessing ? 'wait' : 'pointer', fontFamily: 'var(--font-ui)',
+                  background: actionType === 'CONFIRM' ? '#FFFFFF' : actionType === 'REJECT' ? '#E05252' : '#D99A32',
+                  color: actionType === 'CONFIRM' ? '#000000' : '#FFFFFF',
+                  border: actionType === 'CONFIRM' ? '1px solid #FFFFFF' : 'none',
+                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)',
+                  fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                  cursor: isProcessing ? 'wait' : 'pointer',
                 }}
               >
                 {isProcessing ? 'Writing to ledger…' : 'Confirm & Sign Event'}

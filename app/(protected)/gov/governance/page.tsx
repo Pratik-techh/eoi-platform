@@ -128,9 +128,9 @@ export default function GovGovernancePage() {
             <button
               onClick={() => handleApprove(r.id)}
               style={{
-                padding: '4px 8px', background: 'var(--verified)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: '11px',
-                fontWeight: 700, cursor: 'pointer',
+                padding: '4px 8px', background: '#18B6A4', color: '#000000',
+                border: 'none', borderRadius: 'var(--r-badge)', fontSize: '11px',
+                fontFamily: 'var(--font-mono)', fontWeight: 700, cursor: 'pointer',
               }}
             >
               ✓ Sign Key
@@ -200,10 +200,10 @@ export default function GovGovernancePage() {
               onClick={() => setShowProposeModal(true)}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-2)',
-                padding: '6px var(--sp-4)', background: 'var(--primary)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
-                fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-ui)',
-                boxShadow: 'var(--shadow-sm)',
+                padding: '6px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                cursor: 'pointer',
               }}
             >
               + Propose Dual-Key Action
@@ -303,7 +303,12 @@ export default function GovGovernancePage() {
                 </button>
                 <button
                   type="submit"
-                  style={{ padding: '6px var(--sp-4)', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer' }}
+                  style={{
+                    padding: '6px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                    border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                    fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                    cursor: 'pointer'
+                  }}
                 >
                   Submit Proposal (Key 1)
                 </button>

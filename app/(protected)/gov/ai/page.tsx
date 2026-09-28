@@ -102,9 +102,10 @@ export default function GovAiPage() {
             type="submit"
             disabled={loading}
             style={{
-              padding: 'var(--sp-3) var(--sp-6)', background: 'var(--primary)', color: 'white',
-              border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
-              fontWeight: 600, cursor: loading ? 'wait' : 'pointer', fontFamily: 'var(--font-ui)',
+              padding: 'var(--sp-3) var(--sp-6)', background: '#FFFFFF', color: '#000000',
+              border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+              fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+              cursor: loading ? 'wait' : 'pointer',
             }}
           >
             {loading ? 'Interpreting evidence…' : 'Analyze evidence'}

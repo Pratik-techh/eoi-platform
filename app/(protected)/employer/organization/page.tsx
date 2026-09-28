@@ -240,9 +240,10 @@ export default function EmployerOrganizationPage() {
               onClick={() => setShowAddVerifierModal(true)}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-1)',
-                padding: '6px var(--sp-3)', background: 'var(--primary)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
-                fontWeight: 600, cursor: 'pointer',
+                padding: '6px var(--sp-3)', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                cursor: 'pointer',
               }}
             >
               + Authorize Verification Officer
@@ -335,9 +336,10 @@ export default function EmployerOrganizationPage() {
               onClick={() => setShowAddIdModal(true)}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-1)',
-                padding: '6px var(--sp-3)', background: 'var(--primary)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
-                fontWeight: 600, cursor: 'pointer',
+                padding: '6px var(--sp-3)', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                cursor: 'pointer',
               }}
             >
               + Register Legal Identifier
@@ -432,9 +434,10 @@ export default function EmployerOrganizationPage() {
               <button
                 onClick={handleSendChallenge}
                 style={{
-                  padding: '8px var(--sp-4)', background: challengeSent ? 'var(--canvas)' : 'var(--primary)',
-                  color: challengeSent ? 'var(--muted)' : 'white', border: `1px solid ${challengeSent ? 'var(--line)' : 'var(--primary)'}`,
-                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer',
+                  padding: '8px var(--sp-4)', background: challengeSent ? 'var(--canvas)' : '#FFFFFF',
+                  color: challengeSent ? 'var(--muted)' : '#000000', border: `1px solid ${challengeSent ? 'var(--line)' : '#FFFFFF'}`,
+                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontFamily: 'var(--font-mono)',
+                  fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em', cursor: 'pointer',
                 }}
               >
                 {challengeSent ? '✓ Cryptographic Challenge Dispatched' : 'Re-verify Corporate Domain Challenge'}
@@ -545,8 +548,10 @@ export default function EmployerOrganizationPage() {
                 <button
                   type="submit"
                   style={{
-                    padding: '7px var(--sp-4)', background: 'var(--primary)', color: 'white',
-                    border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer'
+                    padding: '7px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                    border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                    fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                    cursor: 'pointer'
                   }}
                 >
                   Confirm & Authorize
@@ -659,8 +664,10 @@ export default function EmployerOrganizationPage() {
                 <button
                   type="submit"
                   style={{
-                    padding: '7px var(--sp-4)', background: 'var(--primary)', color: 'white',
-                    border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer'
+                    padding: '7px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                    border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                    fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                    cursor: 'pointer'
                   }}
                 >
                   Submit & Bind to Entity

@@ -78,8 +78,8 @@ export default function PlatformHealthPage() {
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', marginBottom: 4 }}>
               <span style={{
-                fontSize: '11px', fontWeight: 800, padding: '3px 8px', borderRadius: 'var(--r-control)',
-                background: 'var(--verified)', color: 'white', letterSpacing: '0.05em',
+                fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-badge)',
+                background: '#0F0F0F', border: '1px solid #18B6A4', color: '#18B6A4', letterSpacing: '0.06em', textTransform: 'uppercase',
               }}>
                 ALL SYSTEMS OPERATIONAL
               </span>
@@ -99,10 +99,10 @@ export default function PlatformHealthPage() {
               disabled={runningDiagnostic}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-2)',
-                padding: '8px 16px', background: 'var(--primary)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)',
-                fontWeight: 700, cursor: 'pointer', fontFamily: 'var(--font-ui)',
-                boxShadow: 'var(--shadow-sm)',
+                padding: '8px 16px', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-xs)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                cursor: 'pointer',
               }}
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">

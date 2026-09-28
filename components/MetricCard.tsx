@@ -38,9 +38,15 @@ const DATA_STATE_LABELS: Record<string, string> = {
 }
 
 const DATA_STATE_COLORS: Record<string, string> = {
-  verified_only:    'var(--verified)',
-  includes_pending: 'var(--pending)',
-  all:              'var(--muted)',
+  verified_only:    '#18B6A4',
+  includes_pending: '#D99A32',
+  all:              '#8E9192',
+}
+
+const DATA_STATE_HALOS: Record<string, string> = {
+  verified_only:    '0 0 6px rgba(24, 182, 164, 0.45)',
+  includes_pending: '0 0 6px rgba(217, 154, 50, 0.45)',
+  all:              'none',
 }
 
 export function MetricCard({
@@ -59,10 +65,10 @@ export function MetricCard({
 
   const deltaColor =
     deltaDirection === 'neutral' ? 'var(--muted)' :
-    deltaDirection === 'up' && deltaGood ? 'var(--verified)' :
-    deltaDirection === 'up' && !deltaGood ? 'var(--disputed)' :
-    deltaDirection === 'down' && deltaGood ? 'var(--disputed)' :
-    'var(--verified)'
+    deltaDirection === 'up' && deltaGood ? '#18B6A4' :
+    deltaDirection === 'up' && !deltaGood ? '#E05252' :
+    deltaDirection === 'down' && deltaGood ? '#E05252' :
+    '#18B6A4'
 
   return (
     <>
@@ -72,47 +78,64 @@ export function MetricCard({
         role="region"
         aria-label={`${label} metric`}
         style={{
-          borderTop: `3px solid ${DATA_STATE_COLORS[dataState]}`,
+          background: '#0F0F0F',
+          border: '1px solid #242424',
+          borderRadius: 'var(--r-control)',
+          padding: '16px',
         }}
       >
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-2)' }}>
-            <div style={{ height: 12, background: 'var(--line)', borderRadius: 2, width: '60%', animation: 'fadeIn 1s ease infinite alternate' }} />
-            <div style={{ height: 32, background: 'var(--line)', borderRadius: 2, width: '40%' }} />
+            <div style={{ height: 12, background: '#242424', borderRadius: 2, width: '60%' }} />
+            <div style={{ height: 32, background: '#242424', borderRadius: 2, width: '40%' }} />
           </div>
         ) : (
           <>
-            {/* Label row */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--sp-2)' }}>
-              <div className="metric-card__label" style={{ fontWeight: 600 }}>{label}</div>
-              {/* Data state badge */}
-              <span
-                style={{
-                  fontSize: '10px',
-                  fontWeight: 700,
-                  color: DATA_STATE_COLORS[dataState],
-                  border: `1px solid ${DATA_STATE_COLORS[dataState]}`,
-                  background: dataState === 'verified_only' ? 'var(--chip-verified-bg)' : dataState === 'includes_pending' ? 'var(--chip-pending-bg)' : 'var(--canvas)',
-                  borderRadius: 'var(--r-control)',
-                  padding: '1px 6px',
-                }}
-                aria-label={`Data state: ${DATA_STATE_LABELS[dataState]}`}
-              >
-                {DATA_STATE_LABELS[dataState]}
-              </span>
+            {/* Label and Diode Telemetry Row (Stitch Precision Spec) */}
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+              <div className="metric-card__label" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500, color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                {label}
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <span
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: '50%',
+                    backgroundColor: DATA_STATE_COLORS[dataState],
+                    boxShadow: DATA_STATE_HALOS[dataState],
+                    display: 'inline-block',
+                  }}
+                  title={DATA_STATE_LABELS[dataState]}
+                />
+                <span
+                  style={{
+                    fontSize: '10px',
+                    fontFamily: 'var(--font-mono)',
+                    fontWeight: 500,
+                    color: 'var(--muted)',
+                    letterSpacing: '0.04em',
+                    textTransform: 'uppercase',
+                  }}
+                >
+                  {DATA_STATE_LABELS[dataState]}
+                </span>
+              </div>
             </div>
 
             {/* Value */}
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--sp-2)' }}>
-              <div className="metric-card__value tabular-nums" style={{ fontSize: '1.75rem', fontWeight: 800 }}>{value}</div>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 4 }}>
+              <div className="metric-card__value tabular-nums" style={{ fontFamily: 'var(--font-ui)', fontSize: '1.75rem', fontWeight: 600, color: '#FFFFFF', letterSpacing: '-0.025em' }}>
+                {value}
+              </div>
               {unit && (
-                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--muted)', fontWeight: 500 }}>{unit}</div>
+                <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 500, textTransform: 'uppercase' }}>{unit}</div>
               )}
             </div>
 
             {/* Delta */}
             {delta && (
-              <div style={{ marginTop: 'var(--sp-1)', fontSize: 'var(--text-xs)', color: deltaColor, display: 'flex', alignItems: 'center', gap: 2, fontWeight: 600 }}>
+              <div style={{ marginTop: 6, fontSize: '11px', fontFamily: 'var(--font-mono)', color: deltaColor, display: 'flex', alignItems: 'center', gap: 3, fontWeight: 500 }}>
                 {deltaDirection === 'up' && '↑ '}
                 {deltaDirection === 'down' && '↓ '}
                 {delta}
@@ -126,27 +149,33 @@ export function MetricCard({
                 aria-expanded={drawerOpen}
                 aria-controls={`${id}-provenance`}
                 style={{
-                  marginTop: 'var(--sp-3)',
-                  fontSize: '11px',
-                  fontWeight: 600,
-                  color: 'var(--primary)',
-                  background: 'rgba(29, 78, 137, 0.05)',
-                  border: '1px solid rgba(29, 78, 137, 0.15)',
-                  borderRadius: 'var(--r-control)',
+                  marginTop: 12,
+                  fontSize: '10px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 500,
+                  color: 'var(--text-on-surface-variant)',
+                  background: '#080808',
+                  border: '1px solid #242424',
+                  borderRadius: 'var(--r-badge)',
                   padding: '3px 8px',
                   cursor: 'pointer',
-                  fontFamily: 'var(--font-ui)',
                   display: 'inline-flex',
                   alignItems: 'center',
-                  gap: 4,
-                  transition: 'all 0.15s ease',
+                  gap: 5,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em',
+                  transition: 'all 0.12s ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'var(--outline)'
+                  e.currentTarget.style.color = '#FFFFFF'
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = '#242424'
+                  e.currentTarget.style.color = 'var(--text-on-surface-variant)'
                 }}
               >
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                  <circle cx="6" cy="6" r="5" stroke="currentColor" strokeWidth="1.2"/>
-                  <path d="M6 4v3M6 8v.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round"/>
-                </svg>
-                How is this calculated?
+                <span>// Provenance Data →</span>
               </button>
             )}
           </>
@@ -160,7 +189,7 @@ export function MetricCard({
           <div
             onClick={() => setDrawerOpen(false)}
             style={{
-              position: 'fixed', inset: 0, background: 'rgba(14,31,51,0.4)',
+              position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.85)',
               zIndex: 50, animation: 'fadeIn 0.15s ease',
             }}
             aria-hidden="true"
@@ -174,28 +203,27 @@ export function MetricCard({
             style={{
               position: 'fixed',
               right: 0, top: 0, bottom: 0,
-              width: 'min(420px, 100vw)',
+              width: 'min(440px, 100vw)',
               maxWidth: '100vw',
-              background: 'var(--surface)',
-              borderLeft: '1px solid var(--line)',
+              background: '#0F0F0F',
+              borderLeft: '1px solid #242424',
               zIndex: 51,
               overflowY: 'auto',
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: 'var(--shadow-popover)',
-              animation: 'fadeInDown 0.2s ease',
+              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.9)',
+              animation: 'fadeInDown 0.18s ease',
             }}
           >
-            {/* Header */}
             <div style={{
               padding: 'var(--sp-4)',
-              borderBottom: '1px solid var(--line)',
+              borderBottom: '1px solid #242424',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
               position: 'sticky',
               top: 0,
-              background: 'var(--surface)',
+              background: '#0F0F0F',
             }}>
               <div>
                 <div style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)' }}>

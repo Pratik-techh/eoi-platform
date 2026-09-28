@@ -95,7 +95,7 @@ export default async function StudentSkillsPage() {
                     <span style={{ fontWeight: 600, color: 'var(--ink)' }}>{s.learner_score}%</span>
                   </div>
                   <div style={{ height: 8, background: 'var(--line)', borderRadius: 2, overflow: 'hidden' }}>
-                    <div style={{ height: '100%', width: `${s.learner_score}%`, background: 'var(--primary)', borderRadius: 2 }} />
+                    <div style={{ height: '100%', width: `${s.learner_score}%`, background: '#18B6A4', borderRadius: 2 }} />
                   </div>
                 </div>
 

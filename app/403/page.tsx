@@ -124,17 +124,18 @@ function ForbiddenContent() {
         </div>
 
         <div style={{
-          background: '#FFFBEB',
-          border: '1px solid #FDE68A',
+          background: '#0F0F0F',
+          border: '1px solid #242424',
+          borderLeft: '2px solid #D99A32',
           borderRadius: 'var(--r-control)',
           padding: 'var(--sp-3)',
           textAlign: 'left',
           fontSize: '11px',
-          color: '#92400E',
+          color: 'var(--text-on-surface-variant)',
           lineHeight: 1.4,
           marginBottom: 'var(--sp-6)',
         }}>
-          <strong>Zero Single Stakeholder Truth (P1):</strong> Training agencies cannot verify their own reports, students cannot edit verified records, and government analysts cannot rewrite history.
+          <strong style={{ color: '#D99A32' }}>Zero Single Stakeholder Truth (P1):</strong> Training agencies cannot verify their own reports, students cannot edit verified records, and government analysts cannot rewrite history.
         </div>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-3)' }}>
@@ -142,27 +143,25 @@ function ForbiddenContent() {
             <button
               onClick={handleAutoSwitch}
               disabled={switching}
-              className="hover-lift"
               style={{
                 width: '100%',
                 padding: '10px 16px',
-                background: 'linear-gradient(135deg, #10B981 0%, #059669 100%)',
-                color: '#FFFFFF',
-                border: 'none',
+                background: '#FFFFFF',
+                color: '#000000',
+                border: '1px solid #FFFFFF',
                 borderRadius: 'var(--r-control)',
                 fontSize: 'var(--text-sm)',
-                fontWeight: 700,
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 600,
+                textTransform: 'uppercase',
+                letterSpacing: '0.04em',
                 cursor: switching ? 'wait' : 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: 8,
-                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.35)',
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M7.5 1.5L2 8h4.5l-0.5 4.5L12 6H7.5l0.5-4.5z" fill="#FEF08A"/>
-              </svg>
               <span>
                 {switching
                   ? `Switching to ${matchPersona.role}…`

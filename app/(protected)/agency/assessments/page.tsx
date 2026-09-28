@@ -217,10 +217,10 @@ export default function AgencyAssessmentsPage() {
               onClick={() => setShowLogModal(true)}
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-2)',
-                padding: '6px var(--sp-4)', background: 'var(--primary)', color: 'white',
-                border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
-                fontWeight: 600, cursor: 'pointer', fontFamily: 'var(--font-ui)',
-                boxShadow: 'var(--shadow-sm)',
+                padding: '6px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                cursor: 'pointer',
               }}
             >
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -415,7 +415,12 @@ export default function AgencyAssessmentsPage() {
                 </button>
                 <button
                   type="submit"
-                  style={{ padding: '6px var(--sp-4)', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer' }}
+                  style={{
+                    padding: '6px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                    border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                    fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                    cursor: 'pointer'
+                  }}
                 >
                   Save & Compute Readiness Band
                 </button>

@@ -44,8 +44,10 @@ export default async function EmployerDashboardPage() {
               href="/employer/verification"
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 'var(--sp-2)',
-                padding: '6px var(--sp-4)', background: 'var(--primary)', color: 'white',
-                borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', fontWeight: 600, textDecoration: 'none',
+                padding: '6px var(--sp-4)', background: '#FFFFFF', color: '#000000',
+                border: '1px solid #FFFFFF', borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)',
+                fontFamily: 'var(--font-mono)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.04em',
+                textDecoration: 'none',
               }}
             >
               Open verification queue ({pendingCount}) →
