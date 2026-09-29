@@ -119,6 +119,32 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
+## 5.1 Deploying to Vercel
+
+The platform is pre-configured with a zero-setup [`vercel.json`](./vercel.json) and builds out-of-the-box on Vercel's edge network:
+
+### Option A: Using the Vercel Web Dashboard (Recommended)
+1. Push your repository to GitHub.
+2. In [Vercel Dashboard](https://vercel.com/new), select **Add New Project** and import `eoi-platform`.
+3. Framework Preset: **Next.js** (automatically detected).
+4. Build Command: `next build` (default).
+5. Root Directory: `./` (default).
+6. Click **Deploy**. The platform runs self-containedly with all synthetic registries, roles, and cryptographic ledgers active.
+
+### Option B: Deploying via Vercel CLI
+```bash
+# Install Vercel CLI (if not already installed)
+npm i -g vercel
+
+# Deploy preview
+vercel
+
+# Deploy to production
+vercel --prod
+```
+
+---
+
 ## 6. Verification & Automated Test Suites
 
 The project features automated test scripts proving all 15 acceptance criteria in Section 19:
