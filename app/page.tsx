@@ -2,12 +2,37 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export default function HomePage() {
   const router = useRouter()
   const [loggingIn, setLoggingIn] = useState<string | null>(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem('eoi_theme')
+      if (saved === 'dark') setTheme('dark')
+      else setTheme('light')
+    } catch {}
+  }, [])
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(nextTheme)
+    try {
+      localStorage.setItem('eoi_theme', nextTheme)
+    } catch {}
+    document.documentElement.setAttribute('data-theme', nextTheme)
+    if (nextTheme === 'light') {
+      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.add('light')
+    } else {
+      document.documentElement.classList.remove('light')
+      document.documentElement.classList.add('dark')
+    }
+  }
 
   async function handleQuickLogin(email: string) {
     setLoggingIn(email)
@@ -105,7 +130,7 @@ export default function HomePage() {
             fontSize: '11px',
             fontFamily: 'var(--font-mono)',
             fontWeight: 500,
-            color: 'var(--text-on-surface)',
+            color: '#E2E8F0',
             whiteSpace: 'nowrap',
           }}>
             <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)', flexShrink: 0 }} />
@@ -121,9 +146,9 @@ export default function HomePage() {
               fontSize: '11px',
               fontFamily: 'var(--font-mono)',
               background: '#0F0F0F',
-              border: '1px solid #242424',
+              border: '1px solid #333333',
               borderRadius: 'var(--r-badge)',
-              color: 'var(--text-on-surface)',
+              color: '#FFFFFF',
               textDecoration: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
@@ -143,8 +168,8 @@ export default function HomePage() {
               gap: 6,
               padding: '6px 14px',
               background: '#0F0F0F',
-              color: 'var(--text-on-surface)',
-              border: '1px solid #242424',
+              color: '#FFFFFF',
+              border: '1px solid #333333',
               borderRadius: 'var(--r-badge)',
               fontSize: '11px',
               fontFamily: 'var(--font-mono)',
@@ -183,19 +208,53 @@ export default function HomePage() {
             <span>Demo Personas</span>
           </Link>
 
+          {/* Theme Switcher Button */}
+          <button
+            onClick={toggleTheme}
+            aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 32,
+              height: 32,
+              background: '#0F0F0F',
+              color: '#FFFFFF',
+              border: '1px solid #333333',
+              borderRadius: 'var(--r-badge)',
+              cursor: 'pointer',
+            }}
+          >
+            {theme === 'dark' ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+              </svg>
+            )}
+          </button>
+
           <Link
             href="/login"
             style={{
               padding: '6px 14px',
               fontSize: '11px',
               fontFamily: 'var(--font-mono)',
-              background: 'transparent',
-              color: 'var(--text-on-surface)',
-              border: '1px solid #242424',
+              background: 'rgba(255, 255, 255, 0.08)',
+              color: '#FFFFFF',
+              border: '1px solid rgba(255, 255, 255, 0.3)',
               borderRadius: 'var(--r-badge)',
               textDecoration: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
+              fontWeight: 600,
               whiteSpace: 'nowrap',
             }}
           >
@@ -490,16 +549,17 @@ export default function HomePage() {
                 alignItems: 'center',
                 gap: 8,
                 padding: '10px 20px',
-                background: '#080808',
-                color: 'var(--text-on-surface)',
-                border: '1px solid #242424',
+                background: 'rgba(255, 255, 255, 0.08)',
+                color: '#FFFFFF',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
                 borderRadius: 'var(--r-control)',
                 fontSize: '12px',
                 fontFamily: 'var(--font-mono)',
-                fontWeight: 500,
+                fontWeight: 600,
                 textDecoration: 'none',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
+                transition: 'all 0.15s ease',
               }}
             >
               <span>Government Command Center</span>
@@ -512,13 +572,13 @@ export default function HomePage() {
                 alignItems: 'center',
                 gap: 8,
                 padding: '10px 20px',
-                background: '#080808',
+                background: 'rgba(24, 182, 164, 0.12)',
                 color: '#18B6A4',
-                border: '1px solid #242424',
+                border: '1px solid rgba(24, 182, 164, 0.35)',
                 borderRadius: 'var(--r-control)',
                 fontSize: '12px',
                 fontFamily: 'var(--font-mono)',
-                fontWeight: 500,
+                fontWeight: 600,
                 textDecoration: 'none',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
@@ -527,6 +587,32 @@ export default function HomePage() {
               <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
               <span>SHA-256 Audit Ledger</span>
             </Link>
+
+            <button
+              onClick={() => {
+                const el = document.getElementById('core-pillars')
+                if (el) el.scrollIntoView({ behavior: 'smooth' })
+              }}
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 6,
+                padding: '10px 18px',
+                background: 'transparent',
+                color: '#CBD5E1',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                borderRadius: 'var(--r-control)',
+                fontSize: '12px',
+                fontFamily: 'var(--font-mono)',
+                fontWeight: 500,
+                cursor: 'pointer',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+                transition: 'all 0.15s ease',
+              }}
+            >
+              <span>Explore Architecture ↓</span>
+            </button>
           </div>
 
           {/* Live Platform Metric Strip (Stitch Telemetry Matrix) */}
@@ -576,7 +662,7 @@ export default function HomePage() {
       {/* Main Content Area */}
       <main className="landing-main" style={{ flex: 1, padding: 'var(--sp-10) var(--sp-8)', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
         {/* The 4 Architectural Invariants Banner */}
-        <div style={{ marginBottom: 'var(--sp-10)' }}>
+        <div id="core-pillars" style={{ marginBottom: 'var(--sp-10)', scrollMarginTop: 80 }}>
           <div style={{ textAlign: 'center', marginBottom: 'var(--sp-6)' }}>
             <span style={{
               fontSize: '11px',
@@ -815,10 +901,7 @@ export default function HomePage() {
             </div>
 
             {/* Evaluator 1-Click Hero Demo Guide Card */}
-            <div style={{
-              background: '#0F0F0F',
-              border: '1px solid #242424',
-              borderRadius: 'var(--r-container)',
+            <div className="card" style={{
               padding: 'var(--sp-6)',
               display: 'flex',
               flexDirection: 'column',
@@ -826,32 +909,29 @@ export default function HomePage() {
             }}>
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--sp-3)' }}>
-                  <div style={{ fontSize: 'var(--text-lg)', fontWeight: 600, color: 'var(--ink)' }}>
+                  <div style={{ fontSize: 'var(--text-lg)', fontWeight: 700, color: 'var(--ink)' }}>
                     ⚡ Evaluator Hero Walkthrough
                   </div>
                   <span style={{
                     fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700, padding: '2px 8px', borderRadius: 'var(--r-badge)',
-                    background: '#FFFFFF', color: '#000000', letterSpacing: '0.04em', textTransform: 'uppercase',
+                    background: 'var(--primary)', color: 'var(--primary-fg)', letterSpacing: '0.04em', textTransform: 'uppercase',
                   }}>
                     HERO DEMO
                   </span>
                 </div>
-                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-on-surface-variant)', lineHeight: 1.5, marginBottom: 'var(--sp-4)' }}>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--muted)', lineHeight: 1.5, marginBottom: 'var(--sp-4)' }}>
                   Interactive 9-scene guided evaluation walkthrough showing the complete journey: Placement Reported → Verification → Ledger Chained → Anomaly Detected.
                 </p>
                 <div style={{ fontSize: '11px', color: 'var(--muted)', marginBottom: 'var(--sp-5)' }}>
                   Switch between 8 authenticated personas instantly without entering passwords.
                 </div>
               </div>
-              <Link href="/demo" style={{
+              <Link href="/demo" className="btn-primary" style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 width: '100%',
                 padding: '10px 16px',
-                background: '#FFFFFF',
-                color: '#000000',
-                border: '1px solid #FFFFFF',
                 borderRadius: 'var(--r-control)',
                 fontSize: 'var(--text-sm)',
                 fontFamily: 'var(--font-mono)',
