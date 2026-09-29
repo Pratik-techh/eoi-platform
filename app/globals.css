@@ -1212,6 +1212,22 @@ textarea::placeholder {
   .landing-header-subtitle { display: none !important; }
 }
 
+.landing-hero-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: var(--sp-8);
+  align-items: center;
+  text-align: left;
+}
+
+@media (max-width: 980px) {
+  .landing-hero-grid {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+    gap: var(--sp-6) !important;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Landing Page — Hero section mobile padding
    -------------------------------------------------------------------------- */
@@ -1247,7 +1263,7 @@ textarea::placeholder {
   }
   .landing-metrics-grid > div {
     border-left: none !important;
-    border-top: 1px solid #242424 !important;
+    border-top: 1px solid var(--line) !important;
   }
   .landing-metrics-grid > div:first-child {
     border-top: none !important;
