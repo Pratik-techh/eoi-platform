@@ -474,6 +474,9 @@ select:-webkit-autofill {
     padding: 0 var(--sp-4) !important;
     gap: var(--sp-2) !important;
   }
+  .topbar-telemetry {
+    display: none !important;
+  }
   .page-content {
     padding: var(--sp-4) !important;
     max-width: 100vw !important;
@@ -492,8 +495,13 @@ select:-webkit-autofill {
   }
   .topbar-search           { display: none !important; }
   .topbar-notif-btn        { display: none !important; }
+  .topbar-telemetry        { display: none !important; }
+  .topbar-ledger-pill      { display: none !important; }
+  .desktop-user-info       { display: none !important; }
+  .topbar-branding-subtext { display: none !important; }
+  .topbar-tour-btn         { display: none !important; }
 
-  /* Keep on mobile: hamburger + EOI logo + Switch Role + user avatar */
+  /* Keep on mobile: hamburger + EOI logo + Switch Role + theme toggle + user avatar + signout */
   .topbar-user-section {
     border-left: none !important;
     padding-left: 0 !important;
@@ -524,14 +532,16 @@ select:-webkit-autofill {
   }
 }
 
-/* ≤420px: super compact header */
+/* ≤420px: super compact mobile header */
 @media (max-width: 420px) {
-  .topbar-role-switcher {
-    display: none !important;
-  }
   .topbar {
     padding: 0 var(--sp-2) !important;
-    gap: 6px !important;
+    gap: 4px !important;
+  }
+  #evaluator-demo-switcher {
+    padding: 4px 6px !important;
+    font-size: 9px !important;
+    gap: 2px !important;
   }
 }
 

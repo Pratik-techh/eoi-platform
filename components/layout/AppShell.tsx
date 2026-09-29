@@ -892,15 +892,15 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                     <path d="M3 13L6.5 8l3 3L13 5l2 4" stroke="#18B6A4" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
                   </svg>
                 </div>
-                <span style={{ fontSize: '12px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Navigation Menu</span>
+                <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.04em', textTransform: 'uppercase' }}>Navigation Menu</span>
               </div>
               <button
                 onClick={() => setMobileNavOpen(false)}
                 aria-label="Close navigation menu"
                 style={{
-                  width: 28, height: 28, borderRadius: '4px', border: '1px solid #242424',
-                  background: '#151515', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  cursor: 'pointer', color: '#A3A3A3', fontSize: '13px', fontWeight: 700,
+                  width: 28, height: 28, borderRadius: '4px', border: '1px solid var(--line)',
+                  background: 'var(--surface-container-high)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer', color: 'var(--ink)', fontSize: '13px', fontWeight: 700,
                 }}
               >
                 ✕
