@@ -35,6 +35,7 @@ const PUBLIC_ROUTES = [
   '/integrations',
   '/_next',
   '/api/auth',
+  '/api/integrations',
   '/favicon.ico',
 ]
 

@@ -51,9 +51,16 @@ export default function GovSimulatorPage() {
 
       {/* Mandatory SIMULATION Disclaimer */}
       <div style={{
-        padding: 'var(--sp-3) var(--sp-4)', background: '#F5F3FF', border: '1px solid #DDD6FE',
-        borderRadius: 'var(--r-container)', fontSize: 'var(--text-xs)', color: 'var(--sim)', marginBottom: 'var(--sp-6)',
-        display: 'flex', alignItems: 'center', gap: 'var(--sp-2)',
+        padding: 'var(--sp-3) var(--sp-4)',
+        background: 'rgba(155, 122, 232, 0.08)',
+        border: '1px solid rgba(155, 122, 232, 0.3)',
+        borderRadius: 'var(--r-container)',
+        fontSize: 'var(--text-xs)',
+        color: '#D4BBFF',
+        marginBottom: 'var(--sp-6)',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 'var(--sp-2)',
       }}>
         <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
           <circle cx="8" cy="8" r="7" stroke="currentColor" strokeWidth="1.4"/>

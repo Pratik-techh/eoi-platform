@@ -312,9 +312,10 @@ type SideNavProps = {
   collapsed?: boolean
   onNavigate?: () => void
   inDrawer?: boolean
+  onToggleCollapse?: () => void
 }
 
-export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false }: SideNavProps) {
+export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false, onToggleCollapse }: SideNavProps) {
   const pathname = usePathname()
   const groups = getNav(role)
 
@@ -331,54 +332,135 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
       {/* Brand header — only rendered when not inside mobile drawer */}
       {!inDrawer && (
         <div style={{
-          padding: collapsed ? 'var(--sp-3) var(--sp-2)' : 'var(--sp-4) var(--sp-4)',
-          borderBottom: '1px solid #242424',
+          padding: collapsed ? 'var(--sp-3) var(--sp-1)' : 'var(--sp-4) var(--sp-4)',
+          borderBottom: '1px solid var(--line)',
           marginBottom: 'var(--sp-3)',
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--sp-3)',
-          background: '#080808',
+          justifyContent: collapsed ? 'center' : 'space-between',
+          flexDirection: collapsed ? 'column' : 'row',
+          gap: collapsed ? 8 : 'var(--sp-3)',
+          background: 'var(--surface-container-low)',
         }}>
-        <div style={{
-          width: 28,
-          height: 28,
-          background: '#FFFFFF',
-          borderRadius: 'var(--r-badge)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-        }}>
-          <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-            <path d="M3 13L6.5 8l3 3L13 5l2 4" stroke="#000000" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </div>
-        {!collapsed && (
-          <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)', minWidth: 0, flex: 1 }}>
             <div style={{
-              fontSize: 'var(--text-sm)',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 700,
-              color: '#FFFFFF',
-              lineHeight: 1.15,
-              letterSpacing: '0.04em',
-              textTransform: 'uppercase',
+              width: 28,
+              height: 28,
+              background: 'var(--ink)',
+              borderRadius: 'var(--r-badge)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexShrink: 0,
             }}>
-              EOI Platform
+              <svg width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+                <path d="M3 13L6.5 8l3 3L13 5l2 4" stroke="var(--canvas)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
             </div>
-            <div style={{
-              fontSize: '10px',
-              fontFamily: 'var(--font-mono)',
-              fontWeight: 400,
-              color: 'var(--muted)',
-              lineHeight: 1.2,
-              marginTop: 2,
-            }}>
-              SIH26135 · AUDIT MESH
-            </div>
+            {!collapsed && (
+              <div style={{ minWidth: 0, flex: 1 }}>
+                <div style={{
+                  fontSize: 'var(--text-sm)',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 700,
+                  color: 'var(--ink)',
+                  lineHeight: 1.15,
+                  letterSpacing: '0.04em',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}>
+                  EOI Platform
+                </div>
+                <div style={{
+                  fontSize: '10px',
+                  fontFamily: 'var(--font-mono)',
+                  fontWeight: 400,
+                  color: 'var(--muted)',
+                  lineHeight: 1.2,
+                  marginTop: 2,
+                  whiteSpace: 'nowrap',
+                }}>
+                  SIH26135 · AUDIT MESH
+                </div>
+              </div>
+            )}
           </div>
-        )}
-      </div>
+
+          {/* Cross Button to hide/collapse menu bar */}
+          {!collapsed && onToggleCollapse && (
+            <button
+              id="sidebar-cross-hide-btn"
+              onClick={onToggleCollapse}
+              title="Hide menu bar (collapse sidebar)"
+              aria-label="Hide menu bar"
+              style={{
+                width: 28,
+                height: 28,
+                border: '1px solid var(--line)',
+                borderRadius: 'var(--r-badge)',
+                background: 'var(--surface)',
+                color: 'var(--text-on-surface-variant)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: '13px',
+                fontWeight: 700,
+                lineHeight: 1,
+                flexShrink: 0,
+                transition: 'all 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--disputed)'
+                e.currentTarget.style.color = 'var(--disputed)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--line)'
+                e.currentTarget.style.color = 'var(--text-on-surface-variant)'
+              }}
+            >
+              ✕
+            </button>
+          )}
+
+          {/* When collapsed, show expand arrow button */}
+          {collapsed && onToggleCollapse && (
+            <button
+              id="sidebar-expand-arrow-btn"
+              onClick={onToggleCollapse}
+              title="Expand menu bar"
+              aria-label="Expand menu bar"
+              style={{
+                width: 28,
+                height: 28,
+                border: '1px solid var(--line)',
+                borderRadius: 'var(--r-badge)',
+                background: 'var(--surface)',
+                color: 'var(--primary-accent)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                cursor: 'pointer',
+                fontSize: '12px',
+                fontWeight: 700,
+                flexShrink: 0,
+                transition: 'all 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--primary-accent)'
+                e.currentTarget.style.background = 'var(--surface-container-high)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--line)'
+                e.currentTarget.style.background = 'var(--surface)'
+              }}
+            >
+              ➔
+            </button>
+          )}
+        </div>
       )}
 
       {/* Nav groups */}
@@ -411,14 +493,16 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 'var(--sp-2)',
-                    padding: collapsed ? '8px' : '7px 12px',
+                    justifyContent: collapsed ? 'center' : 'flex-start',
+                    gap: collapsed ? 0 : 'var(--sp-2)',
+                    padding: collapsed ? '10px 0' : '7px 12px',
                     borderRadius: 'var(--r-badge)',
                     fontSize: 'var(--text-sm)',
                     fontWeight: isActive ? 600 : 400,
-                    color: isActive ? '#FFFFFF' : 'var(--text-on-surface-variant)',
-                    background: isActive ? '#201f1f' : 'transparent',
-                    borderLeft: isActive ? '2px solid #FFFFFF' : '2px solid transparent',
+                    color: isActive ? 'var(--ink)' : 'var(--text-on-surface-variant)',
+                    background: isActive ? 'var(--surface-container-high)' : 'transparent',
+                    borderLeft: collapsed ? 'none' : (isActive ? '2px solid var(--primary-accent)' : '2px solid transparent'),
+                    borderRight: collapsed && isActive ? '2px solid var(--primary-accent)' : 'none',
                     textDecoration: 'none',
                     transition: 'all 0.12s ease',
                     whiteSpace: 'nowrap',
@@ -427,8 +511,8 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
                   }}
                   onMouseEnter={e => {
                     if (!isActive) {
-                      e.currentTarget.style.background = '#151515'
-                      e.currentTarget.style.color = '#FFFFFF'
+                      e.currentTarget.style.background = 'var(--surface-container-low)'
+                      e.currentTarget.style.color = 'var(--ink)'
                     }
                   }}
                   onMouseLeave={e => {
@@ -440,7 +524,7 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
                 >
                   <span style={{
                     flexShrink: 0,
-                    color: isActive ? '#FFFFFF' : 'var(--muted)',
+                    color: isActive ? 'var(--primary-accent)' : 'var(--muted)',
                     display: 'flex',
                     alignItems: 'center',
                     transition: 'color 0.12s ease',
@@ -467,16 +551,16 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
       </div>
 
       {/* Bottom Trust & Evaluator status card (Stitch Audit Root Widget) */}
-      {!collapsed && (
+      {!collapsed ? (
         <div style={{
           padding: 'var(--sp-3)',
-          paddingBottom: 'var(--sp-4)',
-          borderTop: '1px solid #242424',
-          background: '#080808',
+          paddingBottom: '48px',
+          borderTop: '1px solid var(--line)',
+          background: 'var(--surface-container-low)',
         }}>
           <div style={{
-            background: '#0f0f0f',
-            border: '1px solid #242424',
+            background: 'var(--surface)',
+            border: '1px solid var(--line)',
             borderRadius: 'var(--r-badge)',
             padding: '10px 12px',
             fontSize: '11px',
@@ -506,9 +590,9 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
                 justifyContent: 'center',
                 gap: 5,
                 padding: '5px 10px',
-                background: '#151515',
-                color: '#FFFFFF',
-                border: '1px solid #242424',
+                background: 'var(--surface-container-high)',
+                color: 'var(--ink)',
+                border: '1px solid var(--line)',
                 borderRadius: 'var(--r-badge)',
                 fontSize: '10px',
                 fontWeight: 600,
@@ -518,26 +602,22 @@ export function SideNav({ role, collapsed = false, onNavigate, inDrawer = false 
                 transition: 'all 0.12s ease',
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.borderColor = 'var(--outline)'
+                e.currentTarget.style.borderColor = 'var(--primary-accent)'
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.borderColor = '#242424'
+                e.currentTarget.style.borderColor = 'var(--line)'
               }}
             >
               <span>Demo Personas</span>
             </Link>
           </div>
-          <div style={{
-            fontSize: '10px',
-            fontFamily: 'var(--font-mono)',
-            color: 'var(--muted)',
-            marginTop: 8,
-            textAlign: 'center',
-            letterSpacing: '0.04em',
-            textTransform: 'uppercase',
-          }}>
-            Synthetic data · Prototype
-          </div>
+        </div>
+      ) : (
+        <div style={{ padding: '16px 0 48px', display: 'flex', justifyContent: 'center' }}>
+          <span
+            title="Audit Root: ACTIVE (SHA: 9d82f...a10b)"
+            style={{ width: 8, height: 8, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)', display: 'inline-block' }}
+          />
         </div>
       )}
     </nav>

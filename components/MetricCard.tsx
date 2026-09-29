@@ -78,22 +78,22 @@ export function MetricCard({
         role="region"
         aria-label={`${label} metric`}
         style={{
-          background: '#0F0F0F',
-          border: '1px solid #242424',
+          background: 'var(--surface)',
+          border: '1px solid var(--line)',
           borderRadius: 'var(--r-control)',
           padding: '16px',
         }}
       >
         {loading ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-2)' }}>
-            <div style={{ height: 12, background: '#242424', borderRadius: 2, width: '60%' }} />
-            <div style={{ height: 32, background: '#242424', borderRadius: 2, width: '40%' }} />
+            <div style={{ height: 12, background: 'var(--surface-container-high)', borderRadius: 2, width: '60%' }} />
+            <div style={{ height: 32, background: 'var(--surface-container-high)', borderRadius: 2, width: '40%' }} />
           </div>
         ) : (
           <>
             {/* Label and Diode Telemetry Row (Stitch Precision Spec) */}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-              <div className="metric-card__label" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 500, color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+              <div className="metric-card__label" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', fontWeight: 600, color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 {label}
               </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -112,7 +112,7 @@ export function MetricCard({
                   style={{
                     fontSize: '10px',
                     fontFamily: 'var(--font-mono)',
-                    fontWeight: 500,
+                    fontWeight: 600,
                     color: 'var(--muted)',
                     letterSpacing: '0.04em',
                     textTransform: 'uppercase',
@@ -125,7 +125,7 @@ export function MetricCard({
 
             {/* Value */}
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginTop: 4 }}>
-              <div className="metric-card__value tabular-nums" style={{ fontFamily: 'var(--font-ui)', fontSize: '1.75rem', fontWeight: 600, color: '#FFFFFF', letterSpacing: '-0.025em' }}>
+              <div className="metric-card__value tabular-nums" style={{ fontFamily: 'var(--font-ui)', fontSize: '1.75rem', fontWeight: 700, color: 'var(--ink)', letterSpacing: '-0.025em' }}>
                 {value}
               </div>
               {unit && (
@@ -152,10 +152,10 @@ export function MetricCard({
                   marginTop: 12,
                   fontSize: '10px',
                   fontFamily: 'var(--font-mono)',
-                  fontWeight: 500,
+                  fontWeight: 600,
                   color: 'var(--text-on-surface-variant)',
-                  background: '#080808',
-                  border: '1px solid #242424',
+                  background: 'var(--surface-container-low)',
+                  border: '1px solid var(--line)',
                   borderRadius: 'var(--r-badge)',
                   padding: '3px 8px',
                   cursor: 'pointer',
@@ -168,10 +168,10 @@ export function MetricCard({
                 }}
                 onMouseEnter={e => {
                   e.currentTarget.style.borderColor = 'var(--outline)'
-                  e.currentTarget.style.color = '#FFFFFF'
+                  e.currentTarget.style.color = 'var(--ink)'
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = '#242424'
+                  e.currentTarget.style.borderColor = 'var(--line)'
                   e.currentTarget.style.color = 'var(--text-on-surface-variant)'
                 }}
               >
@@ -189,7 +189,7 @@ export function MetricCard({
           <div
             onClick={() => setDrawerOpen(false)}
             style={{
-              position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.85)',
+              position: 'fixed', inset: 0, background: 'rgba(0, 0, 0, 0.65)',
               zIndex: 50, animation: 'fadeIn 0.15s ease',
             }}
             aria-hidden="true"
@@ -205,25 +205,25 @@ export function MetricCard({
               right: 0, top: 0, bottom: 0,
               width: 'min(440px, 100vw)',
               maxWidth: '100vw',
-              background: '#0F0F0F',
-              borderLeft: '1px solid #242424',
+              background: 'var(--surface)',
+              borderLeft: '1px solid var(--line)',
               zIndex: 51,
               overflowY: 'auto',
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.9)',
+              boxShadow: 'var(--shadow-popover)',
               animation: 'fadeInDown 0.18s ease',
             }}
           >
             <div style={{
               padding: 'var(--sp-4)',
-              borderBottom: '1px solid #242424',
+              borderBottom: '1px solid var(--line)',
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'flex-start',
               position: 'sticky',
               top: 0,
-              background: '#0F0F0F',
+              background: 'var(--surface)',
             }}>
               <div>
                 <div style={{ fontSize: 'var(--text-md)', fontWeight: 600, color: 'var(--ink)' }}>

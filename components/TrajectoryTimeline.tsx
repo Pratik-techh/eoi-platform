@@ -11,10 +11,10 @@ interface TrajectoryTimelineProps {
 
 export function TrajectoryTimeline({ outcomes, studentName, studentId }: TrajectoryTimelineProps) {
   return (
-    <div style={{ background: '#0F0F0F', border: '1px solid #242424', borderRadius: 'var(--r-control)', padding: 'var(--sp-6)' }}>
+    <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', padding: 'var(--sp-6)' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--sp-6)' }}>
         <div>
-          <h2 style={{ fontSize: 'var(--text-md)', fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <h2 style={{ fontSize: 'var(--text-md)', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Longitudinal Employment Trajectory
           </h2>
           <p style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 2 }}>
@@ -39,26 +39,26 @@ export function TrajectoryTimeline({ outcomes, studentName, studentId }: Traject
             top: 10,
             bottom: 10,
             width: 1,
-            background: '#242424',
+            background: 'var(--line)',
           }} />
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-6)' }}>
             {outcomes.map((item, idx) => {
               const isCurrent = idx === 0
 
-              let markerColor = '#18B6A4'
-              let markerHalo = '0 0 6px rgba(24, 182, 164, 0.45)'
+              let markerColor = 'var(--verified)'
+              let markerHalo = 'var(--halo-verified)'
               if (item.employment_status === 'UNEMPLOYMENT_REPORTED') {
-                markerColor = '#D99A32'
-                markerHalo = '0 0 6px rgba(217, 154, 50, 0.45)'
+                markerColor = 'var(--pending)'
+                markerHalo = 'var(--halo-pending)'
               }
               if (item.employment_status === 'VERIFIED_UNEMPLOYED') {
-                markerColor = '#8E9192'
+                markerColor = 'var(--muted)'
                 markerHalo = 'none'
               }
               if (item.employment_status === 'DISPUTED') {
-                markerColor = '#E05252'
-                markerHalo = '0 0 6px rgba(224, 82, 82, 0.45)'
+                markerColor = 'var(--disputed)'
+                markerHalo = 'var(--halo-disputed)'
               }
 
               return (
@@ -71,20 +71,20 @@ export function TrajectoryTimeline({ outcomes, studentName, studentId }: Traject
                     width: 12,
                     height: 12,
                     borderRadius: '50%',
-                    background: '#0F0F0F',
+                    background: 'var(--surface)',
                     border: `2px solid ${markerColor}`,
                     boxShadow: markerHalo,
                   }} />
 
                   <div style={{
-                    background: isCurrent ? '#151515' : '#080808',
-                    border: '1px solid #242424',
+                    background: isCurrent ? 'var(--surface-container-high)' : 'var(--surface-container-low)',
+                    border: '1px solid var(--line)',
                     borderRadius: 'var(--r-control)',
                     padding: 'var(--sp-4)',
                   }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--sp-2)' }}>
                       <div>
-                        <span style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF' }}>
+                        <span style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)' }}>
                           {item.job_role}
                         </span>
                         <span style={{ fontSize: '12px', color: 'var(--muted)', marginLeft: 8 }}>
@@ -107,8 +107,8 @@ export function TrajectoryTimeline({ outcomes, studentName, studentId }: Traject
                     {item.employment_status === 'UNEMPLOYMENT_REPORTED' && (
                       <div style={{
                         marginTop: 'var(--sp-3)', padding: 'var(--sp-2) var(--sp-3)',
-                        background: '#080808', border: '1px solid #D99A32',
-                        borderRadius: 'var(--r-badge)', fontSize: '11px', color: '#D99A32',
+                        background: 'var(--chip-pending-bg)', border: '1px solid var(--chip-pending-border)',
+                        borderRadius: 'var(--r-badge)', fontSize: '11px', color: 'var(--pending)',
                         fontFamily: 'var(--font-mono)',
                       }}>
                         <strong>Unemployment Reported:</strong> Departure date registered as {item.end_date ?? 'today'}. Awaiting employer reconciliation. Prior employment record remains preserved in immutable history.
@@ -118,7 +118,7 @@ export function TrajectoryTimeline({ outcomes, studentName, studentId }: Traject
                     {item.employment_status === 'VERIFIED_UNEMPLOYED' && (
                       <div style={{
                         marginTop: 'var(--sp-3)', padding: 'var(--sp-2) var(--sp-3)',
-                        background: '#080808', border: '1px solid #242424',
+                        background: 'var(--surface-container-low)', border: '1px solid var(--line)',
                         borderRadius: 'var(--r-badge)', fontSize: '11px', color: 'var(--muted)',
                         fontFamily: 'var(--font-mono)',
                       }}>
@@ -129,8 +129,8 @@ export function TrajectoryTimeline({ outcomes, studentName, studentId }: Traject
                     {item.rejection_reason && (
                       <div style={{
                         marginTop: 'var(--sp-3)', padding: 'var(--sp-2) var(--sp-3)',
-                        background: '#080808', border: '1px solid #E05252',
-                        borderRadius: 'var(--r-badge)', fontSize: '11px', color: '#E05252',
+                        background: 'var(--chip-disputed-bg)', border: '1px solid var(--chip-disputed-border)',
+                        borderRadius: 'var(--r-badge)', fontSize: '11px', color: 'var(--disputed)',
                         fontFamily: 'var(--font-mono)',
                       }}>
                         <strong>Employer Rejection Reason:</strong> {item.rejection_reason}

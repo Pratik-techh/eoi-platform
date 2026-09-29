@@ -64,6 +64,45 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
   const [mobileNavOpen, setMobileNavOpen] = useState(false)
   const [roleMenuOpen, setRoleMenuOpen] = useState(false)
   const [switchingRole, setSwitchingRole] = useState<string | null>(null)
+  const [isMac, setIsMac] = useState(false)
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [theme, setTheme] = useState<'dark' | 'light'>('light')
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined') {
+      setIsMac(/Mac|iPod|iPhone|iPad/.test(navigator.userAgent || navigator.platform))
+    }
+    try {
+      const savedTheme = localStorage.getItem('eoi_theme') as 'dark' | 'light' | null
+      if (savedTheme === 'dark') {
+        setTheme('dark')
+        document.documentElement.setAttribute('data-theme', 'dark')
+        document.documentElement.classList.remove('light')
+        document.documentElement.classList.add('dark')
+      } else {
+        setTheme('light')
+        document.documentElement.setAttribute('data-theme', 'light')
+        document.documentElement.classList.remove('dark')
+        document.documentElement.classList.add('light')
+      }
+    } catch {}
+  }, [])
+
+  const toggleTheme = () => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark'
+    setTheme(nextTheme)
+    try {
+      localStorage.setItem('eoi_theme', nextTheme)
+    } catch {}
+    document.documentElement.setAttribute('data-theme', nextTheme)
+    if (nextTheme === 'light') {
+      document.documentElement.classList.remove('dark')
+      document.documentElement.classList.add('light')
+    } else {
+      document.documentElement.classList.remove('light')
+      document.documentElement.classList.add('dark')
+    }
+  }
 
   // Automatically close mobile navigation drawer & role menu when user navigates
   useEffect(() => {
@@ -133,9 +172,17 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
 
   return (
     <div className="app-shell">
-      {/* Fixed sidebar */}
-      <aside className="sidebar" aria-label="Application sidebar">
-        <SideNav role={user.role} />
+      {/* Sidebar with collapse support */}
+      <aside
+        className="sidebar"
+        data-collapsed={sidebarCollapsed ? 'true' : 'false'}
+        aria-label="Application sidebar"
+      >
+        <SideNav
+          role={user.role}
+          collapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(prev => !prev)}
+        />
       </aside>
 
       {/* Main content area */}
@@ -156,30 +203,44 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
         {/* Top bar — Stitch Precision Instrument Header */}
         <header className="topbar" role="banner" style={{
           justifyContent: 'space-between',
-          background: '#080808',
-          borderBottom: '1px solid #242424',
+          background: 'var(--surface-container-low)',
+          borderBottom: '1px solid var(--line)',
           boxShadow: 'none',
         }}>
-          {/* Left: Hamburger menu (mobile only) + Ministry Emblem & Ledger state indicator */}
+          {/* Left: Sidebar Collapse & Mobile Menu Toggle + Emblem & Ledger indicator */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', minWidth: 0 }}>
-            {/* Mobile Hamburger Drawer Toggle */}
+            {/* Sidebar Collapse / Mobile Drawer Toggle Button */}
             <button
-              id="mobile-nav-toggle"
-              className="mobile-only-btn"
-              onClick={() => setMobileNavOpen(true)}
-              aria-label="Open navigation menu"
+              id="sidebar-toggle-btn"
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.innerWidth <= 1024) {
+                  setMobileNavOpen(prev => !prev)
+                } else {
+                  setSidebarCollapsed(prev => !prev)
+                }
+              }}
+              title={sidebarCollapsed ? 'Expand navigation menu' : 'Collapse / hide navigation menu'}
+              aria-label="Toggle navigation menu"
               style={{
                 width: 34,
                 height: 34,
-                border: '1px solid #242424',
+                border: '1px solid var(--line)',
                 borderRadius: 'var(--r-control)',
-                background: '#0F0F0F',
-                color: '#FFFFFF',
+                background: 'var(--surface)',
+                color: 'var(--ink)',
+                display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 cursor: 'pointer',
                 marginRight: 4,
                 flexShrink: 0,
+                transition: 'all 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--primary-accent)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--line)'
               }}
             >
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
@@ -191,68 +252,69 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
 
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
               <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.06em' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '15px', fontWeight: 700, color: 'var(--ink)', letterSpacing: '0.06em' }}>
                   EOI
                 </span>
-                <span style={{ color: 'var(--outline-variant)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>/</span>
-                <span className="topbar-branding-subtext" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500 }}>
+                <span style={{ color: 'var(--outline)', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>/</span>
+                <span className="topbar-branding-subtext" style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--text-on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 600 }}>
                   Verification System
                 </span>
               </Link>
             </div>
 
             {/* Precision Telemetry Telemetry Matrix (Stitch Header Spec: Only on ultra-wide screens to prevent crowding) */}
-            <div className="hidden 2xl:flex items-center gap-3 border-l border-[#242424] pl-4">
+            <div className="topbar-telemetry" style={{ alignItems: 'center', gap: 12, borderLeft: '1px solid var(--line)', paddingLeft: 16 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)', display: 'inline-block' }} />
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--verified)', boxShadow: '0 0 6px rgba(13, 148, 136, 0.45)', display: 'inline-block' }} />
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' }}>System:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#FFFFFF', textTransform: 'uppercase', fontWeight: 500 }}>Nominal</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink)', textTransform: 'uppercase', fontWeight: 600 }}>Nominal</span>
               </div>
-              <span style={{ color: 'var(--outline-variant)', fontSize: '10px' }}>•</span>
+              <span style={{ color: 'var(--outline)', fontSize: '10px' }}>•</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' }}>Latency:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#FFFFFF', fontWeight: 500 }}>12ms</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink)', fontWeight: 600 }}>12ms</span>
               </div>
-              <span style={{ color: 'var(--outline-variant)', fontSize: '10px' }}>•</span>
+              <span style={{ color: 'var(--outline)', fontSize: '10px' }}>•</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--muted)', textTransform: 'uppercase' }}>Engine:</span>
-                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: '#FFFFFF', fontWeight: 500 }}>v4.18.2</span>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: '11px', color: 'var(--ink)', fontWeight: 600 }}>v4.18.2</span>
               </div>
             </div>
 
             <Link
               href="/gov/audit"
-              className="topbar-ledger-pill hidden xl:inline-flex"
+              className="topbar-ledger-pill"
               title="Inspect Cryptographic SHA-256 Audit Ledger"
               style={{
                 alignItems: 'center',
                 gap: 6,
                 padding: '4px 10px',
-                background: '#0F0F0F',
-                border: '1px solid #242424',
+                background: 'var(--surface)',
+                border: '1px solid var(--line)',
                 borderRadius: 'var(--r-badge)',
                 fontSize: '11px',
                 fontFamily: 'var(--font-mono)',
-                fontWeight: 500,
-                color: 'var(--text-on-surface)',
+                fontWeight: 600,
+                color: 'var(--ink)',
                 textDecoration: 'none',
                 whiteSpace: 'nowrap',
                 marginLeft: 'var(--sp-2)',
               }}
             >
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--verified)', boxShadow: '0 0 6px rgba(13, 148, 136, 0.45)' }} />
               <span>LEDGER: 0x7F18...E29A</span>
-              <span style={{ color: 'var(--muted)', borderLeft: '1px solid #242424', paddingLeft: 6 }}>
+              <span style={{ color: 'var(--muted)', borderLeft: '1px solid var(--line)', paddingLeft: 6 }}>
                 502 Blocks
               </span>
             </Link>
           </div>
 
           {/* Right: Quick Switcher, Search, Notifications, User */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+          <div className="topbar-right" style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', flexShrink: 0 }}>
             {/* 3-Minute Story Tour Trigger */}
             <button
               id="story-tour-trigger"
+              className="topbar-tour-btn"
               onClick={() => {
                 try {
                   localStorage.setItem('eoi_tour_active', 'true')
@@ -265,48 +327,51 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 alignItems: 'center',
                 gap: 6,
                 padding: '6px 12px',
-                background: '#080808',
-                color: 'var(--text-on-surface)',
-                border: '1px solid #242424',
+                background: 'var(--surface)',
+                color: 'var(--ink)',
+                border: '1px solid var(--line)',
                 borderRadius: 'var(--r-control)',
                 fontSize: 'var(--text-xs)',
                 fontFamily: 'var(--font-mono)',
-                fontWeight: 500,
+                fontWeight: 600,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
                 letterSpacing: '0.04em',
                 textTransform: 'uppercase',
               }}
             >
-              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#D99A32', boxShadow: '0 0 5px rgba(217, 154, 50, 0.5)' }} />
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--pending)', boxShadow: '0 0 5px rgba(217, 154, 50, 0.5)' }} />
               <span className="hidden sm:inline">Tour</span>
             </button>
 
             {/* 1-Click Role Switcher for Evaluators (Stitch High-Contrast Action) */}
-            <div style={{ position: 'relative' }}>
+            <div className="topbar-role-switcher" style={{ position: 'relative', zIndex: 140 }}>
               <button
                 id="evaluator-demo-switcher"
-                onClick={() => setRoleMenuOpen(prev => !prev)}
+                onClick={(e) => {
+                  e.stopPropagation()
+                  setRoleMenuOpen(prev => !prev)
+                }}
                 title="Switch roles & evaluate personas"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: 6,
                   padding: '6px 12px',
-                  background: '#FFFFFF',
-                  color: '#000000',
-                  border: '1px solid #FFFFFF',
+                  background: 'var(--primary)',
+                  color: 'var(--primary-fg)',
+                  border: '1px solid var(--line)',
                   borderRadius: 'var(--r-control)',
                   fontSize: 'var(--text-xs)',
                   fontFamily: 'var(--font-mono)',
-                  fontWeight: 600,
+                  fontWeight: 700,
                   cursor: 'pointer',
                   letterSpacing: '0.02em',
                   textTransform: 'uppercase',
                   whiteSpace: 'nowrap',
                 }}
               >
-                <span>Switch Role</span>
+                <span style={{ color: 'var(--primary-fg)' }}>Switch Role</span>
                 <svg
                   width="10"
                   height="10"
@@ -316,6 +381,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                     transform: roleMenuOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                     transition: 'transform 0.15s ease',
                     marginLeft: 2,
+                    color: 'var(--primary-fg)',
                   }}
                 >
                   <path d="M2.5 3.5L5 6L7.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -326,10 +392,14 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               {roleMenuOpen && (
                 <>
                   <div
-                    onClick={() => setRoleMenuOpen(false)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setRoleMenuOpen(false)
+                    }}
                     style={{ position: 'fixed', inset: 0, zIndex: 140 }}
                   />
                   <div
+                    onClick={(e) => e.stopPropagation()}
                     style={{
                       position: 'absolute',
                       top: 'calc(100% + 8px)',
@@ -337,10 +407,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                       width: 'min(300px, calc(100vw - 24px))',
                       maxHeight: 'calc(100vh - 80px)',
                       overflowY: 'auto',
-                      background: '#0F0F0F',
-                      border: '1px solid #242424',
+                      background: 'var(--surface)',
+                      border: '1px solid var(--line)',
                       borderRadius: 'var(--r-control)',
-                      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.95)',
+                      boxShadow: 'var(--shadow-popover)',
                       padding: 'var(--sp-2)',
                       zIndex: 150,
                       animation: 'fadeInDown 0.15s ease-out',
@@ -354,14 +424,14 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                       color: 'var(--muted)',
                       textTransform: 'uppercase',
                       letterSpacing: '0.08em',
-                      borderBottom: '1px solid #242424',
+                      borderBottom: '1px solid var(--line)',
                       marginBottom: 4,
                       display: 'flex',
                       justifyContent: 'space-between',
                       alignItems: 'center',
                     }}>
                       <span>Persona Switch</span>
-                      <span style={{ fontSize: '10px', color: '#18B6A4', fontWeight: 600 }}>Active Node</span>
+                      <span style={{ fontSize: '10px', color: 'var(--primary-accent)', fontWeight: 600 }}>Active Node</span>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
@@ -379,8 +449,8 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                               justifyContent: 'space-between',
                               width: '100%',
                               padding: '8px 10px',
-                              background: isCurrent ? '#1c1b1b' : 'transparent',
-                              border: isCurrent ? '1px solid #353534' : '1px solid transparent',
+                              background: isCurrent ? 'var(--surface-container-high)' : 'transparent',
+                              border: isCurrent ? '1px solid var(--line)' : '1px solid transparent',
                               borderRadius: 'var(--r-badge)',
                               textAlign: 'left',
                               cursor: isPending ? 'wait' : 'pointer',
@@ -388,7 +458,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                               fontFamily: 'var(--font-ui)',
                             }}
                             onMouseEnter={e => {
-                              if (!isCurrent) e.currentTarget.style.background = '#151515'
+                              if (!isCurrent) e.currentTarget.style.background = 'var(--surface-container-low)'
                             }}
                             onMouseLeave={e => {
                               if (!isCurrent) e.currentTarget.style.background = 'transparent'
@@ -397,7 +467,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                               <span style={{ fontSize: '14px' }}>{item.icon}</span>
                               <div>
-                                <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: isCurrent ? '#FFFFFF' : 'var(--text-on-surface)' }}>
+                                <div style={{ fontSize: '12px', fontWeight: isCurrent ? 700 : 500, color: 'var(--ink)' }}>
                                   {item.label}
                                 </div>
                                 <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
@@ -406,7 +476,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                               </div>
                             </div>
                             {isCurrent ? (
-                              <span style={{ fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#000000', background: '#FFFFFF', padding: '2px 6px', borderRadius: 2, textTransform: 'uppercase' }}>
+                              <span style={{ fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 700, color: 'var(--primary-fg)', background: 'var(--primary)', padding: '2px 6px', borderRadius: 2, textTransform: 'uppercase' }}>
                                 Active
                               </span>
                             ) : isPending ? (
@@ -417,7 +487,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                       })}
                     </div>
 
-                    <div style={{ borderTop: '1px solid #242424', marginTop: 4, paddingTop: 4 }}>
+                    <div style={{ borderTop: '1px solid var(--line)', marginTop: 4, paddingTop: 4 }}>
                       <Link
                         href="/demo"
                         onClick={() => setRoleMenuOpen(false)}
@@ -430,14 +500,21 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                           padding: '7px 10px',
                           fontSize: '11px',
                           fontFamily: 'var(--font-mono)',
-                          fontWeight: 500,
-                          color: '#FFFFFF',
+                          fontWeight: 600,
+                          color: 'var(--ink)',
                           textDecoration: 'none',
                           borderRadius: 'var(--r-badge)',
-                          background: '#151515',
-                          border: '1px solid #242424',
+                          background: 'var(--surface-container-low)',
+                          border: '1px solid var(--line)',
                           textTransform: 'uppercase',
                           letterSpacing: '0.04em',
+                          transition: 'all 0.12s ease',
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.borderColor = 'var(--primary-accent)'
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.borderColor = 'var(--line)'
                         }}
                       >
                         <span>Demo Guide & 10 Personas →</span>
@@ -451,39 +528,54 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             {/* Global search trigger */}
             <button
               id="global-search-trigger"
+              className="topbar-search"
               onClick={() => setSearchOpen(true)}
               aria-label="Open global search"
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 'var(--sp-2)',
-                padding: '6px var(--sp-3)',
-                border: '1px solid #242424',
+                gap: 8,
+                padding: '6px 12px',
+                border: '1px solid var(--line)',
                 borderRadius: 'var(--r-control)',
-                background: '#0F0F0F',
-                color: '#A3A3A3',
-                fontSize: 'var(--text-sm)',
+                background: 'var(--surface)',
+                color: 'var(--text-on-surface-variant)',
+                fontSize: '12px',
                 cursor: 'pointer',
                 fontFamily: 'var(--font-ui)',
-                minWidth: 140,
+                transition: 'all 0.15s ease',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.borderColor = 'var(--outline-variant)'
+                e.currentTarget.style.background = 'var(--surface-container-high)'
+                e.currentTarget.style.color = 'var(--ink)'
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.borderColor = 'var(--line)'
+                e.currentTarget.style.background = 'var(--surface)'
+                e.currentTarget.style.color = 'var(--text-on-surface-variant)'
               }}
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0 }}>
-                <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.3"/>
-                <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round"/>
+              <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flexShrink: 0, opacity: 0.85 }}>
+                <circle cx="6" cy="6" r="4.5" stroke="currentColor" strokeWidth="1.4"/>
+                <path d="M9.5 9.5L12 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
               </svg>
-              <span className="search-label-text">Search…</span>
+              <span className="search-label-text" style={{ fontWeight: 500, letterSpacing: '0.01em' }}>Search...</span>
               <kbd className="search-shortcut-kbd" style={{
-                marginLeft: 'auto',
+                marginLeft: 6,
                 fontSize: '10px',
                 fontFamily: 'var(--font-mono)',
-                border: '1px solid #242424',
-                background: '#151515',
-                color: '#737373',
-                borderRadius: 2,
-                padding: '0 4px',
+                fontWeight: 600,
+                border: '1px solid var(--line)',
+                background: 'var(--surface-container-high)',
+                color: 'var(--muted)',
+                borderRadius: 3,
+                padding: '1px 5px',
+                lineHeight: '14px',
+                letterSpacing: '0.02em',
+                whiteSpace: 'nowrap',
               }}>
-                ⌘K
+                {isMac ? '⌘K' : 'Ctrl K'}
               </kbd>
             </button>
 
@@ -491,6 +583,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             <Link
               href={notificationHref}
               id="notification-bell"
+              className="topbar-notif-btn"
               aria-label="Notifications"
               title="View notifications"
               style={{
@@ -499,11 +592,11 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 justifyContent: 'center',
                 width: 34,
                 height: 34,
-                border: '1px solid #242424',
+                border: '1px solid var(--line)',
                 borderRadius: 'var(--r-control)',
-                color: '#A3A3A3',
+                color: 'var(--text-on-surface-variant)',
                 position: 'relative',
-                background: '#0F0F0F',
+                background: 'var(--surface)',
                 textDecoration: 'none',
                 flexShrink: 0,
               }}
@@ -514,13 +607,53 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               </svg>
             </Link>
 
+            {/* Theme Toggle Button (Light / Dark Mode Switcher) */}
+            <button
+              id="theme-toggle-btn"
+              onClick={toggleTheme}
+              aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                width: 34,
+                height: 34,
+                border: '1px solid var(--line)',
+                borderRadius: 'var(--r-control)',
+                color: 'var(--text-on-surface-variant)',
+                background: 'var(--surface)',
+                cursor: 'pointer',
+                flexShrink: 0,
+                transition: 'all 0.15s ease',
+              }}
+            >
+              {theme === 'dark' ? (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/>
+                  <line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/>
+                  <line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              ) : (
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              )}
+            </button>
+
             {/* User menu */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', paddingLeft: 'var(--sp-2)', borderLeft: '1px solid #242424' }}>
+            <div className="topbar-user-section" style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', paddingLeft: 'var(--sp-2)', borderLeft: '1px solid var(--line)' }}>
               <div className="desktop-user-info" style={{ textAlign: 'right' }}>
-                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: '#FFFFFF' }}>
+                <div style={{ fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)' }}>
                   {user.email.split('@')[0]}
                 </div>
-                <div style={{ fontSize: '10px', color: '#737373', fontWeight: 500 }}>
+                <div style={{ fontSize: '10px', color: 'var(--muted)', fontWeight: 500 }}>
                   {ROLE_LABELS[user.role]}
                 </div>
               </div>
@@ -528,11 +661,11 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                 width: 30,
                 height: 30,
                 borderRadius: '50%',
-                background: '#FFFFFF',
+                background: 'var(--ink)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#000000',
+                color: 'var(--canvas)',
                 fontSize: 'var(--text-xs)',
                 fontFamily: 'var(--font-mono)',
                 fontWeight: 700,
@@ -542,6 +675,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               </div>
               <button
                 id="sign-out-button"
+                className="topbar-signout-btn"
                 onClick={handleSignOut}
                 disabled={signingOut}
                 aria-label="Sign out"
@@ -552,10 +686,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                   justifyContent: 'center',
                   width: 32,
                   height: 32,
-                  border: '1px solid #242424',
+                  border: '1px solid var(--line)',
                   borderRadius: 'var(--r-control)',
-                  background: '#0F0F0F',
-                  color: '#A3A3A3',
+                  background: 'var(--surface)',
+                  color: 'var(--muted)',
                   cursor: 'pointer',
                 }}
               >
@@ -585,7 +719,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0, 0, 0, 0.85)',
+            background: 'rgba(0, 0, 0, 0.75)',
             zIndex: 9999,
             display: 'flex',
             alignItems: 'flex-start',
@@ -599,10 +733,10 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             style={{
               width: '100%',
               maxWidth: 600,
-              background: '#0F0F0F',
-              border: '1px solid #242424',
+              background: 'var(--surface)',
+              border: '1px solid var(--line)',
               borderRadius: 'var(--r-control)',
-              boxShadow: '0 8px 32px rgba(0, 0, 0, 0.9)',
+              boxShadow: 'var(--shadow-popover)',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
@@ -615,8 +749,8 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               alignItems: 'center',
               gap: 12,
               padding: '14px 18px',
-              borderBottom: '1px solid #242424',
-              background: '#080808',
+              borderBottom: '1px solid var(--line)',
+              background: 'var(--surface-container-low)',
             }}>
               <svg width="18" height="18" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                 <circle cx="7" cy="7" r="5" stroke="var(--primary)" strokeWidth="1.6"/>
@@ -625,6 +759,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               <input
                 autoFocus
                 type="text"
+                className="search-palette-input"
                 placeholder="Search anything: funnels, leakage, students, agencies, credentials…"
                 value={searchQuery}
                 onChange={e => setSearchQuery(e.target.value)}
@@ -675,7 +810,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                         transition: 'background 0.1s ease',
                       }}
                       onMouseEnter={e => {
-                        e.currentTarget.style.background = 'var(--canvas)'
+                        e.currentTarget.style.background = 'var(--surface-container-high)'
                       }}
                       onMouseLeave={e => {
                         e.currentTarget.style.background = 'transparent'
@@ -693,8 +828,8 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
                         fontSize: '10px',
                         fontWeight: 700,
                         padding: '2px 8px',
-                        background: 'rgba(29, 78, 137, 0.08)',
-                        color: 'var(--primary)',
+                        background: 'var(--surface-container-high)',
+                        color: 'var(--ink)',
                         borderRadius: 'var(--r-control)',
                       }}>
                         {item.category}
@@ -716,7 +851,7 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
           style={{
             position: 'fixed',
             inset: 0,
-            background: 'rgba(0, 0, 0, 0.85)',
+            background: 'rgba(0, 0, 0, 0.7)',
             backdropFilter: 'blur(6px)',
             WebkitBackdropFilter: 'blur(6px)',
             zIndex: 100,
@@ -729,11 +864,11 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
             style={{
               width: 'min(300px, 85vw)',
               height: '100%',
-              background: '#080808',
-              borderRight: '1px solid #242424',
+              background: 'var(--surface-container-low)',
+              borderRight: '1px solid var(--line)',
               display: 'flex',
               flexDirection: 'column',
-              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.8)',
+              boxShadow: 'var(--shadow-popover)',
               overflowY: 'auto',
               animation: 'slideDrawerIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
             }}
@@ -743,14 +878,14 @@ export default function AppShell({ user, children }: { user: AppUser; children: 
               justifyContent: 'space-between',
               alignItems: 'center',
               padding: '12px 16px',
-              borderBottom: '1px solid #242424',
-              background: '#0D0D0D',
+              borderBottom: '1px solid var(--line)',
+              background: 'var(--surface)',
             }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <div style={{
                   width: 24, height: 24, borderRadius: '4px',
-                  background: 'rgba(24, 182, 164, 0.15)',
-                  border: '1px solid #18B6A4',
+                  background: 'var(--chip-verified-bg)',
+                  border: '1px solid var(--verified)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                 }}>
                   <svg width="12" height="12" viewBox="0 0 18 18" fill="none">

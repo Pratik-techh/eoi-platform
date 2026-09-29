@@ -41,8 +41,8 @@ export function EntityResolutionFlow() {
 
   return (
     <div style={{
-      background: '#0F0F0F',
-      border: '1px solid #242424',
+      background: 'var(--surface)',
+      border: '1px solid var(--line)',
       borderRadius: 'var(--r-control)',
       padding: 'var(--sp-6)',
       marginBottom: 'var(--sp-6)',
@@ -51,13 +51,13 @@ export function EntityResolutionFlow() {
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
           <span style={{
             fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 600, padding: '2px 8px', borderRadius: 'var(--r-badge)',
-            background: '#151515', color: '#18B6A4', border: '1px solid rgba(24, 182, 164, 0.4)',
+            background: 'var(--chip-verified-bg)', color: 'var(--verified)', border: '1px solid var(--chip-verified-border)',
             letterSpacing: '0.04em', textTransform: 'uppercase', display: 'inline-flex', alignItems: 'center', gap: 5,
           }}>
-            <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 5px rgba(24, 182, 164, 0.5)' }} />
+            <span style={{ width: 5, height: 5, borderRadius: '50%', background: 'var(--verified)', boxShadow: 'var(--halo-verified)' }} />
             Zero Trust Pipeline
           </span>
-          <h2 style={{ fontSize: 'var(--text-md)', fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#FFFFFF', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+          <h2 style={{ fontSize: 'var(--text-md)', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--ink)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
             Organization Entity Resolution Flow
           </h2>
         </div>
@@ -71,8 +71,8 @@ export function EntityResolutionFlow() {
           <div
             key={st.step}
             style={{
-              background: '#080808',
-              border: '1px solid #242424',
+              background: 'var(--surface-container-low)',
+              border: '1px solid var(--line)',
               borderRadius: 'var(--r-control)',
               padding: '14px',
               position: 'relative',
@@ -80,27 +80,27 @@ export function EntityResolutionFlow() {
           >
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
               <span style={{
-                width: 20, height: 20, borderRadius: 'var(--r-badge)', background: '#FFFFFF', color: '#000000',
+                width: 20, height: 20, borderRadius: 'var(--r-badge)', background: 'var(--primary)', color: 'var(--primary-fg)',
                 display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 700,
               }}>
                 {st.step}
               </span>
               <span style={{
                 fontSize: '9px', fontFamily: 'var(--font-mono)', fontWeight: 600, padding: '1px 6px', borderRadius: 2,
-                background: '#151515', border: '1px solid #242424', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.04em',
+                background: 'var(--surface)', border: '1px solid var(--line)', color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.04em',
               }}>
                 {st.badge}
               </span>
             </div>
-            <div style={{ fontSize: '13px', fontWeight: 600, color: '#FFFFFF', marginBottom: 4 }}>
+            <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
               {st.title}
             </div>
             <div style={{ fontSize: '11px', color: 'var(--muted)', lineHeight: 1.4, marginBottom: 10 }}>
               {st.detail}
             </div>
             <div style={{
-              fontSize: '11px', fontFamily: 'var(--font-mono)', background: '#151515',
-              border: '1px solid #242424', padding: '4px 8px', borderRadius: 2, color: 'var(--text-on-surface)',
+              fontSize: '11px', fontFamily: 'var(--font-mono)', background: 'var(--surface)',
+              border: '1px solid var(--line)', padding: '4px 8px', borderRadius: 2, color: 'var(--text-on-surface)',
               overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
             }}>
               {st.example}

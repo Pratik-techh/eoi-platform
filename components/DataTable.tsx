@@ -87,10 +87,10 @@ export function DataTable<T extends Record<string, any>>({
   }
 
   return (
-    <div style={{ background: '#0F0F0F', border: '1px solid #242424', borderRadius: 'var(--r-control)', overflow: 'hidden' }}>
+    <div style={{ background: 'var(--surface)', border: '1px solid var(--line)', borderRadius: 'var(--r-control)', overflow: 'hidden' }}>
       {/* Controls Bar (Stitch Technical Header) */}
       <div style={{
-        padding: '10px 16px', borderBottom: '1px solid #242424', background: '#080808',
+        padding: '10px 16px', borderBottom: '1px solid var(--line)', background: 'var(--surface-container-low)',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 'var(--sp-3)',
       }}>
         {/* Search Input */}
@@ -101,9 +101,9 @@ export function DataTable<T extends Record<string, any>>({
             value={search}
             onChange={e => { setSearch(e.target.value); setPage(1) }}
             style={{
-              width: '100%', padding: '6px 10px 6px 30px', border: '1px solid #242424',
-              borderRadius: 'var(--r-badge)', fontSize: '11px', background: '#000000',
-              color: '#FFFFFF', outline: 'none', fontFamily: 'var(--font-ui)',
+              width: '100%', padding: '6px 10px 6px 30px', border: '1px solid var(--line)',
+              borderRadius: 'var(--r-badge)', fontSize: '11px', background: 'var(--surface)',
+              color: 'var(--ink)', outline: 'none', fontFamily: 'var(--font-ui)',
             }}
           />
           <svg
@@ -120,7 +120,7 @@ export function DataTable<T extends Record<string, any>>({
           <button
             onClick={() => setCompact(!compact)}
             style={{
-              padding: '5px 10px', background: '#0F0F0F', border: '1px solid #242424',
+              padding: '5px 10px', background: 'var(--surface)', border: '1px solid var(--line)',
               borderRadius: 'var(--r-badge)', fontSize: '11px', fontFamily: 'var(--font-mono)',
               color: 'var(--text-on-surface-variant)', cursor: 'pointer', textTransform: 'uppercase',
               letterSpacing: '0.04em',
@@ -132,8 +132,8 @@ export function DataTable<T extends Record<string, any>>({
             onClick={handleExportCsv}
             style={{
               display: 'inline-flex', alignItems: 'center', gap: 4, padding: '5px 12px',
-              background: '#FFFFFF', border: '1px solid #FFFFFF', borderRadius: 'var(--r-badge)',
-              fontSize: '11px', fontWeight: 600, color: '#000000', cursor: 'pointer',
+              background: 'var(--primary)', border: '1px solid var(--primary)', borderRadius: 'var(--r-badge)',
+              fontSize: '11px', fontWeight: 600, color: 'var(--primary-fg)', cursor: 'pointer',
               fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.04em',
             }}
           >
@@ -149,14 +149,14 @@ export function DataTable<T extends Record<string, any>>({
       <div style={{ overflowX: 'auto' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
           <thead>
-            <tr style={{ background: '#080808', borderBottom: '1px solid #242424' }}>
+            <tr style={{ background: 'var(--surface-container-low)', borderBottom: '1px solid var(--line)' }}>
               {columns.map(col => (
                 <th
                   key={col.key}
                   onClick={() => col.sortable && handleSort(col.key)}
                   style={{
                     padding: compact ? '6px 12px' : '10px 14px',
-                    fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 500,
+                    fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 600,
                     color: 'var(--muted)', letterSpacing: '0.08em', textTransform: 'uppercase',
                     cursor: col.sortable ? 'pointer' : 'default',
                     userSelect: 'none', whiteSpace: 'nowrap',
@@ -165,7 +165,7 @@ export function DataTable<T extends Record<string, any>>({
                   <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
                     {col.label}
                     {col.sortable && sortCol === col.key && (
-                      <span style={{ color: '#FFFFFF' }}>{sortAsc ? '▲' : '▼'}</span>
+                      <span style={{ color: 'var(--ink)' }}>{sortAsc ? '▲' : '▼'}</span>
                     )}
                   </div>
                 </th>
@@ -185,13 +185,13 @@ export function DataTable<T extends Record<string, any>>({
                   key={item[idKey] ?? idx}
                   onClick={() => onRowClick?.(item)}
                   style={{
-                    borderBottom: '1px solid #1A1A1A',
+                    borderBottom: '1px solid var(--line-subtle)',
                     cursor: onRowClick ? 'pointer' : 'default',
-                    background: '#000000',
+                    background: 'var(--surface)',
                     transition: 'background-color 0.1s ease',
                   }}
-                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = '#0F0F0F' }}
-                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = '#000000' }}
+                  onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'var(--surface-container-high)' }}
+                  onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'var(--surface)' }}
                 >
                   {columns.map(col => (
                     <td
@@ -213,7 +213,7 @@ export function DataTable<T extends Record<string, any>>({
 
       {/* Pagination Bar */}
       <div style={{
-        padding: '10px 16px', borderTop: '1px solid #242424', background: '#080808',
+        padding: '10px 16px', borderTop: '1px solid var(--line)', background: 'var(--surface-container-low)',
         display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px',
         fontFamily: 'var(--font-mono)', color: 'var(--muted)', letterSpacing: '0.04em', textTransform: 'uppercase',
       }}>
@@ -225,20 +225,20 @@ export function DataTable<T extends Record<string, any>>({
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page <= 1}
             style={{
-              padding: '3px 8px', border: '1px solid #242424', borderRadius: 2,
-              background: '#0F0F0F', color: page <= 1 ? 'var(--text-disabled)' : '#FFFFFF',
+              padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 2,
+              background: 'var(--surface)', color: page <= 1 ? 'var(--text-disabled)' : 'var(--ink)',
               cursor: page <= 1 ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)',
             }}
           >
             ← Prev
           </button>
-          <span style={{ padding: '3px 6px', fontWeight: 600, color: '#FFFFFF' }}>{page} / {totalPages}</span>
+          <span style={{ padding: '3px 6px', fontWeight: 600, color: 'var(--ink)' }}>{page} / {totalPages}</span>
           <button
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page >= totalPages}
             style={{
-              padding: '3px 8px', border: '1px solid #242424', borderRadius: 2,
-              background: '#0F0F0F', color: page >= totalPages ? 'var(--text-disabled)' : '#FFFFFF',
+              padding: '3px 8px', border: '1px solid var(--line)', borderRadius: 2,
+              background: 'var(--surface)', color: page >= totalPages ? 'var(--text-disabled)' : 'var(--ink)',
               cursor: page >= totalPages ? 'not-allowed' : 'pointer', fontFamily: 'var(--font-mono)',
             }}
           >

@@ -217,11 +217,7 @@ export default async function GovDashboardPage() {
         </div>
 
         {/* 8-Stage Connected Pipeline Grid */}
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(130px, 1fr))',
-          gap: '10px',
-        }}>
+        <div className="pipeline-step-grid">
           <PipelineStep
             step="01"
             title="Enrolled"
@@ -541,12 +537,12 @@ function PipelineStep({
 }) {
   const badgeStyle: React.CSSProperties =
     badgeType === 'verified'
-      ? { background: 'rgba(24, 182, 164, 0.15)', color: '#18B6A4', border: '1px solid rgba(24, 182, 164, 0.3)' }
+      ? { background: 'var(--chip-verified-bg)', color: 'var(--verified)', border: '1px solid var(--chip-verified-border)' }
       : badgeType === 'pending'
-      ? { background: 'rgba(245, 158, 11, 0.15)', color: '#F59E0B', border: '1px solid rgba(245, 158, 11, 0.3)' }
+      ? { background: 'var(--chip-pending-bg)', color: 'var(--pending)', border: '1px solid var(--chip-pending-border)' }
       : badgeType === 'primary'
-      ? { background: 'rgba(24, 182, 164, 0.12)', color: '#18B6A4', border: '1px solid rgba(24, 182, 164, 0.25)' }
-      : { background: '#151515', color: '#A3A3A3', border: '1px solid #242424' }
+      ? { background: 'var(--chip-info-bg)', color: 'var(--info)', border: '1px solid var(--chip-info-border)' }
+      : { background: 'var(--surface)', color: 'var(--muted)', border: '1px solid var(--line)' }
 
   return (
     <div
@@ -558,18 +554,20 @@ function PipelineStep({
         flexDirection: 'column',
         justifyContent: 'space-between',
         borderRadius: '4px',
-        background: accent ? '#0A1815' : '#0F0F0F',
-        border: accent ? '1px solid #18B6A4' : '1px solid #242424',
-        boxShadow: accent ? '0 0 12px rgba(24, 182, 164, 0.2)' : 'none',
+        background: accent ? 'var(--chip-verified-bg)' : 'var(--surface)',
+        border: accent ? '1px solid var(--verified)' : '1px solid var(--line)',
+        boxShadow: accent ? 'var(--halo-verified)' : 'none',
       }}
     >
       {/* Top Header inside the Step Card */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6, gap: 4 }}>
         <span style={{
           fontSize: '9px',
           fontWeight: 800,
           color: accent ? 'var(--verified)' : 'var(--muted)',
           letterSpacing: '0.05em',
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
         }}>
           STAGE {step}
         </span>
@@ -578,6 +576,9 @@ function PipelineStep({
           fontWeight: 700,
           padding: '1px 5px',
           borderRadius: 3,
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
           ...badgeStyle,
         }}>
           {badge}

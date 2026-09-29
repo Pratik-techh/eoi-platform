@@ -6,15 +6,45 @@ import { useRouter } from 'next/navigation'
 export default function AgencyEmploymentReportPage() {
   const router = useRouter()
   const [studentId, setStudentId] = useState('EOI-S-HERO-0001')
-  const [employerQuery, setEmployerQuery] = useState('')
+  const [uan, setUan] = useState('100928172635')
+  const [employerQuery, setEmployerQuery] = useState('Google India Pvt. Ltd.')
   const [idClass, setIdClass] = useState('CIN')
-  const [idValue, setIdValue] = useState('')
-  const [jobRole, setJobRole] = useState('')
+  const [idValue, setIdValue] = useState('U72200KA2004FTC033590')
+  const [jobRole, setJobRole] = useState('Associate Cloud Engineer')
   const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0])
-  const [wageBand, setWageBand] = useState('₹20,000 – ₹25,000')
-  const [location, setLocation] = useState('New Delhi')
+  const [wageBand, setWageBand] = useState('₹25,000 – ₹35,000')
+  const [location, setLocation] = useState('Bengaluru')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
+  const [statutoryChecking, setStatutoryChecking] = useState(false)
+  const [statutoryResult, setStatutoryResult] = useState<any | null>(null)
+
+  async function handleCrossCheckStatutory() {
+    setStatutoryChecking(true)
+    setStatutoryResult(null)
+    try {
+      const res = await fetch('/api/integrations/verify-epfo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          candidateId: studentId,
+          uan: uan.trim(),
+          cin: idValue.trim(),
+          wageMonth: '08/2026',
+        }),
+      })
+      const data = await res.json()
+      if (res.ok && data.result) {
+        setStatutoryResult(data.result)
+      } else {
+        alert(data.error || 'Statutory check could not find matching records.')
+      }
+    } catch (e: any) {
+      alert(`Statutory check failed: ${e.message}`)
+    } finally {
+      setStatutoryChecking(false)
+    }
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -80,27 +110,98 @@ export default function AgencyEmploymentReportPage() {
         padding: 'var(--sp-6)', maxWidth: '720px',
       }}>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--sp-4)' }}>
-          {/* Candidate ID */}
-          <div>
-            <label style={{ display: 'block', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
-              Candidate EOI Student ID *
-            </label>
-            <input
-              type="text"
-              required
-              value={studentId}
-              onChange={e => setStudentId(e.target.value)}
-              placeholder="e.g. EOI-S-HERO-0001"
-              style={{
-                width: '100%', padding: 'var(--sp-2) var(--sp-3)', border: '1px solid var(--line)',
-                borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', background: 'var(--surface)',
-                fontFamily: 'var(--font-mono)',
-              }}
-            />
+          {/* Candidate ID & EPFO UAN */}
+          <div className="form-grid-2">
+            <div>
+              <label style={{ display: 'block', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
+                Candidate EOI Student ID *
+              </label>
+              <input
+                type="text"
+                required
+                value={studentId}
+                onChange={e => setStudentId(e.target.value)}
+                placeholder="e.g. EOI-S-HERO-0001"
+                style={{
+                  width: '100%', padding: 'var(--sp-2) var(--sp-3)', border: '1px solid var(--line)',
+                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', background: 'var(--surface)',
+                  fontFamily: 'var(--font-mono)',
+                }}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
+                Candidate 12-Digit UAN (EPFO)
+              </label>
+              <input
+                type="text"
+                maxLength={12}
+                value={uan}
+                onChange={e => setUan(e.target.value)}
+                placeholder="e.g. 100928172635"
+                style={{
+                  width: '100%', padding: 'var(--sp-2) var(--sp-3)', border: '1px solid var(--line)',
+                  borderRadius: 'var(--r-control)', fontSize: 'var(--text-sm)', background: 'var(--surface)',
+                  fontFamily: 'var(--font-mono)',
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Instant Statutory Cross-Check Trigger & Live ECR Box */}
+          <div style={{
+            padding: 'var(--sp-3)',
+            background: statutoryResult ? 'var(--chip-verified-bg)' : 'var(--surface-container-low)',
+            border: `1px solid ${statutoryResult ? 'var(--chip-verified-border)' : 'var(--line)'}`,
+            borderRadius: 'var(--r-control)',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8 }}>
+              <div>
+                <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--ink)' }}>
+                  Statutory Cross-Check (Automated Feasibility Engine)
+                </div>
+                <div style={{ fontSize: '10px', color: 'var(--muted)' }}>
+                  Verify candidate UAN & employer CIN against live statutory registries before submitting.
+                </div>
+              </div>
+
+              <button
+                type="button"
+                id="pre-verify-statutory-btn"
+                onClick={handleCrossCheckStatutory}
+                disabled={statutoryChecking}
+                style={{
+                  padding: '5px 12px',
+                  background: 'var(--primary-accent)',
+                  color: '#000000',
+                  border: 'none',
+                  borderRadius: 'var(--r-badge)',
+                  fontSize: '11px',
+                  fontWeight: 700,
+                  fontFamily: 'var(--font-mono)',
+                  cursor: statutoryChecking ? 'wait' : 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {statutoryChecking ? 'Cross-Checking...' : '⚡ Cross-Check EPFO / MCA'}
+              </button>
+            </div>
+
+            {statutoryResult && (
+              <div style={{ marginTop: 8, paddingTop: 8, borderTop: '1px solid var(--line)', fontSize: '11px' }}>
+                <div style={{ color: 'var(--verified)', fontWeight: 700, marginBottom: 2 }}>
+                  ✓ Statutory ECR Remittance Verified: {statutoryResult.ecrReceipt?.trrn}
+                </div>
+                <div style={{ color: 'var(--muted)', fontSize: '10px' }}>
+                  Establishment: {statutoryResult.ecrReceipt?.establishmentName} · Wage Month: {statutoryResult.ecrReceipt?.wageMonth} · Member PF: ₹{statutoryResult.ecrReceipt?.memberPfContribution}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Employer Search & Identifier */}
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 2fr', gap: 'var(--sp-3)' }}>
+          <div className="form-grid-3">
             <div>
               <label style={{ display: 'block', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
                 Employer Legal Entity Name *
@@ -157,7 +258,7 @@ export default function AgencyEmploymentReportPage() {
           </div>
 
           {/* Job Role & Start Date */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-3)' }}>
+          <div className="form-grid-2">
             <div>
               <label style={{ display: 'block', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
                 Designation / Job Role *
@@ -193,7 +294,7 @@ export default function AgencyEmploymentReportPage() {
           </div>
 
           {/* Wage Band & Location */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--sp-3)' }}>
+          <div className="form-grid-2">
             <div>
               <label style={{ display: 'block', fontSize: 'var(--text-xs)', fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
                 Monthly Compensation Band

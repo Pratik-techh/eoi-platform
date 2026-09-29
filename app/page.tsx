@@ -7,6 +7,7 @@ import { useState } from 'react'
 export default function HomePage() {
   const router = useRouter()
   const [loggingIn, setLoggingIn] = useState<string | null>(null)
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   async function handleQuickLogin(email: string) {
     setLoggingIn(email)
@@ -40,16 +41,17 @@ export default function HomePage() {
       <header style={{
         background: '#080808',
         borderBottom: '1px solid #242424',
-        padding: 'var(--sp-3) var(--sp-8)',
+        padding: 'var(--sp-3) var(--sp-4)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         position: 'sticky',
         top: 0,
         zIndex: 50,
+        gap: 'var(--sp-2)',
       }}>
         {/* Brand & Crest */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-4)' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)', minWidth: 0 }}>
           <div style={{
             width: 34,
             height: 34,
@@ -59,14 +61,15 @@ export default function HomePage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
+            flexShrink: 0,
           }}>
             <svg width="18" height="18" viewBox="0 0 22 22" fill="none" aria-hidden="true">
               <path d="M4 16L8.5 10L12 13.5L16 7L18.5 11" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           </div>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
-              <span style={{ fontSize: 'var(--text-base)', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.04em', textTransform: 'uppercase' }}>
+          <div style={{ minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', flexWrap: 'wrap' }}>
+              <span style={{ fontSize: 'var(--text-base)', fontFamily: 'var(--font-mono)', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.04em', textTransform: 'uppercase', whiteSpace: 'nowrap' }}>
                 EOI Platform
               </span>
               <span style={{
@@ -78,18 +81,19 @@ export default function HomePage() {
                 color: 'var(--muted)',
                 borderRadius: 'var(--r-badge)',
                 border: '1px solid #242424',
+                flexShrink: 0,
               }}>
                 SIH 2026
               </span>
             </div>
-            <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 400 }}>
+            <div className="landing-header-subtitle" style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 400, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
               National Employment Outcome Intelligence Layer · MSDE
             </div>
           </div>
         </div>
 
-        {/* Live System State & Quick Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-3)' }}>
+        {/* Desktop Nav Actions — hidden on mobile */}
+        <div className="landing-desktop-nav" style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
@@ -102,9 +106,10 @@ export default function HomePage() {
             fontFamily: 'var(--font-mono)',
             fontWeight: 500,
             color: 'var(--text-on-surface)',
+            whiteSpace: 'nowrap',
           }}>
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)' }} />
-            <span>SHA-256 Ledger: 502 Blocks Verified</span>
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24, 182, 164, 0.45)', flexShrink: 0 }} />
+            <span>SHA-256 Ledger: 502 Blocks</span>
           </div>
 
           <a
@@ -122,6 +127,7 @@ export default function HomePage() {
               textDecoration: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
+              whiteSpace: 'nowrap',
             }}
           >
             <span>Manual (PDF)</span>
@@ -146,9 +152,10 @@ export default function HomePage() {
               cursor: 'pointer',
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
+              whiteSpace: 'nowrap',
             }}
           >
-            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D99A32', boxShadow: '0 0 6px rgba(217, 154, 50, 0.5)' }} />
+            <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#D99A32', boxShadow: '0 0 6px rgba(217, 154, 50, 0.5)', flexShrink: 0 }} />
             <span>3-Min Tour</span>
           </button>
 
@@ -170,6 +177,7 @@ export default function HomePage() {
               textDecoration: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
+              whiteSpace: 'nowrap',
             }}
           >
             <span>Demo Personas</span>
@@ -188,15 +196,189 @@ export default function HomePage() {
               textDecoration: 'none',
               textTransform: 'uppercase',
               letterSpacing: '0.04em',
+              whiteSpace: 'nowrap',
             }}
           >
             Sign In
           </Link>
         </div>
+
+        {/* Mobile-only right cluster: Sign In + Hamburger */}
+        <div className="landing-mobile-nav" style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)' }}>
+          <Link
+            href="/login"
+            style={{
+              padding: '6px 12px',
+              fontSize: '11px',
+              fontFamily: 'var(--font-mono)',
+              background: '#FFFFFF',
+              color: '#000000',
+              border: '1px solid #FFFFFF',
+              borderRadius: 'var(--r-badge)',
+              textDecoration: 'none',
+              textTransform: 'uppercase',
+              letterSpacing: '0.04em',
+              fontWeight: 700,
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Sign In
+          </Link>
+          <button
+            id="landing-mobile-menu-toggle"
+            onClick={() => setMobileMenuOpen(true)}
+            aria-label="Open navigation menu"
+            style={{
+              width: 36,
+              height: 36,
+              border: '1px solid #242424',
+              borderRadius: 'var(--r-control)',
+              background: '#0F0F0F',
+              color: '#FFFFFF',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              flexShrink: 0,
+            }}
+          >
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+              <line x1="3" y1="5" x2="15" y2="5" />
+              <line x1="3" y1="9" x2="15" y2="9" />
+              <line x1="3" y1="13" x2="15" y2="13" />
+            </svg>
+          </button>
+        </div>
       </header>
 
+      {/* Mobile Navigation Drawer for Landing Page */}
+      {mobileMenuOpen && (
+        <div
+          className="landing-mobile-drawer-overlay"
+          onClick={() => setMobileMenuOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            background: 'rgba(0,0,0,0.85)',
+            backdropFilter: 'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
+            zIndex: 200,
+            display: 'flex',
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: 'min(300px, 85vw)',
+              height: '100%',
+              background: '#080808',
+              borderRight: '1px solid #242424',
+              display: 'flex',
+              flexDirection: 'column',
+              boxShadow: '0 20px 40px rgba(0,0,0,0.8)',
+              overflowY: 'auto',
+              animation: 'slideDrawerIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+            }}
+          >
+            {/* Drawer header */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '14px 16px',
+              borderBottom: '1px solid #242424',
+              background: '#0D0D0D',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <div style={{
+                  width: 26, height: 26,
+                  background: '#0F0F0F',
+                  border: '1px solid #242424',
+                  borderRadius: 4,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg width="14" height="14" viewBox="0 0 22 22" fill="none">
+                    <path d="M4 16L8.5 10L12 13.5L16 7L18.5 11" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF', letterSpacing: '0.04em', textTransform: 'uppercase', fontFamily: 'var(--font-mono)' }}>EOI Platform</span>
+              </div>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                aria-label="Close navigation menu"
+                style={{
+                  width: 30, height: 30,
+                  border: '1px solid #242424',
+                  borderRadius: 4,
+                  background: '#151515',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  cursor: 'pointer',
+                  color: '#A3A3A3',
+                  fontSize: '16px',
+                  fontWeight: 700,
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* Drawer links */}
+            <div style={{ padding: '12px 8px', display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <a href="/EOI_Platform_User_Manual_and_Guide.pdf" target="_blank" rel="noopener noreferrer" onClick={() => setMobileMenuOpen(false)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 4, textDecoration: 'none', color: 'var(--text-on-surface)', fontSize: '13px', fontFamily: 'var(--font-ui)' }}
+              >
+                <span style={{ width: 20, textAlign: 'center', color: 'var(--muted)' }}>📄</span>
+                <span>User Manual (PDF)</span>
+              </a>
+              <button onClick={() => { setMobileMenuOpen(false); window.dispatchEvent(new CustomEvent('start-guided-tour')) }}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 4, background: 'transparent', border: 'none', color: 'var(--text-on-surface)', fontSize: '13px', cursor: 'pointer', textAlign: 'left', fontFamily: 'var(--font-ui)', width: '100%' }}
+              >
+                <span style={{ width: 20, textAlign: 'center' }}>🎬</span>
+                <span>3-Minute Story Tour</span>
+              </button>
+              <div style={{ height: 1, background: '#242424', margin: '4px 12px' }} />
+              <Link href="/demo" onClick={() => setMobileMenuOpen(false)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 4, textDecoration: 'none', color: 'var(--text-on-surface)', fontSize: '13px', fontFamily: 'var(--font-ui)' }}
+              >
+                <span style={{ width: 20, textAlign: 'center' }}>👥</span>
+                <span>Demo Personas</span>
+              </Link>
+              <Link href="/gov/dashboard" onClick={() => setMobileMenuOpen(false)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 4, textDecoration: 'none', color: 'var(--text-on-surface)', fontSize: '13px', fontFamily: 'var(--font-ui)' }}
+              >
+                <span style={{ width: 20, textAlign: 'center' }}>🏛️</span>
+                <span>Government Command Center</span>
+              </Link>
+              <Link href="/gov/audit" onClick={() => setMobileMenuOpen(false)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 4, textDecoration: 'none', color: '#18B6A4', fontSize: '13px', fontFamily: 'var(--font-ui)' }}
+              >
+                <span style={{ width: 20, textAlign: 'center' }}>⛓️</span>
+                <span>SHA-256 Audit Ledger</span>
+              </Link>
+              <div style={{ height: 1, background: '#242424', margin: '4px 12px' }} />
+              <Link href="/login" onClick={() => setMobileMenuOpen(false)}
+                style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '10px 12px', borderRadius: 4, textDecoration: 'none', background: '#FFFFFF', color: '#000000', fontWeight: 700, fontSize: '13px', fontFamily: 'var(--font-mono)', margin: '4px 12px', justifyContent: 'center', textTransform: 'uppercase', letterSpacing: '0.04em' }}
+              >
+                Sign In →
+              </Link>
+            </div>
+
+            {/* SHA ledger status */}
+            <div style={{ marginTop: 'auto', padding: '12px 16px', borderTop: '1px solid #242424' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
+                <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#18B6A4', boxShadow: '0 0 6px rgba(24,182,164,0.45)', flexShrink: 0 }} />
+                SHA-256 Ledger: 502 Blocks Verified
+              </div>
+              <div style={{ fontSize: '10px', color: '#4a4a4a', marginTop: 4, fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>
+                Synthetic Data · Prototype
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Hero Banner Section (Stitch Precision Console) */}
-      <section style={{
+      <section className="landing-hero-section" style={{
         background: '#000000',
         color: '#FFFFFF',
         padding: 'var(--sp-12) var(--sp-8) var(--sp-10)',
@@ -226,7 +408,7 @@ export default function HomePage() {
             PMKVY 4.0 · NAPS · DDU-GKY · SIDH · ESIC NATIONAL INTEGRATION ARCHITECTURE
           </div>
 
-          <h1 style={{
+          <h1 className="landing-hero-h1" style={{
             fontSize: '2.5rem',
             fontFamily: 'var(--font-ui)',
             fontWeight: 700,
@@ -251,7 +433,7 @@ export default function HomePage() {
           </p>
 
           {/* Core Action Buttons */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--sp-3)', flexWrap: 'wrap', marginBottom: 'var(--sp-10)' }}>
+          <div className="landing-hero-action-row" style={{ display: 'flex', justifyContent: 'center', gap: 'var(--sp-3)', flexWrap: 'wrap', marginBottom: 'var(--sp-10)' }}>
             <button
               onClick={() => {
                 window.dispatchEvent(new CustomEvent('start-guided-tour'))
@@ -348,7 +530,7 @@ export default function HomePage() {
           </div>
 
           {/* Live Platform Metric Strip (Stitch Telemetry Matrix) */}
-          <div style={{
+          <div className="landing-metrics-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
             gap: 'var(--sp-3)',
@@ -392,7 +574,7 @@ export default function HomePage() {
       </section>
 
       {/* Main Content Area */}
-      <main style={{ flex: 1, padding: 'var(--sp-10) var(--sp-8)', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+      <main className="landing-main" style={{ flex: 1, padding: 'var(--sp-10) var(--sp-8)', maxWidth: 1200, margin: '0 auto', width: '100%' }}>
         {/* The 4 Architectural Invariants Banner */}
         <div style={{ marginBottom: 'var(--sp-10)' }}>
           <div style={{ textAlign: 'center', marginBottom: 'var(--sp-6)' }}>

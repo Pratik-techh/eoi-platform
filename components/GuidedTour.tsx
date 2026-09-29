@@ -132,49 +132,81 @@ export function GuidedTour() {
   // If not active, render a prominent persistent floating launcher button
   if (!active) {
     return (
-      <div style={{
-        position: 'fixed',
-        bottom: 24,
-        right: 24,
-        zIndex: 9999,
-      }}>
-        <button
-          id="global-floating-tour-btn"
-          onClick={handleStartTour}
-          className="hover-lift"
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 10,
-            padding: '12px 20px',
-            background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
-            color: '#FFFFFF',
-            border: '2px solid rgba(255, 255, 255, 0.5)',
-            borderRadius: '999px',
-            fontSize: '13px',
-            fontWeight: 800,
-            cursor: switching ? 'wait' : 'pointer',
-            boxShadow: '0 8px 30px rgba(217, 119, 6, 0.5)',
-            transition: 'all 0.2s ease',
-            fontFamily: 'var(--font-ui)',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          <span style={{ fontSize: '18px' }}>🎬</span>
-          <span>{switching ? 'Launching Tour…' : 'Start 3-Minute Story Tour'}</span>
-          <span style={{
-            background: 'rgba(0, 0, 0, 0.25)',
-            padding: '2px 8px',
-            borderRadius: '999px',
-            fontSize: '10px',
-            fontWeight: 800,
-            letterSpacing: '0.05em',
-            textTransform: 'uppercase',
-          }}>
-            Evaluator Mode
-          </span>
-        </button>
-      </div>
+      <>
+        {/* Desktop: full pill button */}
+        <div className="tour-float-desktop" style={{
+          position: 'fixed',
+          bottom: 24,
+          right: 24,
+          zIndex: 9999,
+        }}>
+          <button
+            id="global-floating-tour-btn"
+            onClick={handleStartTour}
+            className="hover-lift"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10,
+              padding: '12px 20px',
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              color: '#FFFFFF',
+              border: '2px solid rgba(255, 255, 255, 0.5)',
+              borderRadius: '999px',
+              fontSize: '13px',
+              fontWeight: 800,
+              cursor: switching ? 'wait' : 'pointer',
+              boxShadow: '0 8px 30px rgba(217, 119, 6, 0.5)',
+              transition: 'all 0.2s ease',
+              fontFamily: 'var(--font-ui)',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            <span style={{ fontSize: '18px' }}>🎬</span>
+            <span>{switching ? 'Launching…' : 'Start 3-Minute Story Tour'}</span>
+            <span style={{
+              background: 'rgba(0, 0, 0, 0.25)',
+              padding: '2px 8px',
+              borderRadius: '999px',
+              fontSize: '10px',
+              fontWeight: 800,
+              letterSpacing: '0.05em',
+              textTransform: 'uppercase',
+            }}>
+              Evaluator Mode
+            </span>
+          </button>
+        </div>
+        {/* Mobile: compact icon-only FAB */}
+        <div className="tour-float-mobile" style={{
+          position: 'fixed',
+          bottom: 16,
+          right: 16,
+          zIndex: 9999,
+        }}>
+          <button
+            id="global-floating-tour-btn-mobile"
+            onClick={handleStartTour}
+            aria-label="Start 3-Minute Story Tour"
+            style={{
+              width: 52,
+              height: 52,
+              background: 'linear-gradient(135deg, #F59E0B 0%, #D97706 100%)',
+              color: '#FFFFFF',
+              border: '2px solid rgba(255, 255, 255, 0.5)',
+              borderRadius: '50%',
+              fontSize: '22px',
+              cursor: switching ? 'wait' : 'pointer',
+              boxShadow: '0 4px 20px rgba(217, 119, 6, 0.6)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            {switching ? '⏳' : '🎬'}
+          </button>
+        </div>
+      </>
     )
   }
 

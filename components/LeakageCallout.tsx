@@ -28,9 +28,9 @@ export function LeakageCallout({
 
   return (
     <div style={{
-      background: '#0F0F0F',
-      border: '1px solid #242424',
-      borderLeft: '2px solid #E05252',
+      background: 'var(--surface)',
+      border: '1px solid var(--line)',
+      borderLeft: '2px solid var(--disputed)',
       borderRadius: 'var(--r-control)',
       padding: 'var(--sp-4) var(--sp-5)',
       marginBottom: 'var(--sp-6)',
@@ -40,34 +40,34 @@ export function LeakageCallout({
         <div style={{ display: 'flex', gap: 'var(--sp-3)', alignItems: 'flex-start', flex: 1, minWidth: 'min(280px, 100%)' }}>
           <div style={{
             width: 32, height: 32, borderRadius: 'var(--r-badge)',
-            background: '#151515',
-            border: '1px solid rgba(224, 82, 82, 0.4)',
-            color: '#E05252',
+            background: 'var(--chip-disputed-bg)',
+            border: '1px solid var(--chip-disputed-border)',
+            color: 'var(--disputed)',
             display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
             marginTop: 2,
           }}>
-            <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#E05252', boxShadow: '0 0 6px rgba(224, 82, 82, 0.5)' }} />
+            <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--disputed)', boxShadow: 'var(--halo-disputed)' }} />
           </div>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--sp-2)', flexWrap: 'wrap' }}>
               <span style={{
                 fontSize: '10px', fontFamily: 'var(--font-mono)', fontWeight: 600, padding: '2px 8px', borderRadius: 2,
-                background: '#151515', color: '#E05252', border: '1px solid rgba(224, 82, 82, 0.4)', letterSpacing: '0.06em', textTransform: 'uppercase',
+                background: 'var(--chip-disputed-bg)', color: 'var(--disputed)', border: '1px solid var(--chip-disputed-border)', letterSpacing: '0.06em', textTransform: 'uppercase',
               }}>
                 Statistical Anomaly
               </span>
-              <h3 style={{ fontSize: '13px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: '#FFFFFF', margin: 0, letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+              <h3 style={{ fontSize: '13px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--ink)', margin: 0, letterSpacing: '0.02em', textTransform: 'uppercase' }}>
                 LEAKAGE DETECTED: {stageFrom} → {stageTo}
               </h3>
               <span style={{
-                fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 500, color: '#E05252',
-                background: '#080808', border: '1px solid #242424', padding: '1px 6px', borderRadius: 2,
+                fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 500, color: 'var(--disputed)',
+                background: 'var(--chip-disputed-bg)', border: '1px solid var(--chip-disputed-border)', padding: '1px 6px', borderRadius: 2,
               }}>
                 z = {zScore.toFixed(1)}σ
               </span>
             </div>
             <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-on-surface)', marginTop: 6, lineHeight: 1.45, margin: '6px 0 4px 0' }}>
-              <strong>Statistical finding:</strong> This cohort exhibits an unusually high conversion loss. Verified placement is <strong style={{ color: '#E05252' }}>{observedRate}%</strong> vs national peer baseline of <strong style={{ color: '#18B6A4' }}>{baselineRate}%</strong> (|z|: <strong>{zScore.toFixed(1)}</strong>, threshold 2.0σ).
+              <strong>Statistical finding:</strong> This cohort exhibits an unusually high conversion loss. Verified placement is <strong style={{ color: 'var(--disputed)' }}>{observedRate}%</strong> vs national peer baseline of <strong style={{ color: 'var(--verified)' }}>{baselineRate}%</strong> (|z|: <strong>{zScore.toFixed(1)}</strong>, threshold 2.0σ).
             </p>
             <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)' }}>
               SCOPE: {programName} · REGION: {region} · COHORT: {sampleSize} CANDIDATES
@@ -79,8 +79,8 @@ export function LeakageCallout({
           <button
             onClick={() => setExpanded(!expanded)}
             style={{
-              padding: '6px 12px', background: '#080808', border: '1px solid #242424',
-              borderRadius: 'var(--r-badge)', fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 500, color: 'var(--text-on-surface)',
+              padding: '6px 12px', background: 'var(--surface-container-low)', border: '1px solid var(--line)',
+              borderRadius: 'var(--r-badge)', fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 600, color: 'var(--text-on-surface)',
               cursor: 'pointer', textTransform: 'uppercase', letterSpacing: '0.04em',
             }}
           >
@@ -89,8 +89,8 @@ export function LeakageCallout({
           <Link
             href="/gov/leakage"
             style={{
-              padding: '6px 14px', background: '#FFFFFF', border: '1px solid #FFFFFF',
-              color: '#000000', borderRadius: 'var(--r-badge)', fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 600,
+              padding: '6px 14px', background: 'var(--primary)', border: '1px solid var(--primary)',
+              color: 'var(--primary-fg)', borderRadius: 'var(--r-badge)', fontSize: '11px', fontFamily: 'var(--font-mono)', fontWeight: 600,
               textDecoration: 'none', textTransform: 'uppercase', letterSpacing: '0.04em',
             }}
           >
@@ -101,14 +101,14 @@ export function LeakageCallout({
 
       {expanded && (
         <div style={{
-          marginTop: 'var(--sp-4)', paddingTop: 'var(--sp-4)', borderTop: '1px solid #242424',
+          marginTop: 'var(--sp-4)', paddingTop: 'var(--sp-4)', borderTop: '1px solid var(--line)',
           display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: 'var(--sp-4)',
         }}>
-          <div style={{ background: '#080808', padding: 'var(--sp-3)', borderRadius: 'var(--r-badge)', border: '1px solid #242424' }}>
+          <div style={{ background: 'var(--surface-container-low)', padding: 'var(--sp-3)', borderRadius: 'var(--r-badge)', border: '1px solid var(--line)' }}>
             <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               RECURRING EMPLOYER FEEDBACK
             </div>
-            <div style={{ fontSize: '12px', color: '#FFFFFF', fontWeight: 600, marginTop: 4 }}>
+            <div style={{ fontSize: '12px', color: 'var(--ink)', fontWeight: 600, marginTop: 4 }}>
               Top Missing Skills:
             </div>
             <ul style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-on-surface-variant)', paddingLeft: 18, marginTop: 4, display: 'flex', flexDirection: 'column', gap: 3 }}>
@@ -118,19 +118,19 @@ export function LeakageCallout({
             </ul>
           </div>
 
-          <div style={{ background: '#080808', padding: 'var(--sp-3)', borderRadius: 'var(--r-badge)', border: '1px solid #242424' }}>
+          <div style={{ background: 'var(--surface-container-low)', padding: 'var(--sp-3)', borderRadius: 'var(--r-badge)', border: '1px solid var(--line)' }}>
             <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               CONFIDENCE INTERVAL & DATA SOURCE
             </div>
             <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--text-on-surface)', marginTop: 4 }}>
-              Confidence Interval: <strong style={{ color: '#FFFFFF' }}>16.2% – 20.4%</strong> (95% CI)
+              Confidence Interval: <strong style={{ color: 'var(--ink)' }}>16.2% – 20.4%</strong> (95% CI)
             </div>
             <div style={{ fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', marginTop: 4 }}>
               Calculated via z-score metric v1.2 over 420 verified candidate interview events across 3 quarters.
             </div>
           </div>
 
-          <div style={{ background: '#080808', padding: 'var(--sp-3)', borderRadius: 'var(--r-badge)', border: '1px solid #242424' }}>
+          <div style={{ background: 'var(--surface-container-low)', padding: 'var(--sp-3)', borderRadius: 'var(--r-badge)', border: '1px solid var(--line)' }}>
             <div style={{ fontSize: '10px', fontFamily: 'var(--font-mono)', color: 'var(--muted)', fontWeight: 600, letterSpacing: '0.06em', textTransform: 'uppercase' }}>
               RECOMMENDED NEXT STEP
             </div>
@@ -139,7 +139,7 @@ export function LeakageCallout({
             </div>
             <Link
               href="/gov/simulator"
-              style={{ display: 'inline-block', fontSize: '11px', fontFamily: 'var(--font-mono)', color: '#18B6A4', fontWeight: 600, marginTop: 6, textTransform: 'uppercase', letterSpacing: '0.04em' }}
+              style={{ display: 'inline-block', fontSize: '11px', fontFamily: 'var(--font-mono)', color: 'var(--primary-accent)', fontWeight: 600, marginTop: 6, textTransform: 'uppercase', letterSpacing: '0.04em' }}
             >
               Run Scenario Simulator →
             </Link>
